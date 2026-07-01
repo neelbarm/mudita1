@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- ============================================================
+  NEEL BARMECHA — one-page resume
+  To make the PDF: open this file in Chrome → Print → Save as PDF
+  → Paper: Letter, Margins: None, Background graphics: ON.
+  TODO before sending: LinkedIn URL, GitHub URL, grad year,
+  and any [bracketed] metrics you can make real.
+============================================================ -->
+<meta charset="UTF-8" />
+<title>Neel Barmecha — Resume</title>
+<style>
+  :root {
+    --ink: #16140f; --muted: #55503f; --line: #ddd8c9; --amber: #b07714; --bg: #fdfcf8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink); background: var(--bg);
+    font-size: 9.6pt; line-height: 1.42;
+  }
+  .page { width: 8.5in; min-height: 11in; margin: 0 auto; padding: .55in .65in; background: var(--bg); }
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; }
+    @page { size: letter; margin: 0; }
+  }
+  @media screen { .page { box-shadow: 0 4px 30px rgba(0,0,0,.15); margin: 24px auto; } }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2.5px solid var(--ink); padding-bottom: 10px; }
+  h1 { font-size: 21pt; letter-spacing: -.01em; font-weight: 800; }
+  .role { color: var(--amber); font-weight: 700; font-size: 10.5pt; margin-top: 2px; letter-spacing: .02em; }
+  .contact { text-align: right; font-size: 8.6pt; color: var(--muted); line-height: 1.55; }
+  .contact a { color: var(--muted); text-decoration: none; }
+
+  .summary { margin: 10px 0 2px; font-size: 9.4pt; color: var(--ink); }
+  .summary strong { color: var(--amber); }
+
+  h2 {
+    font-size: 8.4pt; letter-spacing: .18em; text-transform: uppercase; color: var(--amber);
+    border-bottom: 1px solid var(--line); padding-bottom: 3px; margin: 13px 0 7px;
+  }
+  .item { margin-bottom: 7px; break-inside: avoid; }
+  .item-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .item-head b { font-size: 10pt; }
+  .item-head .org { font-weight: 400; color: var(--muted); }
+  .item-head .when { font-size: 8.4pt; color: var(--muted); white-space: nowrap; }
+  ul { margin: 2px 0 0 14px; }
+  li { margin-bottom: 1.5px; color: #33301f; }
+  li strong { color: var(--ink); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; }
+  .line-item { margin-bottom: 4px; }
+  .line-item b { font-size: 9.4pt; }
+  .line-item span { color: var(--muted); }
+  .skills { color: #33301f; }
+  .skills b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div>
+      <h1>Neel Barmecha</h1>
+      <div class="role">Forward-Deployed AI Engineer</div>
+    </div>
+    <div class="contact">
+      New York, NY · <a href="mailto:neelbarmecha5@gmail.com">neelbarmecha5@gmail.com</a><br />
+      <!-- TODO: real URLs -->
+      linkedin.com/in/YOUR-HANDLE · github.com/YOUR-HANDLE<br />
+      Portfolio: your-site-url.com
+    </div>
+  </header>
+
+  <p class="summary">
+    I embed with a customer, scope the messy real-world problem, and ship production AI software in
+    <strong>under two weeks</strong>. Five shipped products, solo, end-to-end. Google Global Youth AI Advisor
+    (1 of ~100 worldwide). I've chosen building over medicine and a team over another startup — I'm looking
+    to bring this velocity to yours.
+  </p>
+
+  <h2>Deployments — shipped products</h2>
+
+  <div class="item">
+    <div class="item-head"><b>Styloire <span class="org">— outreach platform for stylists (styloire.co)</span></b><span class="when">2026</span></div>
+    <ul>
+      <li>Embedded with a fashion-tech founder and built her entire platform end-to-end: one personalized pitch email to <strong>every brand on a stylist's list</strong>, generated and sent in one click.</li>
+      <li>Owned discovery → architecture → build → deploy solo; production MVP in <strong>&lt;2 weeks</strong>, iterated on live customer feedback.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>Klauza <span class="org">— AI contract scanner (klauza.xyz)</span></b><span class="when">2026</span></div>
+    <ul>
+      <li>Designed and shipped a <strong>Claude API NLP pipeline</strong> — clause chunking → classification → risk flagging — protecting freelancers from predatory contract terms.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>Spur <span class="org">— agentic AI concierge for NYC</span></b><span class="when">2026</span></div>
+    <ul>
+      <li>Built a multi-step agent that plans a full NYC itinerary and <strong>autonomously books reservations and activities</strong> — tool use, API orchestration, human-in-the-loop confirmation.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>The Common Collective <span class="org">— members-only NYC social club (thecommoncollective.space)</span></b><span class="when">2026</span></div>
+    <ul>
+      <li>Designed, built, and launched the platform; drove it to <strong>300 members in the first week</strong> — product and distribution.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>EverPage <span class="org">— iOS social reading tracker</span></b><span class="when">2026</span></div>
+    <ul>
+      <li>Shipped a social reading app (shelves, goals, streaks, friends) engineered for consistency and behavior change.</li>
+    </ul>
+  </div>
+
+  <h2>Experience</h2>
+
+  <div class="item">
+    <div class="item-head"><b>Founder &amp; Builder <span class="org">— Sarga Haus (MVP startup studio)</span></b><span class="when">2026 – present</span></div>
+    <ul>
+      <li>One-person studio shipping production products from market research → deploy. Operating cadence: <strong>MVP in ~1 week, v1 in ~2</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>Intern <span class="org">— Mudita Studios</span></b><span class="when">2026 – present</span></div>
+    <ul>
+      <li>Built internal <strong>automation systems</strong> (n8n, API integrations) and ran project management across the studio's operations.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>Global Youth Advisor <span class="org">— Google</span></b><span class="when">2025 – present</span></div>
+    <ul>
+      <li>Selected as <strong>1 of ~100 worldwide</strong> to advise Google on AI product and emerging-technology policy.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>Research Intern <span class="org">— Albert Einstein College of Medicine</span></b><span class="when">2024</span></div>
+    <ul>
+      <li>Type 5 Diabetes endocrinology research with <strong>biostatistics</strong> — rigor with messy real-world data.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><b>Emergency Medical Technician <span class="org">— SBH Health System</span></b><span class="when">2023 – present</span></div>
+    <ul>
+      <li><strong>2,000+ hours</strong> (BLS/ACLS) serving Bronx communities — high-pressure, human-centered problem solving.</li>
+    </ul>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h2>Skills</h2>
+      <p class="skills"><b>AI:</b> Claude API, OpenAI API, MCP, RAG, embeddings, LangChain, agentic workflows, prompt engineering</p>
+      <p class="skills"><b>Build:</b> Python, FastAPI, TypeScript, Next.js, Supabase, Swift/iOS</p>
+      <p class="skills"><b>Ship:</b> Vercel, Netlify, n8n automation, Cursor, Windsurf, Codex</p>
+      <p class="skills"><b>Languages:</b> English, Hindi, Spanish (fluent)</p>
+    </div>
+    <div>
+      <h2>Education &amp; Credentials</h2>
+      <div class="line-item"><b>City University of New York</b> <span>— B.S., in progress [TODO: program + year]</span></div>
+      <div class="line-item"><b>10 Google &amp; Google Cloud AI certifications</b> <span>— generative AI, responsible use, prompting (2026)</span></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
