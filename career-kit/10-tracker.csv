@@ -1,0 +1,32 @@
+Priority,Company,Title,Location,Salary,Track,Contact person,Warm intro path,Applied date,DM sent date,Follow-up due,Status,Notes,URL
+1,Anthropic,Forward Deployed Engineer - Applied AI,US (travel),~$220k+ base,FDE,,,,,,,Founder-types encouraged; no degree req; lead with Klauza Claude pipeline,https://job-boards.greenhouse.io/anthropic/jobs/4985877008
+1,Glean,Founding Forward Deployed Engineer,Palo Alto/SF (verify),$160k-270k,FDE,,,,,,,Posting screens for 0-to-1 track record; flag NYC/relocation,https://job-boards.greenhouse.io/gleanwork/jobs/4651991005
+1,Decagon,FDE - Agent Builder,NYC,~$175k-230k,FDE,,,,,,,Lead with Spur (agent that books),https://www.theladders.com/job/forward-deployed-engineer-agent-builder-decagon-new-york-ny_85348441
+1,Distyl AI,Forward Deployed AI Engineer,NYC hybrid,$150k-250k,FDE,,,,,,,Explicit space for early-career; velocity pitch,https://jobs.ashbyhq.com/Distyl/ec9e338a-4040-4aa2-b049-424cd343f5f5
+1,Ramp,Applied AI Engineer,NYC,$131k-189k,Applied AI,,,,,,,Only 2+ yrs required; also fullstack variant req,https://jobs.ashbyhq.com/ramp/d204e136-2749-42de-82b4-88a0dd352090
+2,Pallet,Deployment Strategist (AI),NYC,$125k-195k,Strategist,,,,,,,Degree-agnostic,https://www.builtinnyc.com/job/deployment-strategist-ai-team/8151925
+2,F2 (YC),AI Deployment Strategist,NYC,,Strategist,,,,,,,Very attainable; prompting + light implementation,https://www.ycombinator.com/companies/f2/jobs/Wz9M5KA-ai-deployment-strategist
+2,ElevenLabs,FDE - Software Engineer,Remote-US ok,~$131k-189k,FDE,,,,,,,Embedded with strategic customers,https://jobs.ashbyhq.com/elevenlabs/6c4c57c1-ec72-42ba-af3a-eb7aebbde2e6
+2,Palantir,Forward Deployed SWE,NYC,$125k-200k,FDE,,,,,,,The original FDE,https://jobs.lever.co/palantir/dab396d4-2f14-4796-aac0-0d82883dccf0
+2,Palantir,Deployment Strategist,NYC,$110k-170k,Strategist,,,,,,,Non-CS-degree friendly,https://jobs.lever.co/palantir/e0ab8226-b928-4e3a-bf87-08fe7b1ea595
+2,Hebbia,Forward Deployed Engineer,NYC Soho,~$160k+,FDE,,,,,,,4+ yrs asked; hacking in front of customers,https://builtin.com/job/forward-deployed-engineer/4671508
+2,Baseten,Applied AI Inference FDE,SF/NYC,~$152k-162k,FDE,,,,,,,Entrepreneurial engineers,https://jobs.ashbyhq.com/baseten/84c1801c-1a65-49fb-aaaa-beeafd530e7e
+2,Clay,Solutions Engineer,NYC hybrid,,Solutions,,,,,,,Styloire/n8n story; also join Clay Slack,https://jobs.ashbyhq.com/claylabs/232ab8c1-36d7-4114-91c1-0f9c9e4064bc
+2,Writer,Solutions Architect (East),NYC hybrid,,Solutions,,,,,,,Enterprise genAI agents,https://jobs.ashbyhq.com/WRITER/a1d96909-a580-4fd6-b099-bfc8a8dfa6e3
+2,Vercel,FDE - v0,US,$126k-188k,FDE,,,,,,,Stack-perfect Next.js/Vercel,https://vercel.com/careers/forward-deployed-engineer-v0-us-5872425004
+2,Arize AI,Forward Deployed Engineer,US,$180k-250k+eq,FDE,,,,,,,LLM observability/evals,https://job-boards.greenhouse.io/arizeai/jobs/6002637004
+2,FurtherAI (YC),Forward Deployed Engineer,SF/remote (verify),,FDE,,,,,,,YC weighs shipped products,https://www.workatastartup.com/jobs/77473
+2,Sierra,Agent Engineer,NYC/SF,~$325k TC median,Applied AI,,,,,,,Competitive; TS/React required,https://jobs.ashbyhq.com/Sierra/76617113-a408-40ec-9c77-aa1174454a37
+2,Scale AI,FD AI Engineer - Enterprise,US,,FDE,,,,,,,Enterprise genAI deployments,https://job-boards.greenhouse.io/scaleai/jobs/4597399005
+2,Cognition,AI Enablement Engineer,SF,$110k-160k,Solutions,,,,,,,SF-only friction,https://jobs.ashbyhq.com/cognition/811c3f5a-b26d-4162-b49b-93890a91794d
+3,OpenAI,FDE - NYC,NYC hybrid,$220k-280k+eq,FDE,,,,,,,5+ yrs; warm intro only,https://openai.com/careers/forward-deployed-engineer-(fde)-nyc-new-york-city/
+3,OpenAI,FDE - Financial Services,NYC,$180k-280k+eq,FDE,,,,,,,Warm intro only,see 7-live-openings.md
+3,LangChain,Solutions Architect,NYC,$170k-190k,Solutions,,,,,,,7+ yrs asked; total stack match; warm intro only,https://jobs.ashbyhq.com/langchain/f71210f9-12e1-4726-88b9-ebafa194d5b2
+3,Harvey,AI/Solutions roles (check board),NYC,~$336k TC median,Applied AI,,,,,,,Klauza pitch; check jobs.ashbyhq.com/harvey,https://jobs.ashbyhq.com/harvey
+3,Vercel,FDE - Professional Services,US,,FDE,,,,,,,5+ yrs asked,https://vercel.com/careers/forward-deployed-engineer-5752684004
+3,Fireworks AI,Solutions Architect,NYC/SF,,Solutions,,,,,,,5+ yrs asked,https://job-boards.greenhouse.io/fireworksai/jobs/4059100009
+3,Vanta,Senior FDE,US/Canada remote (verify),$224k-386k TC,FDE,,,,,,,Senior = stretch,https://jobs.ashbyhq.com/vanta/9939246c-dfeb-4d18-be53-16efdd01f1cd
+3,Modal,FDE - Systems,NYC/SF,,FDE,,,,,,,Infra-heavier than profile,https://jobs.ashbyhq.com/modal/cbbbee50-3d3b-4873-8ae8-ff4b885b8e54
+3,Decagon,Senior Solutions Engineer,SF/NY,,Solutions,,,,,,,5+ yrs; stretch,https://jobs.ashbyhq.com/decagon/63dd8fb8-8c5b-44e4-8371-5ad453b56eb8
+3,Mercor,Forward Deployed Engineer,SF (verify),,FDE,,,,,,,Custom enterprise integrations,https://www.mercor.com/careers/b0f12b3f-91ae-4b9e-ad0b-ed0299f80554/
+3,Together AI,FDE - Inference & Post-Training,SF,,FDE,,,,,,,Careers page - verify,https://job-boards.greenhouse.io/togetherai
