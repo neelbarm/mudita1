@@ -1,0 +1,258 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Sarga Haus design system: "Form"                                    */
+/* Two grounds (ink, bone), one accent (brass). See docs/02.           */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --color-ink: #0d0c0a;
+  --color-coal: #161411;
+  --color-bone: #f2eee6;
+  --color-paper: #faf8f2;
+  --color-cream: #ede9e0;
+  --color-cream-dim: #a9a296;
+  --color-cream-faint: #7b756a;
+  --color-soot: #1a1814;
+  --color-soot-dim: #5b564c;
+  --color-soot-faint: #8a8375;
+  --color-brass: #a98d5f;
+  --color-brass-bright: #c4a87a;
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-instrument);
+
+  --ease-form: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Semantic tokens flip with the ground. Components stay ground-agnostic. */
+@theme inline {
+  --color-ground: var(--ground);
+  --color-raised: var(--raised);
+  --color-t1: var(--text-1);
+  --color-t2: var(--text-2);
+  --color-t3: var(--text-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+}
+
+:root,
+[data-ground="ink"] {
+  --ground: var(--color-ink);
+  --raised: var(--color-coal);
+  --text-1: var(--color-cream);
+  --text-2: var(--color-cream-dim);
+  --text-3: var(--color-cream-faint);
+  --line: rgb(237 233 224 / 0.12);
+  --line-strong: rgb(237 233 224 / 0.24);
+  --accent: var(--color-brass-bright);
+}
+
+[data-ground="bone"] {
+  --ground: var(--color-bone);
+  --raised: var(--color-paper);
+  --text-1: var(--color-soot);
+  --text-2: var(--color-soot-dim);
+  --text-3: var(--color-soot-faint);
+  --line: rgb(26 24 20 / 0.14);
+  --line-strong: rgb(26 24 20 / 0.3);
+  --accent: var(--color-brass);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(169 141 95 / 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* ------------------------------------------------------ typography --- */
+
+.display-xl,
+.display-l,
+.display-m,
+.display-s {
+  font-family: var(--font-display), Georgia, serif;
+  text-wrap: balance;
+}
+
+.display-xl {
+  font-size: clamp(2.75rem, 7.5vw, 6rem);
+  line-height: 1.02;
+  font-weight: 420;
+  letter-spacing: -0.03em;
+}
+
+.display-l {
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.06;
+  font-weight: 430;
+  letter-spacing: -0.025em;
+}
+
+.display-m {
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.12;
+  font-weight: 440;
+  letter-spacing: -0.02em;
+}
+
+.display-s {
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  line-height: 1.2;
+  font-weight: 460;
+  letter-spacing: -0.015em;
+}
+
+.label {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.standfirst {
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.serif-italic {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 420;
+}
+
+/* --------------------------------------------------------- layout --- */
+
+.container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
+
+.section-pad {
+  padding-block: clamp(6rem, 14vh, 10rem);
+}
+
+.chapter-pad {
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+/* ---------------------------------------------------------- misc ---- */
+
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  background: var(--color-cream);
+  color: var(--color-soot);
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  transition: top 0.2s var(--ease-form);
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+.hairline-h {
+  height: 1px;
+  background: var(--line);
+}
+
+/* Hide scrollbars on the mobile gallery without killing scroll. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ------------------------------------------------------ signature ---- */
+
+/* Film grain: static turbulence, fixed, nearly subliminal. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Studio cursor: hide the native pointer, keep it for text entry. */
+html.has-cursor body {
+  cursor: none;
+}
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor label,
+html.has-cursor summary {
+  cursor: none;
+}
+html.has-cursor input,
+html.has-cursor textarea,
+html.has-cursor select {
+  cursor: auto;
+}
+
+/* Blueprint mode: the site shows its own working drawing. */
+html.blueprint [data-bp] {
+  position: relative;
+  outline: 1px dashed rgb(169 141 95 / 0.45);
+  outline-offset: -1px;
+}
+html.blueprint [data-bp]::after {
+  content: attr(data-bp);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 45;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-brass-bright);
+  background: rgb(13 12 10 / 0.85);
+  border: 1px solid rgb(169 141 95 / 0.5);
+  border-radius: 999px;
+  padding: 5px 10px;
+  pointer-events: none;
+}
