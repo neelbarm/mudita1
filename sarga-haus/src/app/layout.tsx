@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Fraunces, Instrument_Sans } from "next/font/google";
 import Script from "next/script";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -9,19 +9,17 @@ import { Blueprint } from "@/components/blueprint";
 import { Spine } from "@/components/spine";
 import "./globals.css";
 
-const fraunces = localFont({
-  src: [
-    { path: "../fonts/fraunces-latin-wght-normal.woff2", style: "normal" },
-    { path: "../fonts/fraunces-latin-wght-italic.woff2", style: "italic" },
-  ],
-  weight: "100 900",
+// next/font/google self-hosts at build time — same zero-runtime-request
+// performance as local fonts, no binary files to carry in the repo.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
   variable: "--font-fraunces",
   display: "swap",
 });
 
-const instrument = localFont({
-  src: [{ path: "../fonts/instrument-sans-latin-wght-normal.woff2", style: "normal" }],
-  weight: "400 700",
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
   variable: "--font-instrument",
   display: "swap",
 });
