@@ -102,7 +102,7 @@ export function LeadEngine() {
   const [runKey, setRunKey] = useState(0);
 
   return (
-    <section data-ground="ink" className="section-pad bg-ink" id="lead-engine">
+    <section data-ground="ink" data-bp="S7 · Lead engine — drawn schematic" className="section-pad bg-ink" id="lead-engine">
       <div className="container-page">
         <div className="max-w-3xl">
           <Reveal>
@@ -128,6 +128,7 @@ export function LeadEngine() {
             <div className="mt-2 flex justify-end">
               <button
                 type="button"
+                data-cursor-label="Replay"
                 onClick={() => setRunKey((k) => k + 1)}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-[0.8125rem] text-t3 transition-colors hover:text-t1"
               >

@@ -43,7 +43,7 @@ export function Faq() {
   const reduced = useReducedMotion();
 
   return (
-    <section data-ground="bone" className="section-pad bg-bone" id="faq">
+    <section data-ground="bone" data-bp="S11 · FAQ — accordion" className="section-pad bg-bone" id="faq">
       <div className="container-page grid gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
           <Reveal>

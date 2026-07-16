@@ -122,7 +122,29 @@ text). Semantic landmarks, one h1 per page, skip link, visible focus, forms with
 real labels + inline errors + `aria-describedby`, accordions and tabs with full
 keyboard support and ARIA state, `scroll-margin-top` on anchors.
 
-## 13. Reduced motion behavior
+## 13. The signature layer
+
+Five systems that sit above the base design system, each earning its place:
+
+- **Formation engine** — the hero's hand-rolled 3D wireframe renderer
+  (pure canvas 2D, no WebGL, no Three.js): perspective projection, depth
+  fog, pointer-tilt with inertia, scroll-driven assembly, and a one-time
+  brass pulse along the perimeter at completion.
+- **Blueprint mode** — press B (or the switch, bottom left, desktop): the
+  site exposes its own working drawing. 12-column grid, 8px baseline,
+  every section labeled via `data-bp`, and a live token sheet. The studio
+  that builds systems shows its own.
+- **Studio cursor** — brass point + lagged hairline ring; the ring opens
+  over interactive elements and names actions via `data-cursor-label`.
+  Fine pointers only; native cursor returns over text fields.
+- **Reading spine** — right-edge progress hairline naming the current
+  chapter, driven by the same `data-bp` attributes. Desktop only.
+- **Grain and veil** — a static film-grain overlay at 5% and a 700ms ink
+  veil on route changes with a brass trailing hairline.
+
+All five disable cleanly under reduced motion or coarse pointers.
+
+## 14. Reduced motion behavior
 
 `prefers-reduced-motion: reduce` collapses the system to opacity-only, ≤200ms:
 the hero renders its resolved (formed) state as a static composition; the scroll

@@ -28,7 +28,7 @@ export function AutomationToggle() {
   const reduced = useReducedMotion();
 
   return (
-    <section data-ground="bone" className="section-pad bg-bone" id="automation">
+    <section data-ground="bone" data-bp="S8 · Automation — two-state machine" className="section-pad bg-bone" id="automation">
       <div className="container-page">
         <div className="max-w-3xl">
           <Reveal>

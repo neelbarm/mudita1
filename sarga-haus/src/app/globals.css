@@ -200,3 +200,59 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ------------------------------------------------------ signature ---- */
+
+/* Film grain: static turbulence, fixed, nearly subliminal. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Studio cursor: hide the native pointer, keep it for text entry. */
+html.has-cursor body {
+  cursor: none;
+}
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor label,
+html.has-cursor summary {
+  cursor: none;
+}
+html.has-cursor input,
+html.has-cursor textarea,
+html.has-cursor select {
+  cursor: auto;
+}
+
+/* Blueprint mode: the site shows its own working drawing. */
+html.blueprint [data-bp] {
+  position: relative;
+  outline: 1px dashed rgb(169 141 95 / 0.45);
+  outline-offset: -1px;
+}
+html.blueprint [data-bp]::after {
+  content: attr(data-bp);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 45;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-brass-bright);
+  background: rgb(13 12 10 / 0.85);
+  border: 1px solid rgb(169 141 95 / 0.5);
+  border-radius: 999px;
+  padding: 5px 10px;
+  pointer-events: none;
+}

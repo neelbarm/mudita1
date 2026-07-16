@@ -1,12 +1,67 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
 import { EASE, VIEWPORT } from "@/lib/motion";
 import { InlineLink, PrimaryLink, Reveal } from "./ui";
 import { BUILDS } from "@/lib/builds";
-import { Mark } from "./logo";
+
+/* -------------------------------------------------- kinetic type ---- */
+
+function FillWord({
+  word,
+  progress,
+  range,
+}: {
+  word: string;
+  progress: MotionValue<number>;
+  range: [number, number];
+}) {
+  const opacity = useTransform(progress, range, [0.18, 1]);
+  return (
+    <motion.span style={{ opacity }} className="inline">
+      {word}{" "}
+    </motion.span>
+  );
+}
+
+/**
+ * A paragraph that inks itself in, word by word, as it is read.
+ * The scroll position is the reading position.
+ */
+function ScrollFillText({ text, className }: { text: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.85", "start 0.35"],
+  });
+  const words = text.split(" ");
+  if (reduced) {
+    return (
+      <p ref={ref} className={className}>
+        {text}
+      </p>
+    );
+  }
+  return (
+    <p ref={ref} className={className}>
+      {words.map((w, i) => {
+        const start = (i / words.length) * 0.85;
+        return (
+          <FillWord
+            key={`${w}-${i}`}
+            word={w}
+            progress={scrollYProgress}
+            range={[start, start + 0.15]}
+          />
+        );
+      })}
+    </p>
+  );
+}
 
 /* ------------------------------------------------- positioning strip */
 
@@ -30,15 +85,16 @@ const PRINCIPLES = [
 
 export function PositioningStrip() {
   return (
-    <section data-ground="ink" className="section-pad border-t border-line bg-ink">
+    <section
+      data-ground="ink"
+      data-bp="S2 · Positioning — kinetic standfirst"
+      className="section-pad border-t border-line bg-ink"
+    >
       <div className="container-page">
-        <Reveal>
-          <p className="standfirst max-w-3xl text-t1">
-            Most good ideas do not fail. They stall, waiting for a technical
-            partner who can think through the business, not just the build.
-            Sarga Haus exists for that gap.
-          </p>
-        </Reveal>
+        <ScrollFillText
+          className="font-display max-w-3xl text-[1.5rem] leading-[1.45] text-t1 md:text-[1.9rem]"
+          text="Most good ideas do not fail. They stall, waiting for a technical partner who can think through the business, not just the build. Sarga Haus exists for that gap."
+        />
         <div className="mt-16 grid gap-10 md:grid-cols-3">
           {PRINCIPLES.map((p, i) => (
             <Reveal key={p.n} delay={i * 0.1}>
@@ -59,7 +115,7 @@ export function PositioningStrip() {
 
 export function BuildsPreview() {
   return (
-    <section data-ground="ink" className="section-pad border-t border-line bg-ink">
+    <section data-ground="ink" data-bp="S9 · Selected builds" className="section-pad border-t border-line bg-ink">
       <div className="container-page">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
@@ -116,7 +172,7 @@ const CONVICTIONS = [
 
 export function FounderStatement() {
   return (
-    <section data-ground="bone" className="section-pad bg-bone">
+    <section data-ground="bone" data-bp="S10 · Conviction" className="section-pad bg-bone">
       <div className="container-page grid gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
           <Reveal>
@@ -156,19 +212,60 @@ export function FounderStatement() {
 
 export function FinalCta() {
   const reduced = useReducedMotion();
+  const draw = (delay: number) => ({
+    hidden: { strokeDashoffset: 1, opacity: 0 },
+    visible: {
+      strokeDashoffset: 0,
+      opacity: 1,
+      transition: { duration: 1.8, ease: EASE, delay },
+    },
+  });
   return (
-    <section data-ground="ink" className="relative overflow-hidden bg-ink">
+    <section
+      data-ground="ink"
+      data-bp="S12 · Final CTA — the mark draws itself"
+      className="relative overflow-hidden bg-ink"
+    >
       <div className="container-page relative flex min-h-[80vh] flex-col items-center justify-center py-32 text-center">
-        <motion.div
+        <motion.svg
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-cream opacity-[0.05]"
-          initial={reduced ? false : { scale: 1.06 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 2.4, ease: EASE }}
+          width={560}
+          height={560}
+          viewBox="0 0 24 24"
+          fill="none"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07]"
+          initial={reduced ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
         >
-          <Mark size={560} />
-        </motion.div>
+          <motion.path
+            d="M8 3.5 H17 Q20.5 3.5 20.5 7 V17 Q20.5 20.5 17 20.5 H10"
+            stroke="var(--color-cream)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            pathLength={1}
+            strokeDasharray="1"
+            variants={draw(0.1)}
+          />
+          <motion.path
+            d="M3.5 16.5 V7 Q3.5 3.5 7 3.5"
+            stroke="var(--color-cream)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            pathLength={1}
+            strokeDasharray="1"
+            variants={draw(0.7)}
+          />
+          <motion.path
+            d="M2.5 21.5 L6.5 17.5"
+            stroke="var(--color-brass-bright)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            pathLength={1}
+            strokeDasharray="1"
+            variants={draw(1.2)}
+          />
+        </motion.svg>
         <Reveal>
           <p className="label text-accent">The last word</p>
         </Reveal>

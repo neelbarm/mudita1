@@ -94,7 +94,7 @@ export function Gallery() {
   );
 
   return (
-    <section data-ground="ink" className="bg-ink py-24 md:py-0" id="gallery">
+    <section data-ground="ink" data-bp="S5 · Gallery — scroll-linked track" data-cursor-label="Scroll" className="bg-ink py-24 md:py-0" id="gallery">
       {reduced ? (
         <div className="md:section-pad">
           {header}

@@ -35,6 +35,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       data-ground="ink"
+      data-bp="S1 · Formation hero — hand-rolled 3D canvas engine"
       className="relative h-[240vh] bg-ink"
       aria-label="Sarga Haus. Build the product. Automate the workflow. Fill the pipeline."
     >

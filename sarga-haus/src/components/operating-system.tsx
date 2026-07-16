@@ -75,7 +75,7 @@ export function OperatingSystem() {
   const stage = STAGES[active];
 
   return (
-    <section data-ground="bone" className="section-pad bg-bone" id="system">
+    <section data-ground="bone" data-bp="S6 · Operating system — accessible tablist" className="section-pad bg-bone" id="system">
       <div className="container-page">
         <div className="max-w-3xl">
           <Reveal>

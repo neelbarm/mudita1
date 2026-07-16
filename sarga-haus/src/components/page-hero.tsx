@@ -20,7 +20,7 @@ export function PageHero({
     transition: { duration: 0.8, ease: EASE, delay },
   });
   return (
-    <header data-ground="ink" className="bg-ink pb-16 pt-40 md:pb-24 md:pt-48">
+    <header data-ground="ink" data-bp="H · Page hero" className="bg-ink pb-16 pt-40 md:pb-24 md:pt-48">
       <div className="container-page max-w-4xl">
         <motion.p className="label text-brass-bright" {...anim(0.1)}>
           {eyebrow}

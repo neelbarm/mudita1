@@ -193,7 +193,7 @@ export const SERVICES = [
 
 export function ServicesChapters() {
   return (
-    <section data-ground="bone" className="section-pad bg-bone" id="services">
+    <section data-ground="bone" data-bp="S4 · Service chapters — editorial spreads" className="section-pad bg-bone" id="services">
       <div className="container-page">
         <div className="max-w-3xl">
           <Reveal>

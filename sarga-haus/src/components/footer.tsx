@@ -22,7 +22,7 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer data-ground="ink" className="border-t border-line bg-ink text-t2">
+    <footer data-ground="ink" data-bp="S13 · Footer" className="border-t border-line bg-ink text-t2">
       <div className="container-page pb-10 pt-16 md:pt-20">
         <div className="flex flex-col justify-between gap-12 md:flex-row">
           <div className="max-w-sm">

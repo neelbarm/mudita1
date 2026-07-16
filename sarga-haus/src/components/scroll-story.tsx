@@ -283,7 +283,7 @@ function StaticStory() {
 export function ScrollStory() {
   const reduced = useReducedMotion();
   return (
-    <section data-ground="ink" className="section-pad bg-ink" id="transformation">
+    <section data-ground="ink" data-bp="S3 · Scroll story — sticky, 380vh" className="section-pad bg-ink" id="transformation">
       <StoryHeader />
       {reduced ? (
         <StaticStory />

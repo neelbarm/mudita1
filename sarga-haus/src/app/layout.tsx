@@ -4,6 +4,9 @@ import Script from "next/script";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { MotionProvider } from "@/components/motion-provider";
+import { Cursor } from "@/components/cursor";
+import { Blueprint } from "@/components/blueprint";
+import { Spine } from "@/components/spine";
 import "./globals.css";
 
 const fraunces = localFont({
@@ -55,8 +58,12 @@ export default function RootLayout({
         <MotionProvider>
           <Nav />
           <main id="main">{children}</main>
+          <Blueprint />
         </MotionProvider>
         <Footer />
+        <Spine />
+        <Cursor />
+        <div className="grain" aria-hidden="true" />
         {plausibleDomain ? (
           <Script
             defer

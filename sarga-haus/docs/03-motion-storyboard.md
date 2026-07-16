@@ -16,7 +16,16 @@ Global rules
 
 ## Home
 
-**S1. Hero — "The idea becomes real" (signature moment)**
+**S1. Hero — "The idea becomes real" (signature moment, v2: dimensional)**
+Hundreds of hairline fragments tumble in a true 3D volume, rendered by a
+hand-rolled projection engine on a 2D canvas. Scroll assembles them into a
+wireframe monolith carrying the ledger interface on its front face; the
+pointer tilts the formed object with inertia; depth fog and perspective
+line-weight sell the dimension; on completion a single brass pulse travels
+the perimeter once. The original storyboard below stands as the narrative
+spec; v2 upgrades the material from a flat field to an object with mass.
+
+Original spec —
 Black frame. A field of ~160 hairline fragments (short strokes, cream at low
 alpha, a few brass) drifts slowly, disordered. The pointer bends the field
 gently within a 140px radius — the material feels present, not gimmicky.
