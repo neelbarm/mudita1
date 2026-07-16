@@ -123,7 +123,15 @@ export function LeadEngine() {
         </div>
 
         <div className="mt-14 rounded-2xl border border-line bg-raised p-6 md:p-10">
-          <Schematic runKey={runKey} reduced={reduced} />
+          {/* On small screens the schematic keeps a readable size and pans. */}
+          <div className="no-scrollbar -mx-2 overflow-x-auto px-2">
+            <div className="min-w-[560px]">
+              <Schematic runKey={runKey} reduced={reduced} />
+            </div>
+          </div>
+          <p className="mt-1 text-[0.75rem] text-t3 md:hidden">
+            Swipe the schematic to follow the flow.
+          </p>
           {!reduced && (
             <div className="mt-2 flex justify-end">
               <button

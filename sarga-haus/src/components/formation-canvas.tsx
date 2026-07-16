@@ -268,8 +268,8 @@ export function FormationCanvas({
 
       const wide = width >= 768;
       const cx = wide ? width * 0.66 : width * 0.5;
-      const cy = wide ? height * 0.5 : height * 0.4;
-      const scale = Math.min(width, height) * (wide ? 0.42 : 0.44);
+      const cy = wide ? height * 0.5 : height * 0.45;
+      const scale = Math.min(width, height) * (wide ? 0.42 : 0.4);
 
       // camera: ambient sway + pointer intent, dolly-in as it forms
       const sway = reduced ? 0 : Math.sin(t * 0.22) * 0.06;

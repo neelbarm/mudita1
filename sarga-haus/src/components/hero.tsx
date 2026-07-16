@@ -27,8 +27,10 @@ export function Hero() {
     progressRef.current = v;
   });
 
-  // The copy quiets slightly as the object completes, giving it the stage.
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.55, 1], [1, 1, 0.25]);
+  // The copy recedes as the object completes, giving it the stage. On
+  // small screens the object shares the column with the copy, so the
+  // full fade also keeps the final beat legible there.
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1, 0.08]);
   const cueOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (

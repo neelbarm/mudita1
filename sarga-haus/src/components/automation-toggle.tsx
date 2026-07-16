@@ -85,18 +85,36 @@ export function AutomationToggle() {
                 exit={reduced ? undefined : { opacity: 0 }}
                 transition={{ duration: 0.35, ease: EASE }}
               >
-                {BEFORE.map((item, i) => (
-                  <motion.span
-                    key={item.label}
-                    className="absolute rounded-lg border border-line bg-ground px-3 py-2 text-[0.8125rem] text-t2 shadow-sm"
-                    style={{ left: item.x, top: item.y, rotate: item.r }}
-                    initial={reduced ? false : { opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, ease: EASE, delay: reduced ? 0 : i * 0.06 }}
-                  >
-                    {item.label}
-                  </motion.span>
-                ))}
+                {/* Desktop: scattered across the surface, as found. */}
+                <div className="hidden md:block">
+                  {BEFORE.map((item, i) => (
+                    <motion.span
+                      key={item.label}
+                      className="absolute rounded-lg border border-line bg-ground px-3 py-2 text-[0.8125rem] text-t2 shadow-sm"
+                      style={{ left: item.x, top: item.y, rotate: item.r }}
+                      initial={reduced ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.45, ease: EASE, delay: reduced ? 0 : i * 0.06 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  ))}
+                </div>
+                {/* Small screens: the same mess, composed as a pile that fits. */}
+                <div className="flex h-[calc(100%-4.5rem)] flex-wrap content-center items-center justify-center gap-3 px-5 md:hidden">
+                  {BEFORE.map((item, i) => (
+                    <motion.span
+                      key={item.label}
+                      className="rounded-lg border border-line bg-ground px-3 py-2 text-[0.8125rem] text-t2 shadow-sm"
+                      style={{ rotate: item.r }}
+                      initial={reduced ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.45, ease: EASE, delay: reduced ? 0 : i * 0.06 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  ))}
+                </div>
                 <p className="absolute bottom-5 left-5 max-w-md pr-5 text-[0.875rem] text-t3">
                   Six tools, zero owners. Every dropped lead here is silent.
                 </p>
