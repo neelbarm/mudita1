@@ -40,108 +40,186 @@ function VisualFrame({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* 01 Validation: scattered notes resolve into a mapped route. */
+/* 01 Validation: a rough idea resolves into a mapped, structured plan. */
 function ValidationVisual() {
-  const dots = [
-    [60, 60], [120, 150], [210, 55], [260, 130], [160, 100],
+  // faint scattered marks (the raw idea) beside a clean branching map
+  const scatter = [
+    [48, 48], [86, 40], [44, 150], [118, 162],
+  ] as const;
+  const nodes = [
+    { cy: 50, brass: false },
+    { cy: 96, brass: true },
+    { cy: 142, brass: false },
   ] as const;
   return (
     <VisualFrame>
-      {dots.map(([x, y], i) => (
-        <motion.circle key={i} cx={x} cy={y} r="3" stroke="var(--color-t2)" strokeWidth="1.2" variants={appear(i * 0.08)} />
+      {scatter.map(([x, y], i) => (
+        <motion.line
+          key={i}
+          x1={x}
+          y1={y}
+          x2={x + 12}
+          y2={y}
+          stroke="var(--color-t3)"
+          strokeWidth="1.1"
+          transform={`rotate(${(i * 57) % 90 - 30} ${x} ${y})`}
+          variants={appear(i * 0.07)}
+        />
       ))}
-      <motion.path
-        d="M60 60 L160 100 L120 150 M160 100 L210 55 L260 130"
-        stroke="var(--accent)"
-        strokeWidth="1.2"
-        pathLength={1}
-        strokeDasharray="1"
-        variants={draw(0.5)}
-      />
-      <motion.text x="60" y="192" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.2)}>
-        SCOPE MAPPED
+      <motion.circle cx="60" cy="96" r="6" stroke="var(--color-t1)" strokeWidth="1.4" variants={appear(0.35)} />
+      <motion.path d="M66 96 C 118 96, 130 50, 174 50" stroke="var(--color-t2)" strokeWidth="1.2" pathLength={1} strokeDasharray="1" variants={draw(0.5)} />
+      <motion.path d="M66 96 H 174" stroke="var(--color-t2)" strokeWidth="1.2" pathLength={1} strokeDasharray="1" variants={draw(0.6)} />
+      <motion.path d="M66 96 C 118 96, 130 142, 174 142" stroke="var(--color-t2)" strokeWidth="1.2" pathLength={1} strokeDasharray="1" variants={draw(0.7)} />
+      {nodes.map((n, i) => (
+        <motion.g key={i} variants={appear(0.95 + i * 0.12)}>
+          <rect
+            x="174"
+            y={n.cy - 15}
+            width="64"
+            height="30"
+            rx="7"
+            fill="var(--raised)"
+            stroke={n.brass ? "var(--accent)" : "var(--color-t1)"}
+            strokeOpacity={n.brass ? 1 : 0.8}
+            strokeWidth="1.3"
+          />
+          <line x1="184" y1={n.cy - 5} x2="222" y2={n.cy - 5} stroke={n.brass ? "var(--accent)" : "var(--color-t2)"} strokeWidth="1.1" />
+          <line x1="184" y1={n.cy + 5} x2="212" y2={n.cy + 5} stroke="var(--color-t3)" strokeWidth="1.1" />
+        </motion.g>
+      ))}
+      <motion.text x="24" y="201" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.4)}>
+        SCOPE, MAPPED
       </motion.text>
     </VisualFrame>
   );
 }
 
-/* 02 Build: a wireframe becomes a finished surface. */
+/* 02 Build: a dashed wireframe becomes a working product screen. */
 function BuildVisual() {
   return (
     <VisualFrame>
-      <motion.rect x="70" y="35" width="180" height="130" rx="10" stroke="var(--color-t3)" strokeDasharray="4 5" strokeWidth="1.1" variants={appear(0)} />
-      <motion.rect x="70" y="35" width="180" height="130" rx="10" stroke="var(--color-t1)" strokeWidth="1.3" pathLength={1} strokeDasharray="1" variants={draw(0.35)} />
-      <motion.line x1="90" y1="65" x2="230" y2="65" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(0.9)} />
-      <motion.line x1="90" y1="92" x2="196" y2="92" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(1.0)} />
-      <motion.line x1="90" y1="112" x2="212" y2="112" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(1.1)} />
-      <motion.rect x="90" y="130" width="64" height="18" rx="9" stroke="var(--accent)" strokeWidth="1.3" variants={appear(1.25)} />
-      <motion.text x="70" y="192" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.5)}>
+      <motion.rect x="48" y="30" width="224" height="140" rx="12" stroke="var(--color-t3)" strokeDasharray="4 5" strokeWidth="1.1" variants={appear(0)} />
+      <motion.rect x="48" y="30" width="224" height="140" rx="12" fill="var(--raised)" stroke="var(--color-t1)" strokeOpacity="0.85" strokeWidth="1.3" pathLength={1} strokeDasharray="1" variants={draw(0.3)} />
+      {/* window chrome + panel dividers */}
+      <motion.g variants={appear(0.7)}>
+        <circle cx="64" cy="46" r="2.5" stroke="var(--color-t3)" strokeWidth="1" />
+        <circle cx="74" cy="46" r="2.5" stroke="var(--color-t3)" strokeWidth="1" />
+        <line x1="48" y1="60" x2="272" y2="60" stroke="var(--color-t1)" strokeOpacity="0.22" strokeWidth="1" />
+        <line x1="104" y1="60" x2="104" y2="170" stroke="var(--color-t1)" strokeOpacity="0.22" strokeWidth="1" />
+      </motion.g>
+      {/* sidebar nav, one item active */}
+      <motion.g variants={appear(0.85)}>
+        <line x1="62" y1="78" x2="92" y2="78" stroke="var(--color-t2)" strokeWidth="1.1" />
+        <line x1="62" y1="94" x2="86" y2="94" stroke="var(--color-t2)" strokeWidth="1.1" />
+        <line x1="62" y1="110" x2="90" y2="110" stroke="var(--accent)" strokeWidth="1.3" />
+        <line x1="62" y1="126" x2="82" y2="126" stroke="var(--color-t2)" strokeWidth="1.1" />
+      </motion.g>
+      {/* main: heading, content rows, action, live chart */}
+      <motion.line x1="118" y1="78" x2="196" y2="78" stroke="var(--color-t1)" strokeWidth="1.3" variants={appear(1.0)} />
+      <motion.line x1="118" y1="96" x2="250" y2="96" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(1.08)} />
+      <motion.line x1="118" y1="108" x2="226" y2="108" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(1.16)} />
+      <motion.g variants={appear(1.24)}>
+        <rect x="118" y="122" width="60" height="16" rx="8" stroke="var(--accent)" strokeWidth="1.3" />
+        <line x1="130" y1="130" x2="166" y2="130" stroke="var(--accent)" strokeWidth="1.2" />
+      </motion.g>
+      <motion.path d="M118 158 L142 150 L166 154 L190 142 L216 146 L248 132" stroke="var(--accent)" strokeWidth="1.3" pathLength={1} strokeDasharray="1" variants={draw(1.35)} />
+      <motion.text x="24" y="201" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.6)}>
         WIREFRAME TO WORKING
       </motion.text>
     </VisualFrame>
   );
 }
 
-/* 03 Automation: three manual lanes compress into one governed flow. */
+/* 03 Automation: tangled manual work converges into one governed flow. */
 function AutomationVisual() {
   return (
     <VisualFrame>
-      {[48, 78, 108].map((y, i) => (
-        <motion.path
-          key={y}
-          d={`M40 ${y} q 30 ${i % 2 ? 14 : -14} 60 0 t 60 0`}
-          stroke="var(--color-t3)"
-          strokeWidth="1.1"
-          variants={appear(i * 0.1)}
-        />
-      ))}
-      <motion.path d="M40 160 H236" stroke="var(--color-t1)" strokeWidth="1.4" pathLength={1} strokeDasharray="1" variants={draw(0.5)} />
-      <motion.circle cx="160" cy="160" r="7" stroke="var(--accent)" strokeWidth="1.4" variants={appear(1.2)} />
-      <motion.path d="M236 160 h 26" stroke="var(--accent)" strokeWidth="1.4" variants={appear(1.35)} />
-      <motion.text x="40" y="196" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.5)}>
+      {/* three tangled manual lanes converging to a single junction */}
+      <motion.path d="M32 58 C 58 44, 84 74, 116 88" stroke="var(--color-t3)" strokeWidth="1.1" variants={appear(0)} />
+      <motion.path d="M32 88 C 62 100, 86 76, 116 88" stroke="var(--color-t3)" strokeWidth="1.1" variants={appear(0.1)} />
+      <motion.path d="M32 118 C 58 132, 84 102, 116 88" stroke="var(--color-t3)" strokeWidth="1.1" variants={appear(0.2)} />
+      <motion.circle cx="116" cy="88" r="4" fill="var(--raised)" stroke="var(--color-t1)" strokeWidth="1.3" variants={appear(0.4)} />
+      {/* one governed pipeline */}
+      <motion.path d="M120 88 H 286" stroke="var(--color-t1)" strokeWidth="1.3" pathLength={1} strokeDasharray="1" variants={draw(0.5)} />
+      <motion.rect x="140" y="76" width="30" height="24" rx="6" fill="var(--raised)" stroke="var(--color-t1)" strokeOpacity="0.8" strokeWidth="1.3" variants={appear(0.95)} />
+      {/* the human approval gate */}
+      <motion.g variants={appear(1.1)}>
+        <rect x="194" y="76" width="24" height="24" rx="4" transform="rotate(45 206 88)" fill="var(--raised)" stroke="var(--accent)" strokeWidth="1.3" />
+        <path d="M200 88 l4 5 l8 -9" stroke="var(--accent)" strokeWidth="1.4" />
+      </motion.g>
+      <motion.rect x="242" y="76" width="30" height="24" rx="6" fill="var(--raised)" stroke="var(--color-t1)" strokeOpacity="0.8" strokeWidth="1.3" variants={appear(1.25)} />
+      <motion.path d="M286 88 h12 m-5 -4 l5 4 l-5 4" stroke="var(--accent)" strokeWidth="1.3" variants={appear(1.4)} />
+      <motion.text x="24" y="201" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.55)}>
         ONE FLOW, ONE APPROVAL POINT
       </motion.text>
     </VisualFrame>
   );
 }
 
-/* 04 Pipeline: scattered signals become a ranked, qualified list. */
+/* 04 Pipeline: scattered market signals funnel into a qualified list. */
 function PipelineVisual() {
-  const ticks = [52, 82, 112] as const;
+  const signals = [
+    [40, 44], [72, 58], [44, 92], [78, 112], [38, 134], [66, 150],
+  ] as const;
+  const rows = [
+    { y: 80, w: 64 },
+    { y: 100, w: 54 },
+    { y: 120, w: 60 },
+  ] as const;
   return (
     <VisualFrame>
-      {[[52, 46], [88, 96], [66, 140], [104, 62]].map(([x, y], i) => (
-        <motion.line key={i} x1={x} y1={y} x2={x + 14} y2={y} stroke="var(--color-t3)" strokeWidth="1.2" transform={`rotate(${i * 38} ${x} ${y})`} variants={appear(i * 0.08)} />
+      {signals.map(([x, y], i) => (
+        <motion.line
+          key={i}
+          x1={x}
+          y1={y}
+          x2={x + 12}
+          y2={y}
+          stroke="var(--color-t3)"
+          strokeWidth="1.1"
+          transform={`rotate(${(i * 49) % 110 - 45} ${x} ${y})`}
+          variants={appear(i * 0.06)}
+        />
       ))}
-      {ticks.map((y, i) => (
-        <motion.g key={y} variants={appear(0.5 + i * 0.15)}>
-          <line x1="150" y1={y} x2={244 - i * 22} y2={y} stroke="var(--color-t2)" strokeWidth="1.2" />
-          <path d={`M256 ${y - 4} l4 5 l7 -8`} stroke="var(--accent)" strokeWidth="1.4" />
+      {/* funnel narrowing the field to what qualifies */}
+      <motion.path d="M104 54 L176 94 L176 106 L104 146" stroke="var(--color-t2)" strokeWidth="1.2" pathLength={1} strokeDasharray="1" variants={draw(0.5)} />
+      <motion.path d="M176 94 H 192 M176 106 H 192" stroke="var(--color-t2)" strokeWidth="1.2" variants={appear(0.85)} />
+      {/* the qualified, ordered list */}
+      {rows.map((r, i) => (
+        <motion.g key={i} variants={appear(1.0 + i * 0.14)}>
+          <line x1="200" y1={r.y} x2={200 + r.w} y2={r.y} stroke="var(--color-t1)" strokeOpacity="0.75" strokeWidth="1.2" />
+          <path d={`M276 ${r.y - 4} l4 5 l7 -8`} stroke="var(--accent)" strokeWidth="1.4" />
         </motion.g>
       ))}
-      <motion.text x="150" y="192" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.2)}>
-        QUALIFIED, IN ORDER
+      <motion.text x="24" y="201" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.5)}>
+        SIGNALS, QUALIFIED
       </motion.text>
     </VisualFrame>
   );
 }
 
-/* 05 Growth: a stepped line keeps finding the next level. */
+/* 05 Growth: measured results compound upward, step by step. */
 function GrowthVisual() {
+  const markers = [
+    [96, 128], [150, 104], [204, 74],
+  ] as const;
   return (
     <VisualFrame>
-      <motion.path
-        d="M46 170 H100 V140 H150 V104 H204 V66 H262"
-        stroke="var(--color-t1)"
-        strokeWidth="1.4"
-        pathLength={1}
-        strokeDasharray="1"
-        variants={draw(0.2)}
-      />
-      {[[100, 140], [150, 104], [204, 66]].map(([x, y], i) => (
-        <motion.circle key={i} cx={x} cy={y} r="3.5" stroke="var(--accent)" strokeWidth="1.3" variants={appear(0.8 + i * 0.15)} />
+      {/* faint measurement grid */}
+      <motion.g variants={appear(0.1)}>
+        <line x1="46" y1="160" x2="276" y2="160" stroke="var(--color-t1)" strokeOpacity="0.2" strokeWidth="1" />
+        <line x1="46" y1="118" x2="276" y2="118" stroke="var(--color-t1)" strokeOpacity="0.1" strokeWidth="1" />
+        <line x1="46" y1="78" x2="276" y2="78" stroke="var(--color-t1)" strokeOpacity="0.1" strokeWidth="1" />
+      </motion.g>
+      {/* area under the compounding line */}
+      <motion.path d="M46 160 L46 150 L96 150 L96 128 L150 128 L150 104 L204 104 L204 74 L262 74 L262 160 Z" fill="var(--accent)" fillOpacity="0.07" stroke="none" variants={appear(0.95)} />
+      {/* the step line: each level held, then raised */}
+      <motion.path d="M46 150 H96 V128 H150 V104 H204 V74 H262" stroke="var(--color-t1)" strokeWidth="1.5" pathLength={1} strokeDasharray="1" variants={draw(0.3)} />
+      {markers.map(([x, y], i) => (
+        <motion.circle key={i} cx={x} cy={y} r="3.5" fill="var(--raised)" stroke="var(--accent)" strokeWidth="1.3" variants={appear(0.95 + i * 0.15)} />
       ))}
-      <motion.text x="46" y="196" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.3)}>
+      <motion.circle cx="262" cy="74" r="4" fill="var(--accent)" variants={appear(1.45)} />
+      <motion.text x="24" y="201" fill="var(--color-t3)" fontSize="10" letterSpacing="1.6" variants={appear(1.55)}>
         MEASURED, THEN IMPROVED
       </motion.text>
     </VisualFrame>
