@@ -1,13 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
+  AnimatePresence,
   motion,
+  useMotionValueEvent,
   useScroll,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
+import { EASE } from "@/lib/motion";
 
 /**
  * The core narrative, made visible: one object transforms through four
@@ -196,7 +199,10 @@ function StickyStory() {
     offset: ["start start", "end end"],
   });
 
-  const ideaO = useTransform(p, [0, 0.2, 0.28], [1, 1, 0]);
+  // Fade-out transforms carry an explicit trailing keyframe holding the
+  // value at its end state through p=1, so no caption or fragment can
+  // re-emerge past its stage (framer's clamp was letting idea climb back).
+  const ideaO = useTransform(p, [0, 0.2, 0.28, 1], [1, 1, 0, 0]);
   const frameO = useTransform(p, [0.22, 0.32], [0, 1]);
   const frameScale = useTransform(p, [0.22, 0.34], [0.955, 1]);
   const autoO = useTransform(p, [0.46, 0.54], [0, 1]);
@@ -206,33 +212,42 @@ function StickyStory() {
   const pipeX = useTransform(p, [0.7, 0.82], [-56, 0]);
   const railFill = useTransform(p, [0.05, 0.95], ["0%", "100%"]);
 
-  const textOpacities = [
-    useTransform(p, [0, 0.2, 0.26], [1, 1, 0]),
-    useTransform(p, [0.22, 0.28, 0.45, 0.51], [0, 1, 1, 0]),
-    useTransform(p, [0.47, 0.53, 0.7, 0.76], [0, 1, 1, 0]),
-    useTransform(p, [0.72, 0.78, 1], [0, 1, 1]),
-  ];
+  // Exactly one caption is shown at a time, chosen by scroll position.
+  // Rendering a single panel makes overlap structurally impossible.
+  const [active, setActive] = useState(0);
+  const boundaries = [0.26, 0.51, 0.76]; // idea | product | automation | pipeline
+  useMotionValueEvent(p, "change", (v) => {
+    let next = 0;
+    for (let i = 0; i < boundaries.length; i++) {
+      if (v >= boundaries[i]) next = i + 1;
+    }
+    setActive(next);
+  });
+  const stage = STAGES[active];
 
   return (
     <div ref={ref} className="relative h-[380vh]">
       <div className="sticky top-0 flex h-svh items-center overflow-hidden">
         <div className="container-page grid w-full grid-cols-12 items-center gap-6">
           <div className="relative col-span-4 h-56">
-            {STAGES.map((s, i) => (
+            <AnimatePresence>
               <motion.div
-                key={s.index}
+                key={stage.index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: EASE }}
                 className="absolute inset-0"
-                style={{ opacity: textOpacities[i] }}
               >
                 <p className="label text-accent">
-                  {s.index} · {s.name}
+                  {stage.index} · {stage.name}
                 </p>
-                <h3 className="display-s mt-4 text-t1">{s.title}</h3>
+                <h3 className="display-s mt-4 text-t1">{stage.title}</h3>
                 <p className="mt-4 max-w-xs text-[0.9375rem] leading-relaxed text-t2">
-                  {s.body}
+                  {stage.body}
                 </p>
               </motion.div>
-            ))}
+            </AnimatePresence>
           </div>
           <div className="col-span-7">
             <Scene
