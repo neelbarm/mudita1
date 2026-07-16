@@ -56,8 +56,19 @@ export default function BuildsPage() {
                   className="group grid grid-cols-1 gap-2 border-t border-line py-7 transition-colors duration-300 last:border-b hover:bg-raised md:grid-cols-12 md:items-baseline md:gap-6 md:px-4"
                 >
                   <span className="label text-t3 md:col-span-2">0{i + 1}</span>
-                  <span className="font-display text-[1.5rem] leading-tight text-t1 md:col-span-4 md:text-[1.75rem]" style={{ fontWeight: 440 }}>
-                    {s.name}
+                  <span className="md:col-span-4">
+                    <span className="block font-display text-[1.5rem] leading-tight text-t1 md:text-[1.75rem]" style={{ fontWeight: 440 }}>
+                      {s.name}
+                    </span>
+                    <span className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.6875rem] font-medium uppercase tracking-[0.14em]">
+                      <span className="text-t3">{s.category}</span>
+                      {s.scope ? (
+                        <>
+                          <span aria-hidden="true" className="text-t3/50">·</span>
+                          <span className="text-accent">{s.scope}</span>
+                        </>
+                      ) : null}
+                    </span>
                   </span>
                   <span className="text-[0.9375rem] leading-relaxed text-t2 md:col-span-4">
                     {s.line}
