@@ -16,8 +16,6 @@
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
-    "@fontsource-variable/fraunces": "^5.2.9",
-    "@fontsource-variable/instrument-sans": "^5.2.8",
     "@tailwindcss/postcss": "^4.3.2",
     "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
