@@ -141,8 +141,15 @@ export function BuildsPreview() {
                 className="group grid grid-cols-1 gap-1.5 border-t border-line py-6 transition-colors duration-300 last:border-b hover:bg-raised md:grid-cols-12 md:items-baseline md:gap-6 md:px-4"
               >
                 <span className="label text-t3 md:col-span-2">{s.category}</span>
-                <span className="font-display text-[1.4rem] leading-tight text-t1 md:col-span-4 md:text-[1.6rem]" style={{ fontWeight: 440 }}>
-                  {s.name}
+                <span className="md:col-span-4">
+                  <span className="block font-display text-[1.4rem] leading-tight text-t1 md:text-[1.6rem]" style={{ fontWeight: 440 }}>
+                    {s.name}
+                  </span>
+                  {s.scope ? (
+                    <span className="mt-1.5 inline-block text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-accent">
+                      {s.scope}
+                    </span>
+                  ) : null}
                 </span>
                 <span className="text-[0.9375rem] leading-relaxed text-t2 md:col-span-4">
                   {s.line}

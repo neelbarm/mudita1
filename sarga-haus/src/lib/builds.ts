@@ -16,6 +16,8 @@ export type ShippedBuild = {
   /** what the link visibly points at */
   linkLabel: string;
   category: string;
+  /** Sarga Haus's role, shown when known */
+  scope?: string;
   line: string;
 };
 
@@ -26,7 +28,8 @@ export const SHIPPED: ShippedBuild[] = [
     href: "https://everpage.blog/",
     linkLabel: "everpage.blog",
     category: "Web product",
-    line: "Shipped and live on the open web.",
+    scope: "Design + build",
+    line: "Designed and built end to end. Live on the open web.",
   },
   {
     slug: "the-common-collective",
@@ -42,7 +45,8 @@ export const SHIPPED: ShippedBuild[] = [
     href: "https://styloire.co/",
     linkLabel: "styloire.co",
     category: "Web product",
-    line: "Shipped and live at its own address.",
+    scope: "Build",
+    line: "Built end to end. Live at its own address.",
   },
   {
     slug: "taxflow",
