@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
+import { ArrowUpRight } from "lucide-react";
 import { EASE, VIEWPORT } from "@/lib/motion";
 import { InlineLink, PrimaryLink, Reveal } from "./ui";
-import { BUILDS } from "@/lib/builds";
+import { SHIPPED } from "@/lib/builds";
 
 /* -------------------------------------------------- kinetic type ---- */
 
@@ -115,44 +115,48 @@ export function PositioningStrip() {
 
 export function BuildsPreview() {
   return (
-    <section data-ground="ink" data-bp="S9 · Selected builds" className="section-pad border-t border-line bg-ink">
+    <section data-ground="ink" data-bp="S9 · Selected builds — shipped ledger" className="section-pad border-t border-line bg-ink">
       <div className="container-page">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="label text-accent">Selected builds</p>
+              <p className="label text-accent">Shipped work</p>
             </Reveal>
             <Reveal delay={0.08}>
-              <h2 className="display-m mt-5 text-t1">The work, without the theater.</h2>
+              <h2 className="display-m mt-5 text-t1">Built here. Live now.</h2>
             </Reveal>
           </div>
           <Reveal delay={0.16}>
             <InlineLink href="/builds">All builds</InlineLink>
           </Reveal>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {BUILDS.map((b, i) => (
-            <Reveal key={b.slug} delay={i * 0.08}>
-              <Link
-                href={`/builds#${b.slug}`}
-                className="group block h-full rounded-2xl border border-line bg-raised p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-line-strong"
+        <div className="mt-12">
+          {SHIPPED.map((s, i) => (
+            <Reveal key={s.slug} delay={i * 0.06}>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                data-cursor-label="Visit"
+                className="group grid grid-cols-1 gap-1.5 border-t border-line py-6 transition-colors duration-300 last:border-b hover:bg-raised md:grid-cols-12 md:items-baseline md:gap-6 md:px-4"
               >
-                <div className="flex items-center justify-between">
-                  <span className="label text-t3">{b.category}</span>
-                  <span className="label text-t3">
-                    {b.status === "client" ? "Client work" : "Illustrative"}
-                  </span>
-                </div>
-                <h3 className="mt-5 text-[1.0625rem] font-medium leading-snug text-t1">
-                  {b.title}
-                </h3>
-                <p className="mt-3 text-[0.875rem] leading-relaxed text-t2">
-                  {b.challenge}
-                </p>
-                <span className="mt-5 inline-block text-[0.875rem] text-accent">
-                  Read the system
+                <span className="label text-t3 md:col-span-2">{s.category}</span>
+                <span className="font-display text-[1.4rem] leading-tight text-t1 md:col-span-4 md:text-[1.6rem]" style={{ fontWeight: 440 }}>
+                  {s.name}
                 </span>
-              </Link>
+                <span className="text-[0.9375rem] leading-relaxed text-t2 md:col-span-4">
+                  {s.line}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-t3 transition-colors duration-300 group-hover:text-accent md:col-span-2 md:justify-end">
+                  {s.linkLabel}
+                  <ArrowUpRight
+                    size={14}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </span>
+              </a>
             </Reveal>
           ))}
         </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { PrimaryLink, Reveal } from "@/components/ui";
-import { BUILDS } from "@/lib/builds";
+import { BUILDS, SHIPPED } from "@/lib/builds";
 import {
   AutomationRunsMock,
   CrmMock,
@@ -14,7 +15,7 @@ import {
 export const metadata: Metadata = {
   title: "Selected builds",
   description:
-    "Systems Sarga Haus builds: products, portals, automations, and lead engines. Real work is labeled real. Illustrative work is labeled illustrative.",
+    "Shipped work from Sarga Haus: EverPage, The Common Collective, Styloire, and Taxflow. Real work is labeled real. Illustrative work is labeled illustrative.",
 };
 
 const MOCKS = {
@@ -32,10 +33,70 @@ export default function BuildsPage() {
       <PageHero
         eyebrow="Selected builds"
         title="The work, without the theater."
-        standfirst="A rule this studio will not break: real work is labeled real, illustrative work is labeled illustrative, and nothing gets published without the client's written approval. Until the first case studies clear that bar, these systems show the shape of what we build."
+        standfirst="A rule this studio will not break: real work is labeled real, illustrative work is labeled illustrative, and detailed case studies publish only with approval. The shipped work below speaks from its own address."
       />
       <div data-ground="ink" className="bg-ink">
+        <div className="container-page pb-8">
+          <Reveal>
+            <p className="label text-accent">Shipped</p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 className="display-m mt-5 max-w-2xl text-t1">
+              Built here. Live now.
+            </h2>
+          </Reveal>
+          <div className="mt-10">
+            {SHIPPED.map((s, i) => (
+              <Reveal key={s.slug} delay={i * 0.06}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor-label="Visit"
+                  className="group grid grid-cols-1 gap-2 border-t border-line py-7 transition-colors duration-300 last:border-b hover:bg-raised md:grid-cols-12 md:items-baseline md:gap-6 md:px-4"
+                >
+                  <span className="label text-t3 md:col-span-2">0{i + 1}</span>
+                  <span className="font-display text-[1.5rem] leading-tight text-t1 md:col-span-4 md:text-[1.75rem]" style={{ fontWeight: 440 }}>
+                    {s.name}
+                  </span>
+                  <span className="text-[0.9375rem] leading-relaxed text-t2 md:col-span-4">
+                    {s.line}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-t3 transition-colors duration-300 group-hover:text-accent md:col-span-2 md:justify-end">
+                    {s.linkLabel}
+                    <ArrowUpRight size={14} strokeWidth={1.75} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.3}>
+            <p className="mt-6 max-w-xl text-[0.875rem] leading-relaxed text-t3">
+              Written case studies for these builds are in progress and will
+              publish with approved detail. Until then, each one is judged the
+              only way that matters: by using it.
+            </p>
+          </Reveal>
+        </div>
+
         <div className="container-page section-pad space-y-24">
+          <div className="border-t border-line pt-16">
+            <Reveal>
+              <p className="label text-accent">Illustrative systems</p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="display-m mt-5 max-w-2xl text-t1">
+                The shape of deeper engagements.
+              </h2>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p className="standfirst mt-5 max-w-2xl text-t2">
+                Three worked examples of how a full engagement runs, labeled
+                for what they are: illustrative, until the written case
+                studies above replace them.
+              </p>
+            </Reveal>
+          </div>
           {BUILDS.map((b, i) => {
             const Mock = MOCKS[b.mock];
             return (
@@ -98,10 +159,9 @@ export default function BuildsPage() {
                       <div className="rounded-xl border border-line bg-raised p-5">
                         <p className="label text-t3">A note on proof</p>
                         <p className="mt-2 text-[0.875rem] leading-relaxed text-t2">
-                          Case studies here will carry verified metrics, client
+                          Case studies on this page will carry verified detail,
                           quotes approved in writing, and real screens. No
-                          invented logos, no borrowed numbers. If that makes
-                          this page quieter for a while, good.
+                          invented logos, no borrowed numbers.
                         </p>
                       </div>
                     </Reveal>
@@ -112,12 +172,12 @@ export default function BuildsPage() {
           })}
           <div className="border-t border-line pt-16 text-center">
             <Reveal>
-              <h2 className="display-m text-t1">Your system could be the first case study.</h2>
+              <h2 className="display-m text-t1">Yours belongs on this list.</h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="standfirst mx-auto mt-5 max-w-xl text-t2">
-                Early clients get disproportionate attention. That is not a
-                discount pitch, it is how studios earn their proof.
+                Every build above started the same way: a real idea and a
+                short brief. Bring the next one.
               </p>
             </Reveal>
             <Reveal delay={0.2} className="mt-9">

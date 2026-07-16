@@ -1,8 +1,58 @@
 /**
- * Selected builds. Every entry is honest about its status:
- * "illustrative" concepts show the shape of the work until real,
- * client-approved case studies replace them (docs/06, workflow 14).
+ * Selected builds.
+ *
+ * SHIPPED is real, completed work: named, linked, live. Lines stay short
+ * and factual; fuller case studies publish only with approved detail
+ * (docs/06, workflow 14).
+ *
+ * BUILDS below are illustrative system concepts, labeled as such, kept to
+ * show the shape of deeper engagements until written case studies land.
  */
+
+export type ShippedBuild = {
+  slug: string;
+  name: string;
+  href: string;
+  /** what the link visibly points at */
+  linkLabel: string;
+  category: string;
+  line: string;
+};
+
+export const SHIPPED: ShippedBuild[] = [
+  {
+    slug: "everpage",
+    name: "EverPage",
+    href: "https://everpage.blog/",
+    linkLabel: "everpage.blog",
+    category: "Web product",
+    line: "Shipped and live on the open web.",
+  },
+  {
+    slug: "the-common-collective",
+    name: "The Common Collective",
+    href: "https://www.thecommoncollective.space/",
+    linkLabel: "thecommoncollective.space",
+    category: "Community platform",
+    line: "A New York membership community built around small cohorts and recurring gatherings.",
+  },
+  {
+    slug: "styloire",
+    name: "Styloire",
+    href: "https://styloire.co/",
+    linkLabel: "styloire.co",
+    category: "Web product",
+    line: "Shipped and live at its own address.",
+  },
+  {
+    slug: "taxflow",
+    name: "Taxflow",
+    href: "https://apps.apple.com/it/app/taxflow-keep-your-money/id6762097180?l=en-GB",
+    linkLabel: "App Store",
+    category: "iOS app",
+    line: "Taxflow: keep your money. Live on the App Store.",
+  },
+];
 
 export type Build = {
   slug: string;
