@@ -24,7 +24,7 @@ export default function JournalPage() {
       />
       <div data-ground="bone" className="bg-bone">
         <div className="container-page section-pad">
-          <div className="mx-auto max-w-2xl rounded-2xl border border-line bg-raised p-10 text-center">
+          <div data-torch className="mx-auto max-w-2xl rounded-2xl border border-line bg-raised p-10 text-center">
             <Reveal>
               <p className="label text-accent">Nothing here yet, on purpose</p>
             </Reveal>

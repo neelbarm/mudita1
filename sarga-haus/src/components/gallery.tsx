@@ -25,7 +25,7 @@ const ITEMS = [
 function Card({ item }: { item: (typeof ITEMS)[number] }) {
   return (
     <figure className="w-[82vw] max-w-105 shrink-0 snap-center md:w-105">
-      <div className="h-72 overflow-hidden rounded-2xl border border-line bg-raised transition-colors duration-300 hover:border-line-strong">
+      <div data-torch className="h-72 overflow-hidden rounded-2xl border border-line bg-raised transition-colors duration-300 hover:border-line-strong">
         <item.Mock />
       </div>
       <figcaption className="mt-4 flex items-start justify-between gap-4 px-1">

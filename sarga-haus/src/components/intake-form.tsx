@@ -228,7 +228,7 @@ export function IntakeForm() {
             "If it looks like a fit, you get a reply with a call link and one or two sharp questions.",
             "If it is not a fit, you get a straight answer, not silence.",
           ].map((line, i) => (
-            <div key={line} className="flex gap-4 rounded-xl border border-line bg-raised px-5 py-4">
+            <div key={line} data-torch className="flex gap-4 rounded-xl border border-line bg-raised px-5 py-4">
               <span className="label mt-1 shrink-0 text-accent">0{i + 1}</span>
               <p className="text-[0.9375rem] leading-relaxed text-t2">{line}</p>
             </div>

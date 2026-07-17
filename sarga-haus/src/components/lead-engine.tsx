@@ -122,7 +122,7 @@ export function LeadEngine() {
           </Reveal>
         </div>
 
-        <div className="mt-14 rounded-2xl border border-line bg-raised p-6 md:p-10">
+        <div data-torch className="mt-14 rounded-2xl border border-line bg-raised p-6 md:p-10">
           {/* On small screens the schematic keeps a readable size and pans. */}
           <div className="no-scrollbar -mx-2 overflow-x-auto px-2">
             <div className="min-w-[560px]">

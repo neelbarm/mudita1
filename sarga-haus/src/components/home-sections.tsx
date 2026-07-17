@@ -3,10 +3,9 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
-import { ArrowUpRight } from "lucide-react";
 import { EASE, VIEWPORT } from "@/lib/motion";
 import { InlineLink, PrimaryLink, Reveal } from "./ui";
-import { SHIPPED } from "@/lib/builds";
+import { ShippedLedger } from "./shipped-ledger";
 
 /* -------------------------------------------------- kinetic type ---- */
 
@@ -63,6 +62,48 @@ function ScrollFillText({ text, className }: { text: string; className?: string 
   );
 }
 
+/* --------------------------------------------------- roll figures ---- */
+
+/**
+ * A figure that rolls up to its value like a counter drum when it
+ * scrolls into view. The real value stays in the DOM for readers and
+ * reduced motion; the roll is presentation.
+ */
+function RollFigure({ value, delay = 0 }: { value: string; delay?: number }) {
+  const reduced = useReducedMotion();
+  const n = Number(value);
+  if (reduced || !Number.isInteger(n) || n < 0 || n > 9) return <>{value}</>;
+  return (
+    // The in-view trigger sits on the outer (visible) span: the rolling
+    // column starts fully clipped by the mask, so observing it directly
+    // would never fire.
+    <motion.span
+      className="relative inline-block overflow-hidden align-bottom"
+      style={{ height: "1em" }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.6 }}
+    >
+      <span className="sr-only">{value}</span>
+      <span className="invisible leading-none" aria-hidden="true">{value}</span>
+      <motion.span
+        className="absolute left-0 top-0"
+        variants={{
+          hidden: { y: 0 },
+          visible: { y: `${-n}em`, transition: { duration: 1.3, ease: EASE, delay } },
+        }}
+        aria-hidden="true"
+      >
+        {Array.from({ length: n + 1 }, (_, i) => (
+          <span key={i} className="block leading-none" style={{ height: "1em" }}>
+            {i}
+          </span>
+        ))}
+      </motion.span>
+    </motion.span>
+  );
+}
+
 /* ------------------------------------------------- positioning strip */
 
 const PRINCIPLES = [
@@ -113,10 +154,10 @@ export function PositioningStrip() {
               ["2", "platforms: web and iOS"],
               ["5", "fixed-scope offers"],
               ["1", "studio accountable for all of it"],
-            ].map(([n, d]) => (
-              <div key={d} className="bg-raised px-6 py-6">
+            ].map(([n, d], i) => (
+              <div key={d} data-torch className="bg-raised px-6 py-6">
                 <p className="font-display text-[2.4rem] leading-none text-t1" style={{ fontWeight: 470 }}>
-                  {n}
+                  <RollFigure value={n} delay={0.15 + i * 0.12} />
                 </p>
                 <p className="mt-2 text-[0.8125rem] leading-snug text-t2">{d}</p>
               </div>
@@ -148,41 +189,7 @@ export function BuildsPreview() {
           </Reveal>
         </div>
         <div className="mt-12">
-          {SHIPPED.map((s, i) => (
-            <Reveal key={s.slug} delay={i * 0.06}>
-              <a
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                data-cursor-label="Visit"
-                className="group grid grid-cols-1 gap-1.5 border-t border-line py-6 transition-colors duration-300 last:border-b hover:bg-raised md:grid-cols-12 md:items-baseline md:gap-6 md:px-4"
-              >
-                <span className="label text-t3 md:col-span-2">{s.category}</span>
-                <span className="md:col-span-4">
-                  <span className="block font-display text-[1.4rem] leading-tight text-t1 md:text-[1.6rem]" style={{ fontWeight: 440 }}>
-                    {s.name}
-                  </span>
-                  {s.scope ? (
-                    <span className="mt-1.5 inline-block text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-accent">
-                      {s.scope}
-                    </span>
-                  ) : null}
-                </span>
-                <span className="text-[0.9375rem] leading-relaxed text-t2 md:col-span-4">
-                  {s.line}
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-t3 transition-colors duration-300 group-hover:text-accent md:col-span-2 md:justify-end">
-                  {s.linkLabel}
-                  <ArrowUpRight
-                    size={14}
-                    strokeWidth={1.75}
-                    aria-hidden="true"
-                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  />
-                </span>
-              </a>
-            </Reveal>
-          ))}
+          <ShippedLedger variant="preview" />
         </div>
       </div>
     </section>

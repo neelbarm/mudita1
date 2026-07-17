@@ -250,6 +250,52 @@ body {
     radial-gradient(80% 60% at 50% 100%, rgb(237 233 224 / 0.03), transparent 75%);
 }
 
+/* The torch: surfaces tagged data-torch catch a pool of light that
+   follows the pointer (driven by torch.tsx via --tx/--ty/--to), and
+   their border seam lights up under it. NOTE: this sets position on the
+   host, so data-torch must only ever go on plain card containers, never
+   on sticky/fixed elements (see the lamplight lesson above). */
+[data-torch] {
+  position: relative;
+}
+[data-torch]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--to, 0);
+  transition: opacity 0.4s var(--ease-form);
+  background:
+    radial-gradient(260px circle at var(--tx, 50%) var(--ty, 50%), rgb(196 168 122 / 0.09), transparent 70%),
+    radial-gradient(96px circle at var(--tx, 50%) var(--ty, 50%), rgb(237 233 224 / 0.05), transparent 72%);
+}
+[data-torch]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--to, 0);
+  transition: opacity 0.4s var(--ease-form);
+  background: radial-gradient(200px circle at var(--tx, 50%) var(--ty, 50%), rgb(196 168 122 / 0.55), transparent 72%);
+  padding: 1px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+[data-ground="bone"] [data-torch]::after {
+  background:
+    radial-gradient(260px circle at var(--tx, 50%) var(--ty, 50%), rgb(169 141 95 / 0.09), transparent 70%),
+    radial-gradient(120px circle at var(--tx, 50%) var(--ty, 50%), rgb(255 255 255 / 0.5), transparent 72%);
+}
+[data-ground="bone"] [data-torch]::before {
+  background: radial-gradient(200px circle at var(--tx, 50%) var(--ty, 50%), rgb(169 141 95 / 0.6), transparent 72%);
+}
+
 /* Raised surfaces carry light: a top-lit gradient and an inner highlight
    edge so cards read as material, not outlines. */
 [data-ground="ink"] .bg-raised,
