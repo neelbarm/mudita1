@@ -7,6 +7,8 @@ import { MotionProvider } from "@/components/motion-provider";
 import { Cursor } from "@/components/cursor";
 import { Blueprint } from "@/components/blueprint";
 import { Spine } from "@/components/spine";
+import { Overture } from "@/components/overture";
+import { Torch } from "@/components/torch";
 import "./globals.css";
 
 // next/font/google self-hosts at build time — same zero-runtime-request
@@ -61,6 +63,8 @@ export default function RootLayout({
         <Footer />
         <Spine />
         <Cursor />
+        <Overture />
+        <Torch />
         <div className="grain" aria-hidden="true" />
         {plausibleDomain ? (
           <Script

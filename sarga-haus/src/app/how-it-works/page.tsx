@@ -123,7 +123,7 @@ export default function HowItWorksPage() {
                     </ul>
                   </Reveal>
                   <Reveal delay={0.16}>
-                    <div className="mt-6 rounded-xl border border-line bg-raised p-5">
+                    <div data-torch className="mt-6 rounded-xl border border-line bg-raised p-5">
                       <p className="label text-t3">What you walk away with</p>
                       <p className="mt-2 text-[0.9375rem] leading-relaxed text-t2">{s.youGet}</p>
                     </div>

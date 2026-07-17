@@ -26,17 +26,21 @@ const appear = (delay = 0) => ({
 function VisualFrame({ children }: { children: React.ReactNode }) {
   const reduced = useReducedMotion();
   return (
-    <motion.svg
-      viewBox="0 0 320 220"
-      fill="none"
-      className="h-auto w-full rounded-2xl border border-line bg-raised"
-      initial={reduced ? "visible" : "hidden"}
-      whileInView="visible"
-      viewport={VIEWPORT}
-      aria-hidden="true"
-    >
-      {children}
-    </motion.svg>
+    // The div wrapper carries the torch; pseudo-elements cannot attach
+    // to the svg itself.
+    <div data-torch className="rounded-2xl">
+      <motion.svg
+        viewBox="0 0 320 220"
+        fill="none"
+        className="h-auto w-full rounded-2xl border border-line bg-raised"
+        initial={reduced ? "visible" : "hidden"}
+        whileInView="visible"
+        viewport={VIEWPORT}
+        aria-hidden="true"
+      >
+        {children}
+      </motion.svg>
+    </div>
   );
 }
 

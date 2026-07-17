@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useMotionValueEvent,
@@ -9,15 +9,35 @@ import {
 } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
 import { EASE } from "@/lib/motion";
+import { onReveal } from "@/lib/overture-gate";
 import { PrimaryLink, SecondaryLink } from "./ui";
 import { FormationCanvas } from "./formation-canvas";
 
-const LINES = ["Build the product.", "Automate the workflow.", "Fill the pipeline."];
+// Each line ends on its object, set in italic brass: the thing made.
+const LINES: Array<[string, string]> = [
+  ["Build the", "product."],
+  ["Automate the", "workflow."],
+  ["Fill the", "pipeline."],
+];
 
 export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const reduced = useReducedMotion() ?? false;
+
+  // The entrance holds until the Overture lifts (immediately when it
+  // already ran this session, or never runs). Belt and braces: a
+  // timeout so a stalled gate can never leave the hero blank.
+  const [go, setGo] = useState(false);
+  useEffect(() => {
+    const off = onReveal(() => setGo(true));
+    const safety = setTimeout(() => setGo(true), 4500);
+    return () => {
+      off();
+      clearTimeout(safety);
+    };
+  }, []);
+  const play = reduced || go;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -60,9 +80,9 @@ export function Hero() {
         <div className="container-page relative flex h-full flex-col justify-center">
           <motion.div style={reduced ? undefined : { opacity: copyOpacity }} className="max-w-3xl">
             <motion.p
-              className="label text-brass-bright"
+              className="label text-cream-faint"
               initial={reduced ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={play ? { opacity: 1 } : undefined}
               transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
             >
               A founder-led product studio
@@ -77,15 +97,16 @@ export function Hero() {
                 textWrap: "balance",
               }}
             >
-              {LINES.map((line, i) => (
-                <span key={line} className="block overflow-hidden">
+              {LINES.map(([pre, obj], i) => (
+                <span key={obj} className="block overflow-hidden">
                   <motion.span
                     className="block"
                     initial={reduced ? false : { y: "105%" }}
-                    animate={{ y: 0 }}
+                    animate={play ? { y: 0 } : undefined}
                     transition={{ duration: 0.9, ease: EASE, delay: 0.35 + i * 0.14 }}
                   >
-                    {line}
+                    {pre}{" "}
+                    <em className="serif-italic text-brass-bright">{obj}</em>
                   </motion.span>
                 </span>
               ))}
@@ -93,7 +114,7 @@ export function Hero() {
             <motion.p
               className="standfirst mt-7 max-w-lg text-cream-dim"
               initial={reduced ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={play ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, ease: EASE, delay: 0.95 }}
             >
               Sarga Haus turns real ideas and broken operations into products,
@@ -102,7 +123,7 @@ export function Hero() {
             <motion.div
               className="mt-9 flex flex-wrap items-center gap-4"
               initial={reduced ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={play ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, ease: EASE, delay: 1.1 }}
             >
               <PrimaryLink href="/start">Start a project</PrimaryLink>
@@ -114,7 +135,7 @@ export function Hero() {
             className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex"
             style={reduced ? undefined : { opacity: cueOpacity }}
             initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={play ? { opacity: 1 } : undefined}
             transition={{ duration: 1, delay: 1.6 }}
             aria-hidden="true"
           >

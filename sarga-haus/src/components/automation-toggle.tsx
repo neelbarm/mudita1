@@ -74,7 +74,7 @@ export function AutomationToggle() {
           </div>
         </Reveal>
 
-        <div className="relative mt-8 h-96 overflow-hidden rounded-2xl border border-line bg-raised md:h-80">
+        <div data-torch className="relative mt-8 h-96 overflow-hidden rounded-2xl border border-line bg-raised md:h-80">
           <AnimatePresence mode="wait">
             {state === "before" ? (
               <motion.div

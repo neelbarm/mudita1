@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mark } from "./logo";
+import { FooterMonument } from "./footer-monument";
 
 const COLUMNS = [
   {
@@ -60,9 +61,15 @@ export function Footer() {
             ))}
           </div>
         </div>
-        <div className="mt-16 flex flex-col gap-3 border-t border-line pt-6 text-[0.8125rem] text-t3 md:flex-row md:items-center md:justify-between">
+      </div>
+      <FooterMonument />
+      <div className="container-page pb-10">
+        <div className="mt-10 flex flex-col gap-3 border-t border-line pt-6 text-[0.8125rem] text-t3 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} Sarga Haus. All rights reserved.</p>
-          <p>Designed and built in-house. This site is the first system we shipped.</p>
+          <p>
+            Designed and built in-house. This site is the first system we shipped.
+            <span className="hidden lg:inline"> Press B to see its working drawing.</span>
+          </p>
         </div>
       </div>
     </footer>

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { PrimaryLink, Reveal } from "@/components/ui";
-import { BUILDS, SHIPPED } from "@/lib/builds";
+import { ShippedLedger } from "@/components/shipped-ledger";
+import { BUILDS } from "@/lib/builds";
 import {
   AutomationRunsMock,
   CrmMock,
@@ -46,40 +46,7 @@ export default function BuildsPage() {
             </h2>
           </Reveal>
           <div className="mt-10">
-            {SHIPPED.map((s, i) => (
-              <Reveal key={s.slug} delay={i * 0.06}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  data-cursor-label="Visit"
-                  className="group grid grid-cols-1 gap-2 border-t border-line py-7 transition-colors duration-300 last:border-b hover:bg-raised md:grid-cols-12 md:items-baseline md:gap-6 md:px-4"
-                >
-                  <span className="label text-t3 md:col-span-2">0{i + 1}</span>
-                  <span className="md:col-span-4">
-                    <span className="block font-display text-[1.5rem] leading-tight text-t1 md:text-[1.75rem]" style={{ fontWeight: 440 }}>
-                      {s.name}
-                    </span>
-                    <span className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.6875rem] font-medium uppercase tracking-[0.14em]">
-                      <span className="text-t3">{s.category}</span>
-                      {s.scope ? (
-                        <>
-                          <span aria-hidden="true" className="text-t3/50">·</span>
-                          <span className="text-accent">{s.scope}</span>
-                        </>
-                      ) : null}
-                    </span>
-                  </span>
-                  <span className="text-[0.9375rem] leading-relaxed text-t2 md:col-span-4">
-                    {s.line}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-t3 transition-colors duration-300 group-hover:text-accent md:col-span-2 md:justify-end">
-                    {s.linkLabel}
-                    <ArrowUpRight size={14} strokeWidth={1.75} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </span>
-                </a>
-              </Reveal>
-            ))}
+            <ShippedLedger variant="page" />
           </div>
           <Reveal delay={0.3}>
             <p className="mt-6 max-w-xl text-[0.875rem] leading-relaxed text-t3">
@@ -129,7 +96,7 @@ export default function BuildsPage() {
                     <h2 className="display-s mt-5 text-t1">{b.title}</h2>
                   </Reveal>
                   <Reveal delay={0.12}>
-                    <div className="mt-8 h-72 overflow-hidden rounded-2xl border border-line bg-raised">
+                    <div data-torch className="mt-8 h-72 overflow-hidden rounded-2xl border border-line bg-raised">
                       <Mock />
                     </div>
                   </Reveal>
@@ -167,7 +134,7 @@ export default function BuildsPage() {
                   </Reveal>
                   {i === 0 && (
                     <Reveal delay={0.26}>
-                      <div className="rounded-xl border border-line bg-raised p-5">
+                      <div data-torch className="rounded-xl border border-line bg-raised p-5">
                         <p className="label text-t3">A note on proof</p>
                         <p className="mt-2 text-[0.875rem] leading-relaxed text-t2">
                           Case studies on this page will carry verified detail,

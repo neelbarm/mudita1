@@ -1,16 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
 import { ArrowRight } from "lucide-react";
 import { riseIn, VIEWPORT } from "@/lib/motion";
-import type { ReactNode } from "react";
+import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 
 /* ----------------------------------------------------------- buttons */
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 text-[0.9375rem] font-medium transition-all duration-300 active:scale-[0.98]";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 text-[0.9375rem] font-medium transition-colors duration-300 active:scale-[0.98]";
+
+const MotionLink = motion.create(Link);
+
+/**
+ * CTAs lean a few pixels toward the hand before they are pressed.
+ * Mouse only; springs return them home on leave.
+ */
+function useMagnet(reduced: boolean) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 320, damping: 22, mass: 0.5 });
+  const sy = useSpring(y, { stiffness: 320, damping: 22, mass: 0.5 });
+  const onPointerMove = (e: ReactPointerEvent<HTMLElement>) => {
+    if (reduced || e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    x.set(((e.clientX - r.left) / r.width - 0.5) * 12);
+    y.set(((e.clientY - r.top) / r.height - 0.5) * 10);
+  };
+  const onPointerLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+  return { style: { x: sx, y: sy }, onPointerMove, onPointerLeave };
+}
 
 export function PrimaryLink({
   href,
@@ -21,9 +45,11 @@ export function PrimaryLink({
   children: ReactNode;
   className?: string;
 }) {
+  const magnet = useMagnet(useReducedMotion());
   return (
-    <Link
+    <MotionLink
       href={href}
+      {...magnet}
       className={`${base} group bg-t1 text-ground hover:bg-accent hover:text-ink ${className}`}
     >
       {children}
@@ -33,7 +59,7 @@ export function PrimaryLink({
         className="transition-transform duration-300 group-hover:translate-x-0.5"
         aria-hidden="true"
       />
-    </Link>
+    </MotionLink>
   );
 }
 
@@ -46,13 +72,15 @@ export function SecondaryLink({
   children: ReactNode;
   className?: string;
 }) {
+  const magnet = useMagnet(useReducedMotion());
   return (
-    <Link
+    <MotionLink
       href={href}
+      {...magnet}
       className={`${base} border border-line-strong text-t1 hover:border-t2 hover:bg-t1/5 ${className}`}
     >
       {children}
-    </Link>
+    </MotionLink>
   );
 }
 
