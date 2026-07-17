@@ -201,6 +201,29 @@ body {
   display: none;
 }
 
+/* --------------------------------------------------- compatibility --- */
+
+/* Safari < 16.4 has no svh units; Tailwind's svh utilities emit only
+   svh, leaving those elements with NO height there — which collapses
+   every sticky animation viewport and reads as "animations are broken."
+   An @supports-not block (rather than a duplicate-declaration fallback,
+   which the CSS minifier strips as dead code) gives those browsers vh.
+   Unlayered, so it beats Tailwind's layered utilities where it applies. */
+@supports not (height: 100svh) {
+  .h-svh {
+    height: 100vh;
+  }
+  .min-h-svh {
+    min-height: 100vh;
+  }
+  .h-\[68svh\] {
+    height: 68vh;
+  }
+  .h-\[calc\(100svh-4rem\)\] {
+    height: calc(100vh - 4rem);
+  }
+}
+
 /* ----------------------------------------------------- atmosphere ---- */
 
 /* Lamplight: warm pools of light that give the ink sections depth.
