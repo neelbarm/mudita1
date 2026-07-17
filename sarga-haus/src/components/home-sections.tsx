@@ -106,6 +106,23 @@ export function PositioningStrip() {
             </Reveal>
           ))}
         </div>
+        <Reveal delay={0.25}>
+          <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
+            {[
+              ["4", "products shipped and live"],
+              ["2", "platforms: web and iOS"],
+              ["5", "fixed-scope offers"],
+              ["1", "studio accountable for all of it"],
+            ].map(([n, d]) => (
+              <div key={d} className="bg-raised px-6 py-6">
+                <p className="font-display text-[2.4rem] leading-none text-t1" style={{ fontWeight: 470 }}>
+                  {n}
+                </p>
+                <p className="mt-2 text-[0.8125rem] leading-snug text-t2">{d}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

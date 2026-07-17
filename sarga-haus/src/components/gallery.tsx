@@ -76,10 +76,25 @@ export function Gallery() {
       </Reveal>
       <Reveal delay={0.16}>
         <p className="standfirst mt-5 max-w-2xl text-t2">
-          Products, portals, dashboards, CRMs, lead engines, automations. Every
-          interface below is labeled for what it is: illustrative, until real
-          client work replaces it.
+          Products, portals, dashboards, CRMs, lead engines, automations. The
+          interfaces below are labeled for what they are: illustrative, until
+          screens from client work replace them.
         </p>
+      </Reveal>
+      <Reveal delay={0.22}>
+        <ul className="mt-8 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-3">
+          {[
+            "MVP web apps", "Client portals", "Admin panels",
+            "CRM pipelines", "Outbound consoles", "Booking systems",
+            "Stripe billing", "Supabase back ends", "Automation flows",
+            "Operator dashboards", "Lead enrichment", "Weekly reporting",
+          ].map((c) => (
+            <li key={c} className="flex items-center gap-2.5 border-t border-line py-2 text-[0.8125rem] text-t2">
+              <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-accent" />
+              {c}
+            </li>
+          ))}
+        </ul>
       </Reveal>
     </div>
   );
