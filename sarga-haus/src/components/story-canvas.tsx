@@ -414,6 +414,49 @@ export function StoryCanvas({
         ctx.fill();
       }
 
+      // solid matter materializes with each stage, so the object reads as
+      // a finished product, not a wireframe: filled pill, header strip,
+      // node bodies, and qualified-tick chips
+      const rr = (x: number, y: number, w: number, h: number, r: number) => {
+        ctx.beginPath();
+        const N = 20;
+        for (let i = 0; i <= N; i++) {
+          const pt = rrPoint(i / N, x, y, w, h, r);
+          const X = cx + pt.x * scale + pox;
+          const Y = cy + pt.y * scale + poy;
+          if (i === 0) ctx.moveTo(X, Y);
+          else ctx.lineTo(X, Y);
+        }
+        ctx.closePath();
+      };
+      const wProduct = clamp01(s);
+      const wAuto = clamp01(s - 1);
+      const wPipe = clamp01(s - 2);
+      if (wProduct > 0.02) {
+        // header strip
+        rr(FR.cx, -0.185, FR.w - 0.06, 0.075, 0.02);
+        ctx.fillStyle = `rgba(237,233,224,${0.05 * wProduct})`;
+        ctx.fill();
+        // the action pill, solid brass
+        rr(-0.21, 0.19, 0.18, 0.055, 0.027);
+        ctx.fillStyle = `rgba(169,141,95,${0.28 * wProduct})`;
+        ctx.fill();
+      }
+      if (wAuto > 0.02) {
+        for (const [nx, ny] of NODE_C) {
+          rr(nx, ny, 0.065, 0.065, 0.014);
+          ctx.fillStyle = `rgba(237,233,224,${0.07 * wAuto})`;
+          ctx.fill();
+        }
+      }
+      if (wPipe > 0.02) {
+        for (const r of ROWS4) {
+          rr(0.122, r.y - 0.002, 0.075, 0.052, 0.026);
+          ctx.fillStyle = `rgba(169,141,95,${0.14 * wPipe})`;
+          ctx.fill();
+        }
+      }
+
       for (const f of frags) {
         const A = f.stages[k], B = f.stages[Math.min(3, k + 1)];
         const tt = smooth(clamp01((mt * 1.35 - f.stag * 0.35) / 1));

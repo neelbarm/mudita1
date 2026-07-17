@@ -78,7 +78,8 @@ function ValidationVisual() {
             width="64"
             height="30"
             rx="7"
-            fill="var(--raised)"
+            fill={n.brass ? "var(--accent)" : "var(--raised)"}
+            fillOpacity={n.brass ? 0.12 : 1}
             stroke={n.brass ? "var(--accent)" : "var(--color-t1)"}
             strokeOpacity={n.brass ? 1 : 0.8}
             strokeWidth="1.3"
@@ -119,7 +120,7 @@ function BuildVisual() {
       <motion.line x1="118" y1="96" x2="250" y2="96" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(1.08)} />
       <motion.line x1="118" y1="108" x2="226" y2="108" stroke="var(--color-t2)" strokeWidth="1.1" variants={appear(1.16)} />
       <motion.g variants={appear(1.24)}>
-        <rect x="118" y="122" width="60" height="16" rx="8" stroke="var(--accent)" strokeWidth="1.3" />
+        <rect x="118" y="122" width="60" height="16" rx="8" fill="var(--accent)" fillOpacity="0.16" stroke="var(--accent)" strokeWidth="1.3" />
         <line x1="130" y1="130" x2="166" y2="130" stroke="var(--accent)" strokeWidth="1.2" />
       </motion.g>
       <motion.path d="M118 158 L142 150 L166 154 L190 142 L216 146 L248 132" stroke="var(--accent)" strokeWidth="1.3" pathLength={1} strokeDasharray="1" variants={draw(1.35)} />
@@ -144,7 +145,7 @@ function AutomationVisual() {
       <motion.rect x="140" y="76" width="30" height="24" rx="6" fill="var(--raised)" stroke="var(--color-t1)" strokeOpacity="0.8" strokeWidth="1.3" variants={appear(0.95)} />
       {/* the human approval gate */}
       <motion.g variants={appear(1.1)}>
-        <rect x="194" y="76" width="24" height="24" rx="4" transform="rotate(45 206 88)" fill="var(--raised)" stroke="var(--accent)" strokeWidth="1.3" />
+        <rect x="194" y="76" width="24" height="24" rx="4" transform="rotate(45 206 88)" fill="var(--accent)" fillOpacity="0.14" stroke="var(--accent)" strokeWidth="1.3" />
         <path d="M200 88 l4 5 l8 -9" stroke="var(--accent)" strokeWidth="1.4" />
       </motion.g>
       <motion.rect x="242" y="76" width="30" height="24" rx="6" fill="var(--raised)" stroke="var(--color-t1)" strokeOpacity="0.8" strokeWidth="1.3" variants={appear(1.25)} />
@@ -212,7 +213,7 @@ function GrowthVisual() {
         <line x1="46" y1="78" x2="276" y2="78" stroke="var(--color-t1)" strokeOpacity="0.1" strokeWidth="1" />
       </motion.g>
       {/* area under the compounding line */}
-      <motion.path d="M46 160 L46 150 L96 150 L96 128 L150 128 L150 104 L204 104 L204 74 L262 74 L262 160 Z" fill="var(--accent)" fillOpacity="0.07" stroke="none" variants={appear(0.95)} />
+      <motion.path d="M46 160 L46 150 L96 150 L96 128 L150 128 L150 104 L204 104 L204 74 L262 74 L262 160 Z" fill="var(--accent)" fillOpacity="0.11" stroke="none" variants={appear(0.95)} />
       {/* the step line: each level held, then raised */}
       <motion.path d="M46 150 H96 V128 H150 V104 H204 V74 H262" stroke="var(--color-t1)" strokeWidth="1.5" pathLength={1} strokeDasharray="1" variants={draw(0.3)} />
       {markers.map(([x, y], i) => (
