@@ -235,7 +235,7 @@ export function FinalCta() {
     <section
       data-ground="ink"
       data-bp="S12 · Final CTA — the mark draws itself"
-      className="relative overflow-hidden bg-ink"
+      className="lamplight-center relative overflow-hidden bg-ink"
     >
       <div className="container-page relative flex min-h-[80vh] flex-col items-center justify-center py-32 text-center">
         <motion.svg

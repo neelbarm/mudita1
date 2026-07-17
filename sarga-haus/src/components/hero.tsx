@@ -41,7 +41,7 @@ export function Hero() {
       className="relative h-[240vh] bg-ink"
       aria-label="Sarga Haus. Build the product. Automate the workflow. Fill the pipeline."
     >
-      <div className="sticky top-0 h-svh overflow-hidden">
+      <div className="lamplight sticky top-0 h-svh overflow-hidden">
         <FormationCanvas
           progressRef={progressRef}
           reduced={reduced}

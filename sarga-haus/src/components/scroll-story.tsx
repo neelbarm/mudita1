@@ -85,7 +85,7 @@ function StickyStory() {
 
   return (
     <div ref={ref} className="relative h-[420vh]">
-      <div className="sticky top-0 flex h-svh items-center overflow-hidden">
+      <div className="lamplight sticky top-0 flex h-svh items-center overflow-hidden">
         <div className="container-page grid w-full grid-cols-12 items-center gap-6">
           <div className="relative col-span-4 h-56">
             <AnimatePresence>

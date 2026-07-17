@@ -384,6 +384,36 @@ export function StoryCanvas({
 
       const orbitTheta = isStatic ? 0.6 : t * 0.1;
 
+      // lamplight pooled behind the object, warming as the story advances
+      const gx = cx + FR.cx * scale * Math.min(1, s);
+      const glowR = scale * (0.95 + 0.1 * s);
+      const glow = ctx.createRadialGradient(gx, cy, 0, gx, cy, glowR);
+      glow.addColorStop(0, `rgba(196,168,122,${0.07 + 0.03 * Math.min(3, s) / 3})`);
+      glow.addColorStop(0.55, "rgba(196,168,122,0.024)");
+      glow.addColorStop(1, "rgba(196,168,122,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
+
+      // the interface face gains a translucent surface as it forms
+      const faceA = clamp01(s);
+      if (faceA > 0.02) {
+        ctx.beginPath();
+        const NPTS = 40;
+        for (let i = 0; i <= NPTS; i++) {
+          const pt = rrPoint(i / NPTS, FR.cx, FR.cy, FR.w, FR.h, FR.r);
+          const X = cx + pt.x * scale + pox;
+          const Y = cy + pt.y * scale + poy;
+          if (i === 0) ctx.moveTo(X, Y);
+          else ctx.lineTo(X, Y);
+        }
+        ctx.closePath();
+        const face = ctx.createLinearGradient(cx, cy - FR.h * scale * 0.5, cx, cy + FR.h * scale * 0.5);
+        face.addColorStop(0, `rgba(237,233,224,${0.05 * faceA})`);
+        face.addColorStop(1, `rgba(196,168,122,${0.022 * faceA})`);
+        ctx.fillStyle = face;
+        ctx.fill();
+      }
+
       for (const f of frags) {
         const A = f.stages[k], B = f.stages[Math.min(3, k + 1)];
         const tt = smooth(clamp01((mt * 1.35 - f.stag * 0.35) / 1));
@@ -404,13 +434,20 @@ export function StoryCanvas({
         if (alpha <= 0.004) continue;
 
         const px = pox * f.par, py = poy * f.par;
-        ctx.strokeStyle = mix(brass, Math.min(1, Math.max(0, alpha)));
-        ctx.lineWidth = brass > 0.5 ? 1.5 : 1.1;
+        if (brass > 0.5) {
+          ctx.shadowColor = "rgba(196,168,122,0.5)";
+          ctx.shadowBlur = 6;
+        } else {
+          ctx.shadowBlur = 0;
+        }
+        ctx.strokeStyle = mix(brass, Math.min(1, Math.max(0, alpha * 1.2)));
+        ctx.lineWidth = brass > 0.5 ? 1.7 : 1.25;
         ctx.beginPath();
         ctx.moveTo(cx + ax * scale + px, cy + ay * scale + py);
         ctx.lineTo(cx + bx * scale + px, cy + by * scale + py);
         ctx.stroke();
       }
+      ctx.shadowBlur = 0;
 
       for (const d of dots) {
         const A = d.stages[k], B = d.stages[Math.min(3, k + 1)];
@@ -443,10 +480,13 @@ export function StoryCanvas({
               : (t * 0.32 + i * 0.29 + j * 0.5) % 1;
             const pt = walk(tp);
             const fade = Math.sin(tp * Math.PI); // ease in/out along the run
-            ctx.fillStyle = `rgba(196,168,122,${0.85 * wp * fade})`;
+            ctx.shadowColor = "rgba(196,168,122,0.7)";
+            ctx.shadowBlur = 9;
+            ctx.fillStyle = `rgba(196,168,122,${0.9 * wp * fade})`;
             ctx.beginPath();
-            ctx.arc(cx + pt.x * scale + pox, cy + pt.y * scale + poy, 2.1, 0, Math.PI * 2);
+            ctx.arc(cx + pt.x * scale + pox, cy + pt.y * scale + poy, 2.2, 0, Math.PI * 2);
             ctx.fill();
+            ctx.shadowBlur = 0;
           }
         });
       }

@@ -104,7 +104,7 @@ export function Gallery() {
         <>
           <div className="hidden md:block">
             <div ref={sectionRef} className="relative h-[280vh]">
-              <div className="sticky top-0 flex h-svh flex-col justify-center overflow-hidden" ref={viewportRef}>
+              <div className="lamplight sticky top-0 flex h-svh flex-col justify-center overflow-hidden" ref={viewportRef}>
                 {header}
                 <motion.div
                   ref={trackRef}
