@@ -301,6 +301,35 @@ export function FormationCanvas({
         return { x: cx + x1 * scale * persp, y: cy + y2 * scale * persp, z: z2, persp };
       };
 
+      // ambient lamplight pooled behind the object, warming as it forms
+      const glowR = scale * (1.15 + 0.2 * p);
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+      glow.addColorStop(0, `rgba(196,168,122,${0.085 + 0.05 * p})`);
+      glow.addColorStop(0.55, "rgba(196,168,122,0.028)");
+      glow.addColorStop(1, "rgba(196,168,122,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
+
+      // the front face gains a translucent surface as assembly completes,
+      // so the formed object reads as material, not wireframe
+      if (p > 0.45) {
+        const faceA = smooth(clamp01((p - 0.45) / 0.55));
+        ctx.beginPath();
+        const NPTS = 40;
+        for (let i = 0; i <= NPTS; i++) {
+          const pt = rrPoint(i / NPTS, W, H, R);
+          const P = project({ x: pt.x, y: pt.y, z: FZ });
+          if (i === 0) ctx.moveTo(P.x, P.y);
+          else ctx.lineTo(P.x, P.y);
+        }
+        ctx.closePath();
+        const face = ctx.createLinearGradient(cx, cy - scale * 0.65, cx, cy + scale * 0.65);
+        face.addColorStop(0, `rgba(237,233,224,${0.055 * faceA})`);
+        face.addColorStop(1, `rgba(196,168,122,${0.028 * faceA})`);
+        ctx.fillStyle = face;
+        ctx.fill();
+      }
+
       for (const f of frags) {
         const local = f.atmo
           ? 0
@@ -337,16 +366,25 @@ export function FormationCanvas({
           alpha = Math.min(1, alpha + glow * 0.5);
         }
 
+        alpha = Math.min(1, alpha * 1.22);
         const r = 237 + (196 - 237) * brassMix;
         const g = 233 + (168 - 233) * brassMix;
         const b = 224 + (122 - 224) * brassMix;
+        // brass elements bloom softly; cream stays crisp
+        if (brassMix > 0.5) {
+          ctx.shadowColor = "rgba(196,168,122,0.55)";
+          ctx.shadowBlur = 7;
+        } else {
+          ctx.shadowBlur = 0;
+        }
         ctx.strokeStyle = `rgba(${r | 0},${g | 0},${b | 0},${alpha})`;
-        ctx.lineWidth = (f.brass ? 1.5 : 1.05) * ((A.persp + B.persp) / 2);
+        ctx.lineWidth = (f.brass ? 1.7 : 1.2) * ((A.persp + B.persp) / 2);
         ctx.beginPath();
         ctx.moveTo(A.x, A.y);
         ctx.lineTo(B.x, B.y);
         ctx.stroke();
       }
+      ctx.shadowBlur = 0;
     };
 
     const loop = (now: number) => {
