@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8 3.5 H17 Q20.5 3.5 20.5 7 V17 Q20.5 20.5 17 20.5 H10' stroke='%23ede9e0' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M2.5 21.5 L6.5 17.5' stroke='%23c4a87a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<title>Headquarters · Sarga Haus</title>
+<style>
+  /* ------------------------------------------------------------------
+     Headquarters: the control room at night. Ink only, on purpose:
+     this room has one mood. Brass marks what needs a human.
+     ------------------------------------------------------------------ */
+  :root {
+    --ink: #0d0c0a;
+    --coal: #161411;
+    --coal-2: #1c1915;
+    --cream: #ede9e0;
+    --cream-dim: #b4ada0;
+    --cream-faint: #857e72;
+    --brass: #c4a87a;
+    --brass-deep: #a98d5f;
+    --line: rgba(237, 233, 224, 0.11);
+    --line-strong: rgba(237, 233, 224, 0.24);
+    --ember: #b3654f; /* semantic: failures and overdue only */
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+  ::selection { background: rgba(169, 141, 95, 0.35); }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; border-radius: 3px; }
+
+  .label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cream-faint);
+  }
+  .label.brass { color: var(--brass); }
+  .serif { font-family: var(--serif); }
+  .num { font-family: var(--serif); font-variant-numeric: tabular-nums; }
+
+  .wrap { max-width: 96rem; margin-inline: auto; padding: 0 clamp(1rem, 2.5vw, 2.25rem) 4rem; }
+
+  /* ------------------------------------------------------- header ---- */
+  header.top {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(13, 12, 10, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-inner {
+    max-width: 96rem; margin-inline: auto;
+    padding: 0.8rem clamp(1rem, 2.5vw, 2.25rem);
+    display: flex; align-items: center; gap: 1.1rem;
+  }
+  .top .mark { width: 26px; height: 26px; flex: none; }
+  .top .name { font-family: var(--serif); font-size: 1.15rem; letter-spacing: -0.01em; white-space: nowrap; }
+  .top .hq { margin-left: 0.15rem; }
+  .top-right { margin-left: auto; display: flex; align-items: center; gap: 1.4rem; }
+  .capdots { display: flex; gap: 5px; align-items: center; }
+  .capdot { width: 7px; height: 7px; border-radius: 50%; border: 1.2px solid var(--cream-faint); }
+  .capdot.on { background: var(--brass); border-color: var(--brass); }
+  .clock { font-family: var(--mono); font-size: 12.5px; color: var(--cream-dim); font-variant-numeric: tabular-nums; }
+  .oper { font-size: 12.5px; color: var(--cream-dim); }
+  .oper b { color: var(--cream); font-weight: 600; }
+  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--brass); }
+  @media (prefers-reduced-motion: no-preference) {
+    .pulse.live { animation: beat 2.4s ease-in-out infinite; }
+    @keyframes beat { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+  }
+  @media (max-width: 900px) { .top .capdots, .top .oper { display: none; } }
+
+  /* ---------------------------------------------------------- tiles -- */
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-top: 1.6rem; }
+  @media (max-width: 900px) { .tiles { grid-template-columns: 1fr 1fr; } }
+  .tile { background: var(--coal); padding: 1.05rem 1.2rem 1.1rem; box-shadow: inset 0 1px 0 rgba(237,233,224,0.05); }
+  .tile .n { font-size: 2.5rem; line-height: 1; margin-top: 0.55rem; }
+  .tile .n.attn { color: var(--brass); }
+  .tile .d { margin-top: 0.4rem; font-size: 12px; color: var(--cream-faint); }
+  .meter { height: 2px; background: rgba(237,233,224,0.12); border-radius: 2px; margin-top: 0.7rem; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--brass); border-radius: 2px; transition: width 0.6s cubic-bezier(0.22,1,0.36,1); }
+
+  /* ------------------------------------------------------- sections -- */
+  section { margin-top: 2.4rem; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line-strong); padding-top: 0.85rem; }
+  .sec-head h2 { margin: 0; font-family: var(--serif); font-size: 1.35rem; font-weight: 500; letter-spacing: -0.01em; }
+  .sec-head .sub { font-size: 12px; color: var(--cream-faint); }
+
+  .deck { display: grid; grid-template-columns: 7fr 5fr; gap: 1.4rem; align-items: start; }
+  @media (max-width: 1100px) { .deck { grid-template-columns: 1fr; } }
+
+  /* ---------------------------------------------------------- queue -- */
+  .qcard {
+    background: var(--coal); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(237,233,224,0.05);
+    padding: 1rem 1.15rem 1.05rem; margin-top: 0.9rem;
+  }
+  .qcard.leaving { opacity: 0; transform: translateX(14px); transition: opacity 0.35s, transform 0.35s; }
+  .q-top { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+  .chip {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--brass); background: rgba(196, 168, 122, 0.13);
+    padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+  }
+  .q-age { margin-left: auto; font-size: 11.5px; color: var(--cream-faint); font-variant-numeric: tabular-nums; }
+  .q-title { margin: 0.55rem 0 0; font-family: var(--serif); font-size: 1.08rem; font-weight: 500; }
+  .q-prev {
+    margin-top: 0.6rem; padding: 0.65rem 0.8rem;
+    border-left: 2px solid var(--line-strong);
+    font-size: 12.5px; line-height: 1.55; color: var(--cream-dim);
+    white-space: pre-wrap; word-break: break-word;
+    max-height: 9.5rem; overflow: hidden;
+  }
+  .q-actions { display: flex; gap: 0.6rem; margin-top: 0.85rem; align-items: center; }
+  .btn {
+    border-radius: 999px; padding: 0.42rem 1.05rem; font-size: 12.5px; font-weight: 600;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn.approve { background: var(--cream); color: var(--ink); }
+  .btn.approve:hover { background: var(--brass); }
+  .btn.reject { border: 1px solid var(--line-strong); color: var(--cream-dim); }
+  .btn.reject:hover { color: var(--cream); border-color: var(--cream-faint); }
+  .q-note { margin-left: auto; font-size: 11px; color: var(--cream-faint); }
+  .empty {
+    margin-top: 0.9rem; border: 1px dashed var(--line-strong); border-radius: 12px;
+    padding: 1.6rem 1.2rem; color: var(--cream-faint); font-size: 13.5px;
+  }
+  .empty code { font-family: var(--mono); font-size: 12px; color: var(--cream-dim); }
+
+  /* ----------------------------------------------------------- wire -- */
+  .wire {
+    background: var(--coal); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(237,233,224,0.05);
+    margin-top: 0.9rem; padding: 0.4rem 0; max-height: 34rem; overflow-y: auto;
+  }
+  .wire-row {
+    display: grid; grid-template-columns: 3.6rem auto 1fr; gap: 0.7rem; align-items: baseline;
+    padding: 0.5rem 1.05rem; border-bottom: 1px solid rgba(237,233,224,0.055);
+    font-size: 12.3px;
+  }
+  .wire-row:last-child { border-bottom: 0; }
+  .wire-t { font-family: var(--mono); font-size: 11px; color: var(--cream-faint); font-variant-numeric: tabular-nums; }
+  .wire-actor { font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+  .wire-actor.agent { color: var(--brass); }
+  .wire-actor.human { color: var(--cream); }
+  .wire-action { color: var(--cream-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (prefers-reduced-motion: no-preference) {
+    .wire-row.fresh { animation: wire-in 0.5s cubic-bezier(0.22,1,0.36,1); }
+    @keyframes wire-in { from { opacity: 0; transform: translateY(-6px); background: rgba(196,168,122,0.10); } to { opacity: 1; transform: none; } }
+  }
+
+  /* ---------------------------------------------------------- floor -- */
+  .floor { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+  @media (max-width: 1100px) { .floor { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--coal); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(237,233,224,0.05);
+    padding: 1.05rem 1.2rem 1.15rem; margin-top: 0.9rem;
+  }
+  .flowbar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; gap: 2px; margin-top: 0.9rem; }
+  .flowbar i { display: block; background: rgba(237,233,224,0.18); min-width: 4px; transition: flex-grow 0.6s; }
+  .flowbar i.hot { background: var(--brass); }
+  .flowlegend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.8rem; }
+  .flowlegend span { font-size: 11.5px; color: var(--cream-faint); }
+  .flowlegend b { color: var(--cream); font-weight: 600; font-variant-numeric: tabular-nums; margin-right: 0.3rem; }
+  .floor > * { min-width: 0; }
+  .panel { min-width: 0; }
+  .stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-radius: 10px; overflow: hidden; margin-top: 0.9rem; border: 1px solid var(--line); }
+  @media (max-width: 540px) { .stages { grid-template-columns: 1fr; } }
+  .stage { background: var(--coal-2); padding: 0.75rem 0.9rem; }
+  .stage .n { font-size: 1.5rem; }
+  .stage .v { font-size: 11.5px; color: var(--brass); font-variant-numeric: tabular-nums; }
+  .kv { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-top: 1px solid rgba(237,233,224,0.055); font-size: 13px; }
+  .kv:first-of-type { border-top: 0; }
+  .kv .k { color: var(--cream-faint); }
+  .kv .v { font-variant-numeric: tabular-nums; }
+  .kv .v.brass { color: var(--brass); }
+  .kv .v.ember { color: var(--ember); }
+
+  /* ---------------------------------------------------------- staff -- */
+  .staff { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 0.8rem; margin-top: 0.9rem; }
+  .agent-card {
+    background: var(--coal); border: 1px solid var(--line); border-radius: 10px;
+    padding: 0.75rem 0.9rem 0.8rem; box-shadow: inset 0 1px 0 rgba(237,233,224,0.05);
+  }
+  .agent-top { display: flex; align-items: center; gap: 0.55rem; }
+  .agent-dot { width: 7px; height: 7px; border-radius: 50%; border: 1.2px solid var(--cream-faint); flex: none; }
+  .agent-dot.ran { background: var(--brass); border-color: var(--brass); }
+  .agent-dot.failed { background: var(--ember); border-color: var(--ember); }
+  .agent-name { font-family: var(--serif); font-size: 0.98rem; }
+  .agent-meta { margin-top: 0.35rem; font-size: 11px; color: var(--cream-faint); display: flex; justify-content: space-between; gap: 0.6rem; font-variant-numeric: tabular-nums; }
+  .staff-group { margin-top: 1.3rem; }
+
+  /* -------------------------------------------------------- stalled -- */
+  .stall-row { display: flex; gap: 1rem; align-items: baseline; padding: 0.55rem 0.2rem; border-top: 1px solid rgba(237,233,224,0.055); font-size: 13px; }
+  .stall-row .k { color: var(--brass); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; width: 6.5rem; flex: none; }
+  .stall-row .id { font-family: var(--mono); font-size: 11.5px; color: var(--cream-dim); }
+  .stall-row .age { margin-left: auto; color: var(--cream-faint); font-size: 11.5px; }
+
+  /* ----------------------------------------------------- token gate -- */
+  .gate {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    align-items: center; justify-content: center;
+    background: rgba(13, 12, 10, 0.94);
+  }
+  .gate.show { display: flex; }
+  .gate-card { background: var(--coal); border: 1px solid var(--line-strong); border-radius: 14px; padding: 2rem 2.2rem; max-width: 24rem; }
+  .gate-card input {
+    width: 100%; margin-top: 1rem; background: var(--ink); border: 1px solid var(--line-strong);
+    border-radius: 8px; color: var(--cream); padding: 0.6rem 0.8rem; font: inherit;
+  }
+  .gate-card .btn { margin-top: 1rem; }
+
+  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  footer, footer .label { font-size: 11px; color: var(--cream-faint); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M8 3.5 H17 Q20.5 3.5 20.5 7 V17 Q20.5 20.5 17 20.5 H10" stroke="var(--cream)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M3.5 16.5 V7 Q3.5 3.5 7 3.5" stroke="var(--cream)" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+      <path d="M2.5 21.5 L6.5 17.5" stroke="var(--brass)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="name">Sarga Haus</span>
+    <span class="label brass hq">Headquarters</span>
+    <div class="top-right">
+      <span class="oper" id="store-chip"></span>
+      <div class="capdots" id="capdots" title=""></div>
+      <span class="oper">operator <b id="oper"></b></span>
+      <span class="clock" id="clock">··:··:··</span>
+      <span class="pulse" id="pulse" title="polling"></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tiles" id="tiles" aria-label="Today at a glance">
+    <div class="tile"><span class="label">Decisions waiting</span><div class="n num" id="t-approvals">·</div><div class="d">everything is a draft until you clear it</div></div>
+    <div class="tile"><span class="label">Due in the queue</span><div class="n num" id="t-due">·</div><div class="d">enrollments whose clock has come round</div></div>
+    <div class="tile"><span class="label">Sends today</span><div class="n num" id="t-sends">·</div><div class="meter"><i id="t-sendbar" style="width:0%"></i></div><div class="d" id="t-sendcap">of the daily ceiling</div></div>
+    <div class="tile"><span class="label">New intake</span><div class="n num" id="t-intake">·</div><div class="d">enquiries awaiting triage</div></div>
+  </div>
+
+  <section aria-label="Decision queue and the wire">
+    <div class="deck">
+      <div>
+        <div class="sec-head"><h2>The queue</h2><span class="sub" id="q-sub"></span></div>
+        <div id="queue"></div>
+      </div>
+      <div>
+        <div class="sec-head"><h2>The wire</h2><span class="sub">every action, as it lands</span></div>
+        <div class="wire" id="wire"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Lead flow and pipeline">
+    <div class="sec-head"><h2>The floor</h2><span class="sub" id="floor-sub"></span></div>
+    <div class="floor">
+      <div class="panel">
+        <span class="label">Lead flow</span>
+        <div class="flowbar" id="flowbar"></div>
+        <div class="flowlegend" id="flowlegend"></div>
+      </div>
+      <div class="panel">
+        <span class="label">Open pipeline</span>
+        <div class="stages" id="stages"></div>
+        <div id="weekly" style="margin-top:0.9rem"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="The staff of seventeen">
+    <div class="sec-head"><h2>The staff</h2><span class="sub">seventeen agents · drafts only · every gate is yours</span></div>
+    <div id="staffwall"></div>
+  </section>
+
+  <section aria-label="Delivery and money">
+    <div class="floor">
+      <div class="panel">
+        <span class="label">Delivery</span>
+        <div id="delivery"></div>
+      </div>
+      <div class="panel">
+        <span class="label">Money</span>
+        <div id="money"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Stalled items">
+    <div class="sec-head"><h2>Stalled</h2><span class="sub">idle 14 days or more · take the action or kill the item</span></div>
+    <div class="panel" id="stalled"></div>
+  </section>
+
+  <footer>
+    <span>Sarga Studio OS · the room refreshes every 6 seconds and rests when the tab is hidden</span>
+    <span class="label">agents draft · <span style="color:var(--brass)">you decide</span></span>
+  </footer>
+</div>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <span class="label brass">Headquarters</span>
+    <p style="margin:0.8rem 0 0; font-size:14px; color:var(--cream-dim)">This deck is token-locked. Paste the STUDIO_API_TOKEN from your .env.</p>
+    <input id="token" type="password" autocomplete="off" placeholder="studio api token">
+    <button class="btn approve" id="token-go">Enter</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let token = localStorage.getItem("sarga_hq_token") || "";
+  let lastWireStamp = "";
+  let firstPaint = true;
+
+  // ---------------------------------------------------------- clock --
+  const tick = () => { $("clock").textContent = new Date().toTimeString().slice(0, 8); };
+  tick(); setInterval(tick, 1000);
+
+  // ----------------------------------------------------------- data --
+  async function api(path, opts = {}) {
+    const headers = Object.assign({ "Content-Type": "application/json" }, opts.headers || {});
+    if (token) headers.Authorization = "Bearer " + token;
+    const res = await fetch(path, Object.assign({}, opts, { headers }));
+    if (res.status === 401) { $("gate").classList.add("show"); throw new Error("unauthorized"); }
+    $("gate").classList.remove("show");
+    return res.json();
+  }
+
+  $("token-go").addEventListener("click", () => {
+    token = $("token").value.trim();
+    localStorage.setItem("sarga_hq_token", token);
+    refresh();
+  });
+  $("token").addEventListener("keydown", (e) => { if (e.key === "Enter") $("token-go").click(); });
+
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const ago = (iso) => {
+    const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+    if (s < 90) return Math.round(s) + "s";
+    if (s < 5400) return Math.round(s / 60) + "m";
+    if (s < 129600) return Math.round(s / 3600) + "h";
+    return Math.round(s / 86400) + "d";
+  };
+  const money = (n) => "$" + Number(n || 0).toLocaleString("en-US");
+
+  function preview(kind, p) {
+    if (!p) return "";
+    if (kind === "outreach_message" || kind === "invoice_reminder")
+      return (p.subject ? "Subject: " + p.subject + "\n\n" : "") + (p.body || "");
+    for (const k of ["body_markdown", "narrative", "tldr", "summary"]) if (typeof p[k] === "string") return p[k];
+    if (Array.isArray(p.sample)) return p.sample.join(" · ");
+    if (Array.isArray(p.items)) return p.items.map((i) => i.suggested_action || i.hypothesis || "").filter(Boolean).join("\n");
+    return Object.keys(p).slice(0, 8).join(" · ");
+  }
+
+  // --------------------------------------------------------- render --
+  function render(d) {
+    $("oper").textContent = d.operator;
+    $("store-chip").textContent = d.store === "supabase" ? "supabase" : "local store";
+
+    const caps = d.capabilities || [];
+    $("capdots").innerHTML = caps.map((c) =>
+      '<span class="capdot ' + (c.live ? "on" : "") + '" title="' + esc(c.key + ": " + c.mode) + '"></span>').join("");
+    $("capdots").title = caps.filter((c) => !c.live).length + " capabilities degraded";
+
+    // tiles
+    const a = d.approvals.length;
+    $("t-approvals").textContent = a;
+    $("t-approvals").classList.toggle("attn", a > 0);
+    $("t-due").textContent = d.dueCount;
+    $("t-intake").textContent = d.intakeNew;
+    $("t-sends").textContent = d.sendsToday;
+    $("t-sendbar").style.width = Math.min(100, (d.sendsToday / d.maxDailySends) * 100) + "%";
+    $("t-sendcap").textContent = "of " + d.maxDailySends + ", the daily ceiling";
+
+    // queue
+    $("q-sub").textContent = a === 0 ? "" : a + " draft" + (a === 1 ? "" : "s") + " await your judgment";
+    if (a === 0) {
+      $("queue").innerHTML = '<div class="empty">The queue is empty. The system is healthy.<br><br>' +
+        'Put it to work: <code>sarga queue --advance</code> · <code>sarga agent run strategy-partner</code> · <code>sarga source csv &lt;file&gt;</code></div>';
+    } else {
+      $("queue").innerHTML = d.approvals.map((q) =>
+        '<article class="qcard" data-id="' + q.id + '">' +
+          '<div class="q-top"><span class="chip">' + esc(q.kind.replace(/_/g, " ")) + "</span>" +
+          '<span class="q-age">waiting ' + ago(q.created_at) + "</span></div>" +
+          '<h3 class="q-title">' + esc(q.title.replace(/^\[draft\]\s*/, "")) + "</h3>" +
+          (preview(q.kind, q.payload) ? '<div class="q-prev">' + esc(preview(q.kind, q.payload).slice(0, 480)) + "</div>" : "") +
+          '<div class="q-actions">' +
+            '<button class="btn approve" data-act="approved">Approve</button>' +
+            '<button class="btn reject" data-act="rejected">Reject</button>' +
+            '<span class="q-note">decides as ' + esc(d.operator) + "</span>" +
+          "</div></article>").join("");
+    }
+
+    // wire
+    const rows = d.events || [];
+    const newest = rows[0] ? rows[0].at : "";
+    $("wire").innerHTML = rows.length === 0
+      ? '<div class="empty" style="border:0">Silence on the wire. Every action will land here as it happens.</div>'
+      : rows.map((e) => {
+          const fresh = !firstPaint && lastWireStamp && e.at > lastWireStamp && !reduced;
+          const cls = e.actor.startsWith("agent:") ? "agent" : "human";
+          return '<div class="wire-row' + (fresh ? " fresh" : "") + '">' +
+            '<span class="wire-t">' + esc(ago(e.at)) + "</span>" +
+            '<span class="wire-actor ' + cls + '">' + esc(e.actor) + "</span>" +
+            '<span class="wire-action" title="' + esc(e.action + " · " + e.entity) + '">' + esc(e.action) + "</span></div>";
+        }).join("");
+    lastWireStamp = newest || lastWireStamp;
+
+    // floor
+    const flow = d.leadFlow || [];
+    const total = flow.reduce((s, f) => s + f.count, 0);
+    $("floor-sub").textContent = total + " account" + (total === 1 ? "" : "s") + " on the books";
+    const active = ["qualified", "outreach", "conversation", "opportunity", "client"];
+    $("flowbar").innerHTML = flow.filter((f) => f.count > 0).map((f) =>
+      '<i class="' + (active.includes(f.status) ? "hot" : "") + '" style="flex-grow:' + f.count + '" title="' + esc(f.status + ": " + f.count) + '"></i>').join("") ||
+      '<i style="flex-grow:1"></i>';
+    $("flowlegend").innerHTML = flow.map((f) => "<span><b>" + f.count + "</b>" + esc(f.status.replace(/_/g, " ")) + "</span>").join("");
+
+    const stages = d.pipeline || [];
+    $("stages").innerHTML = ["discovery", "proposal", "negotiation"].map((name) => {
+      const s = stages.find((x) => x.stage === name) || { deals: 0, value: 0 };
+      return '<div class="stage"><span class="label">' + name + '</span><div class="n num">' + s.deals + '</div><div class="v">' + money(s.value) + "</div></div>";
+    }).join("");
+    const w = d.weekly || {};
+    $("weekly").innerHTML =
+      '<div class="kv"><span class="k">researched this week</span><span class="v">' + (w.accounts_researched ?? 0) + "</span></div>" +
+      '<div class="kv"><span class="k">contacted, approved sends only</span><span class="v">' + (w.contacted ?? 0) + "</span></div>" +
+      '<div class="kv"><span class="k">replies · conversations</span><span class="v">' + (w.replies ?? 0) + " · " + (w.conversations ?? 0) + "</span></div>" +
+      '<div class="kv"><span class="k">open pipeline value</span><span class="v brass">' + money(w.pipeline_value) + "</span></div>";
+
+    // staff
+    const groups = [
+      ["Operations", ["account-researcher","pain-point-analyst","outreach-drafter","call-summarizer","proposal-drafter","brief-preparer","reporting-writer","stall-watcher","automation-scout"]],
+      ["Build factory", ["designer","builder"]],
+      ["Go-to-market", ["gtm-strategist","content-writer","distribution-planner"]],
+      ["Business", ["finance-analyst","legal-drafter","strategy-partner"]],
+    ];
+    $("staffwall").innerHTML = groups.map(([g, slugs]) => {
+      const cards = slugs.map((slug) => {
+        const s = (d.staff || []).find((x) => x.slug === slug);
+        if (!s) return "";
+        const dot = !s.last ? "" : s.last.status === "failed" ? "failed" : "ran";
+        const meta = s.last
+          ? s.runs + " run" + (s.runs === 1 ? "" : "s") + (s.cost ? " · $" + s.cost : "")
+          : "not yet run";
+        const when = s.last ? ago(s.last.at) + (s.last.mode === "dry_run" ? " · dry" : "") : "";
+        return '<div class="agent-card" title="' + esc(s.job) + '">' +
+          '<div class="agent-top"><span class="agent-dot ' + dot + '"></span><span class="agent-name">' + esc(s.title) + "</span></div>" +
+          '<div class="agent-meta"><span>' + esc(meta) + "</span><span>" + esc(when) + "</span></div></div>";
+      }).join("");
+      return '<div class="staff-group"><span class="label">' + g + '</span><div class="staff">' + cards + "</div></div>";
+    }).join("");
+
+    // delivery
+    const projects = d.projects || [];
+    const builds = d.buildRuns || [];
+    $("delivery").innerHTML =
+      (projects.length === 0
+        ? '<div class="kv"><span class="k">projects</span><span class="v">none in flight · <span style="color:var(--cream-faint)">sarga project new</span></span></div>'
+        : projects.map((p) => '<div class="kv"><span class="k">' + esc(p.offer) + "</span><span class=\"v\">" + esc(p.state) + "</span></div>").join("")) +
+      (builds.length
+        ? builds.map((b) => '<div class="kv"><span class="k">' + esc(b.slug + " · " + (b.section || b.phase)) + '</span><span class="v ' + (b.status === "failed" ? "ember" : b.status === "approved" ? "brass" : "") + '">' + esc(b.status) + "</span></div>").join("")
+        : "");
+
+    // money
+    const cash = d.cash || {};
+    const overdue = Number(cash.overdue_invoices || 0);
+    $("money").innerHTML =
+      '<div class="kv"><span class="k">open invoices</span><span class="v">' + money(cash.open_invoices) + "</span></div>" +
+      '<div class="kv"><span class="k">overdue</span><span class="v ' + (overdue > 0 ? "ember" : "") + '">' + money(overdue) + "</span></div>" +
+      '<div class="kv"><span class="k">received, 30 days</span><span class="v brass">' + money(cash.received_30d) + "</span></div>" +
+      '<div class="kv"><span class="k">spent, 30 days</span><span class="v">' + money(cash.spent_30d) + "</span></div>" +
+      '<div class="kv"><span class="k">runway</span><span class="v">' + (d.runwayMonths != null ? d.runwayMonths + " months" : "set burn + cash in .env") + "</span></div>" +
+      ((d.dunning || []).length
+        ? '<div class="kv"><span class="k">dunning clock</span><span class="v ember">' + d.dunning.length + " invoice" + (d.dunning.length === 1 ? "" : "s") + " on it</span></div>"
+        : "");
+
+    // stalled
+    const st = d.stalled || [];
+    $("stalled").innerHTML = st.length === 0
+      ? '<span style="font-size:13px;color:var(--cream-faint)">Nothing is stalled. The pipeline is honest.</span>'
+      : st.map((s) => '<div class="stall-row"><span class="k">' + esc(s.kind) + '</span><span class="id">' + esc(String(s.id).slice(0, 8)) + '</span><span class="age">idle since ' + esc(String(s.updated_at).slice(0, 10)) + "</span></div>").join("");
+
+    firstPaint = false;
+  }
+
+  // -------------------------------------------------------- actions --
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const card = btn.closest(".qcard");
+    const id = card.getAttribute("data-id");
+    const decision = btn.getAttribute("data-act");
+    let note;
+    if (decision === "rejected") {
+      note = prompt("Why? One line, recorded in the audit trail.");
+      if (note === null) return;
+    }
+    btn.disabled = true;
+    try {
+      await api("/approvals/" + id + "/decision", {
+        method: "POST",
+        body: JSON.stringify({ decision, note: note || undefined }),
+      });
+      card.classList.add("leaving");
+      setTimeout(refresh, reduced ? 0 : 380);
+    } catch (err) {
+      btn.disabled = false;
+      alert("That decision did not land: " + (err && err.message ? err.message : err));
+    }
+  });
+
+  // ----------------------------------------------------------- poll --
+  async function refresh() {
+    try {
+      $("pulse").classList.add("live");
+      const d = await api("/hq/data");
+      render(d);
+    } catch (_) {
+      $("pulse").classList.remove("live");
+    }
+  }
+  refresh();
+  setInterval(() => { if (!document.hidden) refresh(); }, 6000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+})();
+</script>
+</body>
+</html>

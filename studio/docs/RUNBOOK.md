@@ -4,6 +4,11 @@ How one operator runs the studio on this machine. The n8n schedules
 fire the drafts; your job is decisions. Total honest overhead: about
 thirty minutes a day.
 
+The room for all of it is Headquarters: `sarga hq`, then open
+http://localhost:8787/hq. The queue, the wire, the staff, the floor,
+the money, and the stalled list, refreshing live. Decisions made
+there are recorded exactly like `sarga approve` decisions.
+
 ## Daily (morning, ~15 minutes)
 
 1. `sarga approve` — walk the queue. Outreach messages, reply
