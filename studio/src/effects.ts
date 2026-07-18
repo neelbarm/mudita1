@@ -54,6 +54,36 @@ registerEffector("account_brief", async ({ approval, payload }) => {
   }
 });
 
+// An approved partner memo steers the machine: its ICP slice becomes
+// the sourcing target, on file where the sourcing workflow reads it.
+registerEffector("strategy_memo", async (args) => {
+  await fileArtifact(args);
+  const slice = (args.payload as Json).icp_slice;
+  if (slice) {
+    const { writeFileSync, mkdirSync } = await import("node:fs");
+    const { dir } = await import("./os/config.js");
+    const path = await import("node:path");
+    mkdirSync(dir.local, { recursive: true });
+    writeFileSync(
+      path.join(dir.local, "icp-slice.json"),
+      JSON.stringify({ ...slice as object, approved_at: new Date().toISOString(), approved_by: args.decidedBy }, null, 2),
+    );
+  }
+});
+
+// A distribution plan also lands a content calendar file.
+registerEffector("distribution_plan", async (args) => {
+  await fileArtifact(args);
+  const calendar = (args.payload as Json).calendar;
+  if (Array.isArray(calendar)) {
+    const { writeFileSync, mkdirSync } = await import("node:fs");
+    const { dir } = await import("./os/config.js");
+    const path = await import("node:path");
+    mkdirSync(dir.local, { recursive: true });
+    writeFileSync(path.join(dir.local, "content-calendar.json"), JSON.stringify(calendar, null, 2));
+  }
+});
+
 // Confirmed pain hypotheses become signals rows (cited).
 registerEffector("pain_hypotheses", async ({ approval, payload }) => {
   const accountId = approval.entity_id;
