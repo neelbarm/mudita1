@@ -1,0 +1,27 @@
+{
+  "input": {
+    "mode": "critic",
+    "section": "hero",
+    "screenshots": ["qa/screens/home-desktop.png", "qa/screens/home-phone.png"]
+  },
+  "output": {
+    "scores": {
+      "hierarchy": 4.5,
+      "typography": 4.5,
+      "color_restraint": 5,
+      "spacing_rhythm": 4,
+      "motion_purpose": 4,
+      "responsiveness": 4,
+      "accessibility": 4.5,
+      "brand_fidelity": 4.5
+    },
+    "average": 4.38,
+    "verdict": "pass",
+    "notes": [
+      "Today's column reads clearly as the lit column; the accent stays punctuation.",
+      "Phone layout recomposes the strip into a vertical day list instead of shrinking it.",
+      "Spacing between the class cards could take one more step of air at desktop width; consider 1.25x the current gap next iteration."
+    ],
+    "worst_dimension": "spacing_rhythm"
+  }
+}

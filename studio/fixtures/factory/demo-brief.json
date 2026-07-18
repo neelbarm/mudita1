@@ -1,0 +1,17 @@
+{
+  "project_name": "demo-harbor",
+  "objective": "Move Harbor Pilates class booking out of Instagram DMs into a paid, self-serve schedule with an automatic waitlist before the summer schedule ships.",
+  "scope": [
+    "Public schedule and class detail pages with capacity",
+    "Booking and Stripe payment flow",
+    "Waitlist with claim-window texts",
+    "Instructor admin",
+    "Morning operations summary"
+  ],
+  "interview": {
+    "adjectives_offered": ["calm", "warm", "precise"],
+    "audience": "Members booking from a phone between other things",
+    "references": "The studio itself: warm plaster, wood, black iron",
+    "voice_sample": "We answer every message personally."
+  }
+}

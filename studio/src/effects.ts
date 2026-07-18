@@ -84,6 +84,44 @@ registerEffector("distribution_plan", async (args) => {
   }
 });
 
+// The build factory (P6).
+registerEffector("design_spec", async ({ payload, decidedBy }) => {
+  const store = getStore();
+  const specId = payload.design_spec_id as string | undefined;
+  if (specId) await store.update("design_specs", specId, { status: "approved" });
+  // If the client is already scaffolded, write the approved system in.
+  const slug = payload.slug as string | undefined;
+  if (slug) {
+    const path = await import("node:path");
+    const { existsSync, writeFileSync } = await import("node:fs");
+    const { dir } = await import("./os/config.js");
+    const { tokensCssFromSpec } = await import("./factory/tokens.js");
+    const clientDir = path.join(dir.clients, slug);
+    if (existsSync(path.join(clientDir, "package.json"))) {
+      writeFileSync(path.join(clientDir, "src", "design", "spec.json"), JSON.stringify(payload, null, 2));
+      writeFileSync(path.join(clientDir, "src", "design", "tokens.css"), tokensCssFromSpec(payload));
+    }
+  }
+  void decidedBy;
+});
+
+registerEffector("build_review", async ({ payload }) => {
+  const store = getStore();
+  const runId = payload.build_run_id as string | undefined;
+  if (runId) await store.update("build_runs", runId, { status: "approved" });
+});
+
+registerEffector("launch_checklist", async ({ approval, payload, decidedBy }) => {
+  await fileArtifact({ approval, payload, decidedBy });
+  const store = getStore();
+  const projects = await store.list("projects");
+  const slug = String(payload.slug ?? "");
+  const project = projects.find((p) => (p.repo_url ?? "").includes(slug));
+  if (project && project.state === "qa") {
+    await store.update("projects", project.id, { state: "launched" });
+  }
+});
+
 // Confirmed pain hypotheses become signals rows (cited).
 registerEffector("pain_hypotheses", async ({ approval, payload }) => {
   const accountId = approval.entity_id;

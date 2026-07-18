@@ -10,6 +10,7 @@ import { registerLeads } from "./cmds/leads.js";
 import { registerQueue } from "./cmds/queue.js";
 import { registerBusiness } from "./cmds/business.js";
 import { registerServe } from "./cmds/serve.js";
+import { registerFactory } from "./cmds/factory.js";
 
 /**
  * sarga: the studio's command line. Each phase of the OS registers its
@@ -36,6 +37,7 @@ registerLeads(program);
 registerQueue(program);
 registerBusiness(program);
 registerServe(program);
+registerFactory(program);
 
 program.parseAsync(process.argv).catch((err) => {
   console.error(pc.red("sarga failed:"), err instanceof Error ? err.message : err);
