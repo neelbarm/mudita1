@@ -1,0 +1,34 @@
+{
+  "input": {
+    "proposal": { "title": "Harbor Pilates: booking system build", "timeline_weeks": 5, "scope": ["Public schedule", "Booking flow with Stripe", "Waitlist", "Instructor admin", "Morning summary"] }
+  },
+  "output": {
+    "project_name": "harbor-booking",
+    "objective": "Move Harbor Pilates class booking out of Instagram DMs into a paid, self-serve schedule with an automatic waitlist before the summer schedule ships.",
+    "scope": [
+      "Public schedule and class detail pages with capacity",
+      "Booking and Stripe payment flow with confirmation email",
+      "Waitlist with first-in-line claim window texts",
+      "Instructor admin: schedule edit, roster, no-shows",
+      "Morning operations summary email"
+    ],
+    "milestones": [
+      { "name": "Schedule and class pages live on staging", "week": 1, "deliverable": "Browsable schedule with real classes" },
+      { "name": "Booking and payment flow complete", "week": 2, "deliverable": "A test booking paid end to end" },
+      { "name": "Waitlist automation running", "week": 3, "deliverable": "Claim-window text fires on a freed spot" },
+      { "name": "Instructor admin and summary email", "week": 4, "deliverable": "Admin demo plus first morning summary" },
+      { "name": "QA, launch checklist, go live", "week": 5, "deliverable": "Production launch on the studio domain" }
+    ],
+    "access_checklist": [
+      "Domain registrar access or a delegated subdomain",
+      "Stripe account (Harbor-owned) with studio invited",
+      "Class schedule, pricing, and policies document",
+      "Instagram bio link update rights",
+      "SMS provider account or approval to create one at cost"
+    ],
+    "risks": [
+      "Summer schedule deadline leaves one week of slack; decision turnaround above 48 hours consumes it",
+      "SMS sender registration can take days; start in week one"
+    ]
+  }
+}

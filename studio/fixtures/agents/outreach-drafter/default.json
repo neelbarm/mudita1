@@ -1,0 +1,24 @@
+{
+  "input": {
+    "contact": { "full_name": "Maya R", "role": "Founder" },
+    "account": { "name": "Harbor Pilates Studio" },
+    "approved_facts": [
+      { "fact": "Bookings are taken by Instagram DM", "source_url": "https://harborpilates.example/" },
+      { "fact": "Waitlist is handled by text message", "source_url": "https://harborpilates.example/" },
+      { "fact": "Six instructors; classes fill fast", "source_url": "https://harborpilates.example/" }
+    ],
+    "step": { "day_offset": 0, "channel": "email", "template": "First touch. One specific observation, one idea, one quiet question." }
+  },
+  "output": {
+    "channel": "email",
+    "subject": "the waitlist in your texts",
+    "body": "Hi Maya,\n\nNoticed Harbor takes bookings by Instagram DM and runs the waitlist over text. With six instructors and classes that fill fast, that is a lot of threads doing the work of a booking system.\n\nOne idea worth stealing either way: when a spot opens, an automatic first-in-line text with a 30 minute claim window fills most cancellations without anyone touching a phone.\n\nIs the DM booking flow something you would ever want off your plate?\n\nNeel\nSarga Haus",
+    "facts_used": [
+      "Bookings are taken by Instagram DM",
+      "Waitlist is handled by text message",
+      "Six instructors; classes fill fast"
+    ],
+    "step_day": 0,
+    "tone_note": "Calm, specific, no calendar ask on first touch."
+  }
+}

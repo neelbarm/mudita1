@@ -1,0 +1,35 @@
+{
+  "input": {
+    "pipeline": [{ "stage": "proposal", "deals": 2, "value": 26000, "avg_age_days": 11 }],
+    "weekly_metrics": { "accounts_researched": 12, "qualified": 5, "contacted": 8, "replies": 3, "conversations": 2, "opportunities": 1, "pipeline_value": 26000 },
+    "stalled": [{ "kind": "opportunity", "id": "9c1f", "updated_at": "2026-06-28" }],
+    "finance": { "health": "watch", "runway_months": 6.5 }
+  },
+  "output": {
+    "tldr": "Pipeline is real but thin: 26000 across 2 proposals, both aging. Finance is watch with 6.5 months of runway, so the next two closes matter more than new research. This week is a closing week, not a sourcing week.",
+    "pipeline_read": "12 researched to 5 qualified to 8 contacted is a healthy funnel shape at deliberate volume, and 3 replies from 8 sends says the message quality holds. But 2 proposals at 11 days average age with 1 stalled is where the value sits. Motion upstream, progress needed downstream.",
+    "kill": [
+      "Pause new directory-crawl sourcing this week; the constraint is closing, not lead flow"
+    ],
+    "double_down": [
+      "The proposal follow-up rhythm: both proposals are inside the 21 day window; work them daily until decided",
+      "The artifact-first outreach step; the 3 of 8 reply rate traces to it in the touch log"
+    ],
+    "pricing_counsel": "Two proposals at an average of 13000 is at the healthy floor for build work. Hold the line on flat fee and resist the reflex to discount the stalled one; if budget is the block, cut scope with a change memo instead of price.",
+    "icp_slice": {
+      "segment": "service_business",
+      "geo": "US metros, founder-operated",
+      "size": "2 to 15 staff",
+      "notes": "Booking-heavy operations: studios, clinics, trades with visible DM or phone-based intake. The Harbor pattern repeats; source lookalikes."
+    },
+    "risks": [
+      "Concentration: one overdue invoice is half of receivables; watch payment before starting new build work",
+      "Founder time: closing, building, and sourcing all route through one person; the calendar is the real capacity plan"
+    ],
+    "next_week_focus": [
+      "Decide both open proposals: follow up daily, expiry notes ready",
+      "Collect HB-002 before its day 14 pause trigger",
+      "Ship the week 3 milestone so delivery proof stays current"
+    ]
+  }
+}

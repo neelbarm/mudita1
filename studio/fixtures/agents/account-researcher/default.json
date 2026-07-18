@@ -1,0 +1,26 @@
+{
+  "input": {
+    "account": { "name": "Harbor Pilates Studio", "domain": "harborpilates.example" },
+    "raw_records": [
+      { "url": "https://harborpilates.example/", "text": "Boutique pilates studio in Austin. Book by DM on Instagram. 6 instructors. Classes fill fast; waitlist handled by text message." },
+      { "url": "https://harborpilates.example/about", "text": "Founded 2021 by Maya R. We answer every message personally, usually within a day." }
+    ]
+  },
+  "output": {
+    "account_name": "Harbor Pilates Studio",
+    "what_they_do": "A boutique pilates studio in Austin running small-group classes with six instructors.",
+    "how_they_operate": "Bookings arrive by Instagram DM and are confirmed manually. The waitlist is run over text message. The site states messages are answered personally, usually within a day, which implies no booking system in front of the schedule. Inference: payments are likely handled ad hoc at class or by payment link, since no online checkout is visible.",
+    "where_manual_pain_shows": "Booking and waitlist management are fully manual across Instagram DMs and text threads. Class demand exceeds supply (classes fill fast), so every filled class implies a burst of DM triage, manual confirmations, and waitlist shuffling that a booking system would absorb.",
+    "suggested_segment": "service_business",
+    "facts": [
+      { "fact": "Bookings are taken by Instagram DM", "source_url": "https://harborpilates.example/", "source_type": "website" },
+      { "fact": "Waitlist is handled by text message", "source_url": "https://harborpilates.example/", "source_type": "website" },
+      { "fact": "Six instructors; classes fill fast", "source_url": "https://harborpilates.example/", "source_type": "website" },
+      { "fact": "Founder Maya R answers every message personally, usually within a day", "source_url": "https://harborpilates.example/about", "source_type": "website" }
+    ],
+    "open_questions": [
+      "No pricing page found; budget plausibility needs a second source.",
+      "Confirm whether any scheduling tool is in use behind the scenes."
+    ]
+  }
+}

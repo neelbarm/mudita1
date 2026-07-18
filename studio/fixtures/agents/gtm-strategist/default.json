@@ -1,0 +1,41 @@
+{
+  "input": {
+    "subject": "studio",
+    "context": "Sarga Haus itself: founder-led MVP studio. Offers: validation, build, automation, pipeline, growth. Shipped: EverPage, The Common Collective, Styloire, Taxflow."
+  },
+  "output": {
+    "subject": "Sarga Haus studio positioning",
+    "positioning": {
+      "audience": "Nontechnical operators with a working business and a broken back office: consultants, coaches, agency and service business owners, plus first-time founders with a validated idea.",
+      "problem": "They know their operation should be a system, but every option is wrong-sized: agencies are slow and expensive, freelancers need managing, and tools alone do not assemble themselves.",
+      "product_is": "A founder-led studio that ships the product, automates the workflow, and fills the pipeline as one accountable engagement.",
+      "unlike": "Unlike agencies that hand over files or freelancers that hand over hours, the studio hands over a running system and stays accountable for all three layers.",
+      "proof_points": [
+        "Four shipped products live across web and iOS",
+        "Flat fees, fixed scope, priced before work starts",
+        "Human-approved outreach and honest reporting as published policy"
+      ]
+    },
+    "icp": {
+      "segments": ["consultant", "coach", "service_business", "agency"],
+      "firmographics": "1 to 15 people, revenue-positive, operations living in spreadsheets, inboxes, and DMs",
+      "watering_holes": ["Operator newsletters", "Local business associations", "Niche practitioner communities", "Indie hacker forums for the founder segment"]
+    },
+    "messaging": {
+      "headline": "Build the product. Automate the workflow. Fill the pipeline.",
+      "subhead": "A founder-led studio that turns real ideas and broken operations into systems that run.",
+      "pillars": [
+        { "claim": "One accountable partner", "support": "Product, operations, and demand handled as one problem by one studio." },
+        { "claim": "Systems, not deliverables", "support": "Engagements end with software running in production, not a handover file." },
+        { "claim": "Commercial clarity", "support": "Flat fees, fixed scope, a straight answer when it is not a fit." }
+      ]
+    },
+    "pricing_angle": "Price the outcome, not the hours: each offer is a fixed-scope sprint with a flat fee agreed before work starts, positioned against the cost of the manual status quo rather than against freelancer rates.",
+    "launch_strategy": [
+      "Publish the studio site with the shipped ledger as the proof spine",
+      "One journal essay per month on operations-as-product, distributed to operator communities",
+      "Direct, human-approved outreach to the quarterly ICP slice, 15 sends a day maximum",
+      "Each shipped client MVP becomes a case study only with written approval, then a distribution cycle of its own"
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "input": {
+    "week_of": "2026-07-13",
+    "metrics": { "accounts_researched": 12, "qualified": 5, "contacted": 8, "replies": 3, "conversations": 2, "opportunities": 1, "pipeline_value": 26000 },
+    "shipped": ["Booking flow behind feature flag", "Waitlist claim texts in staging"]
+  },
+  "output": {
+    "week_of": "2026-07-13",
+    "shipped": [
+      "Booking flow complete behind a feature flag",
+      "Waitlist claim texts firing in staging"
+    ],
+    "next": [
+      "Instructor admin roster view",
+      "Morning summary email first send"
+    ],
+    "blocked": [
+      "SMS sender registration pending with the carrier; unblocks when approval lands, owner: studio"
+    ],
+    "decisions_needed": [
+      "Confirm the claim window length: 30 or 45 minutes?"
+    ],
+    "metrics_note": "12 accounts researched, 5 qualified, 8 contacted on approved sends. 3 replies gave 2 live conversations and 1 new opportunity; open pipeline stands at 26000. Reply rate held while volume stayed deliberately low."
+  }
+}

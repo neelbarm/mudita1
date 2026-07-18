@@ -21,6 +21,30 @@ const TRACKED = new Set<TableName>([
 ]);
 const NO_CREATED = new Set<TableName>(["sequence_steps"]);
 
+/** Column defaults, mirroring the Postgres schema so LocalStore rows
+ * are complete without every caller restating them. */
+const DEFAULTS: Partial<Record<TableName, Record<string, unknown>>> = {
+  intake_submissions: { status: "new" },
+  accounts: { status: "research" },
+  contacts: { email_status: "unverified", enrichment: {}, opted_out_at: null },
+  sequences: { status: "draft" },
+  sequence_steps: { requires_human_approval: true },
+  enrollments: { current_step: 0, state: "draft", next_action_at: null },
+  touches: { approved_by: null, reply_class: null },
+  opportunities: { stage: "discovery" },
+  projects: { state: "onboarding" },
+  events: { detail: {} },
+  agent_runs: { status: "running", trigger: "cli", input: {} },
+  approvals: { status: "pending", payload: {}, summary: null, decided_by: null },
+  facts: { status: "candidate" },
+  source_jobs: { status: "running", query: {}, stats: {} },
+  raw_source_records: { raw: {} },
+  briefs: { status: "draft", content: {} },
+  design_specs: { version: 1, status: "draft", tokens: {}, type_system: {}, motion: {}, sections: [] },
+  build_runs: { iteration: 1, status: "running", screenshot_paths: [] },
+  ledger_entries: { currency: "usd", source: "manual", status: "open" },
+};
+
 type Db = Partial<Record<TableName, Record<string, unknown>[]>>;
 
 export class LocalStore implements StorePort {
@@ -47,7 +71,7 @@ export class LocalStore implements StorePort {
   async insert<T extends TableName>(table: T, row: Partial<Row<T>>): Promise<Row<T>> {
     await enforceInsertInvariants(this, table, row as Record<string, unknown>);
     const now = nowIso();
-    const full: Record<string, unknown> = { ...row };
+    const full: Record<string, unknown> = { ...DEFAULTS[table], ...row };
     full.id ??= uuid();
     if (!NO_CREATED.has(table)) full.created_at ??= now;
     if (TRACKED.has(table)) full.updated_at ??= now;

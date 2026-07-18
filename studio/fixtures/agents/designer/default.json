@@ -1,0 +1,77 @@
+{
+  "input": {
+    "brief": { "project_name": "harbor-booking", "objective": "Class booking out of DMs" },
+    "brand_interview": {
+      "adjectives_offered": ["calm", "warm", "precise"],
+      "audience": "Studio members booking on their phone between things",
+      "references": "Feels like the studio: warm plaster, wood, black iron"
+    }
+  },
+  "output": {
+    "brand": {
+      "name": "Harbor Pilates",
+      "adjectives": ["calm", "warm", "precise", "unhurried"],
+      "voice": "A good instructor's voice: clear, kind, never loud.",
+      "audience": "Members booking from a phone between other things; new visitors deciding if this studio feels right."
+    },
+    "tokens": {
+      "grounds": [
+        { "name": "plaster", "value": "#f5f1ea", "on": "#221f1a" },
+        { "name": "iron", "value": "#211e19", "on": "#f0ebe2" }
+      ],
+      "accent": { "name": "kiln", "value": "#b4653f", "rule": "Punctuation only: the booked state, the active class, the one primary action per screen." },
+      "neutrals": [
+        { "name": "clay-dim", "value": "#8a8175", "role": "secondary text on plaster" },
+        { "name": "clay-faint", "value": "#b3aa9c", "role": "captions, hairline labels" }
+      ]
+    },
+    "type_system": {
+      "display_font": "Fraunces",
+      "text_font": "Instrument Sans",
+      "scale": [
+        { "name": "display", "size": "clamp(2.2rem, 6vw, 3.6rem)", "weight": 460 },
+        { "name": "heading", "size": "clamp(1.4rem, 3vw, 2rem)", "weight": 480 },
+        { "name": "body", "size": "1rem", "weight": 400 },
+        { "name": "label", "size": "0.6875rem", "weight": 500 }
+      ]
+    },
+    "motion": {
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "duration_range": "0.4s to 0.8s",
+      "principles": [
+        "Motion reveals schedule structure: rows settle into the week grid on first view",
+        "Confirmation is physical: a booked class card seats itself into place",
+        "Reduced motion collapses everything to opacity"
+      ]
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "name": "Schedule hero",
+        "intent": "A member lands and books in under ten seconds; a visitor feels the studio's calm",
+        "layout": "Full-width week strip above the fold, today centered, classes as cards on a 12-column grid",
+        "content_notes": "Real class names and times from day one. No stock photography; texture comes from the plaster ground and hairlines.",
+        "signature_interaction": "The week strip breathes: today's column is subtly lit, and scrolling the strip tilts cards a few degrees with inertia"
+      },
+      {
+        "id": "class-detail",
+        "name": "Class detail",
+        "intent": "Answer capacity, instructor, and level without a tap; book with one",
+        "layout": "Asymmetric 5/7: class facts left, booking card right, sticky on scroll",
+        "content_notes": "Spots left stated as a number, never a bar. Instructor name links to a one-paragraph bio."
+      },
+      {
+        "id": "confirmation",
+        "name": "Booking confirmation",
+        "intent": "The moment of relief: booked, paid, in the calendar",
+        "layout": "Centered single column, receipt-like, generous whitespace",
+        "content_notes": "Calendar link, cancellation policy in one sentence, waitlist position when applicable.",
+        "signature_interaction": "The confirmation card seats itself: a 6px settle with a single kiln underline drawing beneath the class name"
+      }
+    ],
+    "signature_moment": {
+      "section": "hero",
+      "description": "The living week strip: the schedule is the hero, today is lit, and the whole strip responds to touch with weighted inertia, so booking feels like moving something real."
+    }
+  }
+}

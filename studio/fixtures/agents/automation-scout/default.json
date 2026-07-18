@@ -1,0 +1,28 @@
+{
+  "input": {
+    "observations": [
+      "Operator manually copies intake submissions into triage notes each morning",
+      "Weekly metrics are pasted into the report by hand"
+    ]
+  },
+  "output": {
+    "candidates": [
+      {
+        "workflow": "Morning intake triage",
+        "pain": "New intake submissions are re-read and re-typed into triage notes daily, about 15 minutes and one transcription error a week",
+        "automation": "The intake-triage workflow already polls for status new; extend it to prefill the triage note from the submission fields, human still decides the lane",
+        "effort": "low",
+        "impact": "medium",
+        "first_step": "Add the prefill template to the intake triage n8n workflow and compare one morning side by side"
+      },
+      {
+        "workflow": "Weekly metrics into the report",
+        "pain": "Numbers are copied from views into the weekly report by hand, risking stale or mistyped figures",
+        "automation": "Reporting Writer already receives computed metrics; remove the manual paste path entirely and mark the manual doc read-only",
+        "effort": "low",
+        "impact": "high",
+        "first_step": "Delete the manual metrics section from the report template so the computed block is the only source"
+      }
+    ]
+  }
+}

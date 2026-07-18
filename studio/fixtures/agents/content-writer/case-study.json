@@ -1,0 +1,15 @@
+{
+  "input": {
+    "kind": "case_study",
+    "project": "harbor-booking",
+    "verified_metrics": [],
+    "written_approval_doc": null
+  },
+  "output": {
+    "kind": "case_study",
+    "title": "Harbor Pilates: booking out of the DMs",
+    "body_markdown": "Draft case study assembled from project records. Client-verified metrics and quotes are not yet attached, and written approval has not been recorded. This draft exists to be completed, not published: attach the baseline and current numbers verified by the client, the approved quote, and sanitized screens, then record written approval before this can clear the queue.",
+    "channel": "site",
+    "client_written_approval": false
+  }
+}

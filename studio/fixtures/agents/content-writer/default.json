@@ -1,0 +1,13 @@
+{
+  "input": {
+    "kind": "essay",
+    "topic": "Why booking your calendar over DMs is a system announcing its absence",
+    "gtm_brief": { "audience": "service business operators" }
+  },
+  "output": {
+    "kind": "essay",
+    "title": "The DM is a queue with no exit",
+    "body_markdown": "Every service business has a system. The question is whether anyone designed it.\n\nWhen a studio takes bookings over Instagram DMs, the DM thread becomes the system: intake form, calendar, payment reminder, and waitlist, all at once, all held together by one person's attention. It works, in the way a kitchen drawer works. Everything is in there. Nothing can be found twice the same way.\n\nThe cost hides in the switching. Two hours a day of message triage is not two hours of work; it is two hundred small decisions that each pull attention away from the actual craft. The operator feels busy because they are busy. The business feels stuck because the busyness produces no compounding structure.\n\nHere is the test: if you disappeared for a week, would bookings still happen? If the answer is no, the DMs are not a channel. They are a single point of failure wearing a friendly interface.\n\nThe fix is rarely a bigger tool. Studio suites fail here precisely because they replace a personal system with an institutional one. The fix is a small system shaped like the operation: a schedule that books itself, a waitlist that fills its own gaps, and a morning summary that turns two hours of triage into two minutes of reading.\n\nA system is not the opposite of the personal touch. It is what protects the time the personal touch comes from.",
+    "channel": "journal"
+  }
+}
