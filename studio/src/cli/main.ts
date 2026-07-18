@@ -5,6 +5,9 @@ import { registerDoctor } from "./cmds/doctor.js";
 import { registerDb } from "./cmds/db.js";
 import { registerAgent } from "./cmds/agent.js";
 import { registerApprove } from "./cmds/approve.js";
+import { registerSource } from "./cmds/source.js";
+import { registerLeads } from "./cmds/leads.js";
+import { registerQueue } from "./cmds/queue.js";
 
 /**
  * sarga: the studio's command line. Each phase of the OS registers its
@@ -26,6 +29,9 @@ registerDoctor(program);
 registerDb(program);
 registerAgent(program);
 registerApprove(program);
+registerSource(program);
+registerLeads(program);
+registerQueue(program);
 
 program.parseAsync(process.argv).catch((err) => {
   console.error(pc.red("sarga failed:"), err instanceof Error ? err.message : err);
