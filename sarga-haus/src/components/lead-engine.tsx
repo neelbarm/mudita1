@@ -25,7 +25,7 @@ const STEPS = [
   ["Market signals", "Hiring, launches, tool churn, manual-workflow evidence. Compliant sources only."],
   ["Targeting and enrichment", "A defined ICP slice, verified contacts, three usable facts before anyone writes a word."],
   ["Qualification", "A scoring rubric decides who gets attention. Most prospects are filtered out on purpose."],
-  ["Personalized outreach", "Drafted by the system from approved facts. Sent only after a human signs off."],
+  ["Personalized outreach", "Drafted by the system from approved facts. Sent only after a named human signs off; the database refuses anything else."],
   ["Pipeline visibility", "Every conversation staged in the CRM with a next step and a due date. Reported weekly."],
 ] as const;
 
@@ -116,7 +116,8 @@ export function LeadEngine() {
           <Reveal delay={0.16}>
             <p className="standfirst mt-5 text-t2">
               Sarga Haus builds the thing, and the system that puts it in front
-              of the right people. Infrastructure and process, measured weekly.
+              of the right people. This is not a diagram of an idea: the studio
+              runs its own demand on this exact machine, measured weekly.
               We do not promise lead volume, and you should distrust anyone who does.
             </p>
           </Reveal>
@@ -145,6 +146,21 @@ export function LeadEngine() {
               </button>
             </div>
           )}
+
+          {/* How the machine is governed: running facts, not aspirations. */}
+          <dl className="mt-6 grid gap-x-8 gap-y-5 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Every message", "drafted for a named human's approval. The rule is enforced at the database layer, not by policy."],
+              ["15 a day", "the hard ceiling on sends. Low volume and high specificity are the strategy, not a limit to raise."],
+              ["One click out", "opt-outs honored instantly and permanently. A suppressed address can never be re-enrolled."],
+              ["4 touches, 21 days", "one observation, one artifact, one channel switch, one clean close. Then we leave people alone."],
+            ].map(([term, def]) => (
+              <div key={term}>
+                <dt className="label text-accent">{term}</dt>
+                <dd className="mt-2 text-[0.8125rem] leading-relaxed text-t2">{def}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <dl className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">

@@ -13,6 +13,10 @@ const FAQS = [
     a: "Flat fees, agreed before work starts. Validation sprints sit in the low five figures or under; build, automation, and pipeline sprints range with scope; the Growth Partnership is a monthly retainer. Exact guidance per offer is on the Services page. No hourly billing, ever.",
   },
   {
+    q: "Who actually does the work? Is this AI?",
+    a: "Founder-led means a person scopes, decides, and answers for everything. Behind that person runs a studio operating system with seventeen supervised agents that draft research, outreach, reports, and paperwork. Draft is the key word: every client-facing artifact is approved by a named human before it goes anywhere, the agents hold no send, sign, or bill authority, and those gates are enforced in code and at the database layer, not by good intentions. You get the leverage of the machine and the judgment of a human, in that order of visibility and the reverse order of authority.",
+  },
+  {
     q: "How fast is a sprint?",
     a: "Validation runs about two weeks. Build, automation, and pipeline sprints typically run three to six weeks depending on scope. You see working output every week, not a report at the end.",
   },

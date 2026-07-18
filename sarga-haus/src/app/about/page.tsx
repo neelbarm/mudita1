@@ -34,6 +34,7 @@ const PRACTICE = [
   "Explicit scope lines, with exclusions in writing",
   "No fake proof, no invented numbers, no borrowed logos",
   "Equity or revenue share only when we propose it, which is rare",
+  "The studio runs on its own product: the same approval-gated machine we build for clients runs this one",
 ];
 
 export default function AboutPage() {
