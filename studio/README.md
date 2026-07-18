@@ -12,11 +12,19 @@ each key you add unlocks exactly one capability.
 cd studio
 npm install
 npm run sarga -- doctor        # what's live, what's degraded, what unlocks each
+npm run sarga -- hq            # HEADQUARTERS: the live command deck at /hq
 npm run sim:leadflow           # the whole lead engine, end to end
 npm run sim:factory            # the MVP factory: real build, real screenshots
 npm run sarga -- agent list    # the 17 agents
 npm run sarga -- approve       # the queue (the founder's daily two minutes)
 ```
+
+Headquarters (`sarga hq`, then http://localhost:8787/hq) is the room
+where you watch everything: the decision queue with approve/reject,
+the live wire of every agent action and human decision, the staff wall
+of all seventeen agents, lead flow, pipeline, delivery, money, and the
+stalled list. It refreshes itself every six seconds and works with
+zero keys against the local store.
 
 Tip: `npm run sarga -- <args>` works everywhere; `npx sarga <args>`
 or a global link gives you the bare `sarga` command.

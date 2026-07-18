@@ -19,6 +19,8 @@ import { dunningTick } from "../finance/dunning.js";
 import { handleStripeEvent } from "../finance/stripe.js";
 import { draftStrategyMemo } from "../strategy/gather.js";
 import { verifyCalcom, verifyStripe, verifySvix } from "./verify.js";
+import { registerHq } from "./hq.js";
+import type { MiddlewareHandler } from "hono";
 import type { Json } from "../os/store/types.js";
 
 /**
@@ -48,6 +50,9 @@ export function buildApp(): Hono {
   };
 
   app.get("/health", (c) => c.json({ ok: true, time: new Date().toISOString() }));
+
+  // Headquarters: the operator's command deck.
+  registerHq(app, auth as unknown as MiddlewareHandler);
 
   app.get("/doctor", auth, (c) => c.json({ operator: cfg.operator, capabilities: capabilities() }));
 
