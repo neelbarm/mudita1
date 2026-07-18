@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import pc from "picocolors";
 import { registerDoctor } from "./cmds/doctor.js";
+import { registerDb } from "./cmds/db.js";
 
 /**
  * sarga: the studio's command line. Each phase of the OS registers its
@@ -19,6 +20,7 @@ program
   .version("0.1.0");
 
 registerDoctor(program);
+registerDb(program);
 
 program.parseAsync(process.argv).catch((err) => {
   console.error(pc.red("sarga failed:"), err instanceof Error ? err.message : err);
