@@ -40,7 +40,9 @@ export function AutomationToggle() {
           <Reveal delay={0.16}>
             <p className="standfirst mt-5 text-t2">
               The same operation, shown twice. Same enquiries, same clients,
-              same money. Different system.
+              same money. Different system. And we run on the system we sell:
+              the studio's own intake, outreach approvals, reporting, and
+              invoice reminders run through this same approval-gated machinery.
             </p>
           </Reveal>
         </div>
