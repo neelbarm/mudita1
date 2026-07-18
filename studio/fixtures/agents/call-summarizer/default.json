@@ -1,0 +1,26 @@
+{
+  "input": {
+    "opportunity": { "offer": "build" },
+    "transcript": "MAYA: We spend maybe two hours a day on DMs... honestly booking is the whole problem. NEEL: What have you tried? MAYA: Calendly felt wrong for classes, and Mindbody was way too much money, like three hundred a month. We could do maybe half that if it actually worked. NEEL: Timeline? MAYA: Before summer schedule goes up, so six weeks maybe. Next step, send me something in writing."
+  },
+  "output": {
+    "situation": "Harbor Pilates runs all class booking through Instagram DMs, costing around two hours per day of founder time. Previous tools were rejected: generic scheduling felt wrong for classes and Mindbody was too expensive.",
+    "goals": [
+      "Move class booking out of DMs into a system that fits small-group classes",
+      "Free up the daily DM triage time"
+    ],
+    "constraints": [
+      "Live before the summer schedule, roughly six weeks",
+      "Mindbody-level pricing (about $300/month) was rejected as too expensive"
+    ],
+    "budget_signals": [
+      "Quote: Mindbody was 'way too much money, like three hundred a month. We could do maybe half that if it actually worked'"
+    ],
+    "next_steps": [
+      "Send a written proposal (agreed on the call)"
+    ],
+    "notable_quotes": [
+      "Honestly booking is the whole problem."
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+/* __NAME__ design tokens.
+   Written by the Designer's approved spec; the builder may not invent
+   values outside this file. Every token carries its rule. */
+:root {
+  /* ground: the room's surface */
+  --ground: #faf8f4;
+  --on-ground: #23201b;
+  /* raised: cards and panels one step off the ground */
+  --raised: #ffffff;
+  /* accent: punctuation only; one primary action per screen */
+  --accent: #8a6d3f;
+  /* neutrals: derived from on-ground, named by role */
+  --text-dim: #6d675e;
+  --text-faint: #98917f;
+  --line: rgb(35 32 27 / 0.14);
+
+  --font-display: "Georgia";
+  --font-text: "system-ui";
+
+  /* motion: one family, one range */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-reveal: 0.7s;
+  --dur-feedback: 0.2s;
+}

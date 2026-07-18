@@ -1,0 +1,15 @@
+{
+  "input": {
+    "doc_type": "equity_memo",
+    "deal": {
+      "company": "Harbor Pilates Studio LLC",
+      "structure": "5% equity alongside a reduced build fee"
+    }
+  },
+  "output": {
+    "doc_type": "equity_memo",
+    "title": "Equity memo: Harbor Pilates reduced fee plus 5 percent",
+    "body_markdown": "# Equity / Revenue-Share Memo\n\nPrepared for consideration by both parties. This memo creates no obligation. Per studio policy it carries a 48 hour cooling-off period before internal approval, and nothing is signed without independent counsel on both sides.\n\n## The proposal\nA reduced build fee of {{REDUCED_FEE}} paired with a 5% equity grant in Harbor Pilates Studio LLC on a standard instrument to be chosen with counsel.\n\n## Why this structure\nThe client's cash position is tight before the summer season while the booking system's value lands mostly after it. Sharing a slice of upside prices that timing honestly.\n\n## What the Studio contributes\nThe full booking system build as scoped in the SOW, at the reduced fee, with the same delivery standard as full-fee work.\n\n## What the Company grants\n5% equity, instrument and terms {{INSTRUMENT_TBD}}, subject to counsel review on both sides.\n\n## Risks both parties accept\n- The studio may earn less than the standard fee if the business plateaus; the client may grant equity that later looks cheap.\n- Valuation now is guesswork; both sides accept one may later look lucky.\n- The fee portion stands on its own regardless of this arrangement.\n\n## Conditions\n- Cooling-off: no internal approval before the recorded cooling_off_until timestamp.\n- Independent counsel for both parties before anything is signed.\n\n## Recommendation\nSleep on it, price the standard fee honestly first, and only proceed if the studio would still be glad about this in the version of events where the equity is worth nothing.",
+    "placeholders_remaining": ["REDUCED_FEE", "INSTRUMENT_TBD"]
+  }
+}

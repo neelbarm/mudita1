@@ -1,0 +1,39 @@
+{
+  "input": {
+    "call_summary": {
+      "situation": "Harbor Pilates runs all class booking through Instagram DMs, costing around two hours per day of founder time.",
+      "goals": ["Move class booking out of DMs", "Free up daily DM triage time"],
+      "constraints": ["Live before summer schedule, roughly six weeks"],
+      "budget_signals": ["Mindbody at $300/month rejected; half that if it works"]
+    },
+    "offer": "build"
+  },
+  "output": {
+    "title": "Harbor Pilates: booking system build",
+    "situation": "Class booking runs through Instagram DMs today, and the waitlist lives in text threads. That costs about two hours of founder attention daily and loses spots when threads go quiet. Off-the-shelf tools were tried and rejected: generic schedulers do not fit small-group classes, and studio suites cost more than the problem.",
+    "proposed_system": "A booking system shaped to how Harbor already works: a public schedule with per-class capacity, instant booking and payment, an automatic first-in-line waitlist with claim windows, and a morning summary that replaces DM triage. Instagram stays the front door; the DM becomes a link, not a workflow.",
+    "scope": [
+      "Public schedule and class pages with per-class capacity",
+      "Booking flow with Stripe payment and confirmations",
+      "Automatic waitlist with first-in-line claim texts",
+      "Instructor admin: schedule editing, roster view, no-show marking",
+      "Morning operations summary email replacing DM triage"
+    ],
+    "out_of_scope": [
+      "Native mobile apps (the booking flow is mobile-web)",
+      "Marketing site redesign beyond the booking pages",
+      "Migration of historical booking records",
+      "Payroll or instructor payout automation"
+    ],
+    "timeline_weeks": 5,
+    "price_usd": 14000,
+    "payment_terms": "50% to begin, 50% at delivery. Fixed scope, flat fee, no hourly billing.",
+    "assumptions": [
+      "Stripe account owned by Harbor Pilates",
+      "Class schedule and pricing provided in week one",
+      "One decision-maker with 48 hour turnaround on approvals",
+      "Third-party costs (hosting, SMS) carried by Harbor at cost"
+    ],
+    "expiry_days": 21
+  }
+}

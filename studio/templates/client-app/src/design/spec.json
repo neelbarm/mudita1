@@ -1,0 +1,8 @@
+{
+  "note": "Overwritten by the approved design spec at scaffold time. The builder reads this file before writing any component.",
+  "brand": null,
+  "tokens": null,
+  "type_system": null,
+  "motion": null,
+  "sections": []
+}

@@ -1,0 +1,76 @@
+{
+  "name": "Sarga 07 · Reply handler",
+  "nodes": [
+    {
+      "id": "node-19",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sarga-reply",
+        "responseMode": "onReceived"
+      }
+    },
+    {
+      "id": "node-20",
+      "name": "Forward to studio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://studio-server:8787/webhooks/resend-inbound",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body ?? $json) }}"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Studio API"
+        }
+      }
+    },
+    {
+      "id": "node-21",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -160
+      ],
+      "parameters": {
+        "content": "Point Resend's inbound webhook here (or directly at the studio server). Replies are recorded, classified, and queued for your confirmation.",
+        "width": 460,
+        "height": 120
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Forward to studio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

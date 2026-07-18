@@ -1,0 +1,18 @@
+{
+  "input": {
+    "doc_type": "sow",
+    "deal": {
+      "client_name": "Harbor Pilates Studio LLC",
+      "project": "Booking system build",
+      "price_usd": 14000,
+      "timeline_weeks": 5,
+      "payment_terms": "50% to begin, 50% at delivery"
+    }
+  },
+  "output": {
+    "doc_type": "sow",
+    "title": "Statement of Work: Harbor Pilates booking system build",
+    "body_markdown": "# Statement of Work\n\nThis Statement of Work (\"SOW\") is entered into under the Master Services Agreement between Sarga Haus (\"Studio\") and Harbor Pilates Studio LLC (\"Client\"), dated {{MSA_DATE}}.\n\n## 1. Services\nThe Studio will design and build the booking system described in the approved proposal titled \"Harbor Pilates: booking system build\": public schedule, booking and payment flow, waitlist automation, instructor admin, and morning operations summary.\n\n## 2. Timeline\nFive (5) weeks from the Start Date. The Start Date is the first business day after both signature and the initial payment are received. No work begins before both.\n\n## 3. Fees and payment\nFixed fee of $14,000 USD. Fifty percent (7,000) due on signing; fifty percent (7,000) due at delivery. No hourly billing. Third-party costs (hosting, SMS) are passed through at cost with prior written approval.\n\n## 4. Scope changes\nChanges are agreed in a written change memo signed by both parties before work on the change begins.\n\n## 5. Client responsibilities\nAccess items listed in the project brief delivered within the first week; one decision-maker with 48 hour approval turnaround.\n\n## 6. Acceptance\nDeliverables are accepted when the launch checklist is approved by the Client or after seven (7) days in production without written objection, whichever comes first.\n\n## 7. Ownership\nOn full payment, all work product transfers to the Client: repository, database, and domains run under Client accounts.\n\nSigned:\n\nStudio: {{STUDIO_SIGNATORY}}    Date: {{DATE}}\n\nClient: {{CLIENT_SIGNATORY}}    Date: {{DATE}}",
+    "placeholders_remaining": ["MSA_DATE", "STUDIO_SIGNATORY", "CLIENT_SIGNATORY", "DATE"]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "name": "Sarga 04 · Sourcing weekly",
+  "nodes": [
+    {
+      "id": "node-10",
+      "name": "Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-11",
+      "name": "Run sourcing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://studio-server:8787/actions/sourcing/run",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"kind\":\"csv\",\"file\":\"fixtures/sourcing/sample-import.csv\"}"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Studio API"
+        }
+      }
+    },
+    {
+      "id": "node-12",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -160
+      ],
+      "parameters": {
+        "content": "Monday 09:00: run the week's sourcing per the approved ICP slice (.local/icp-slice.json). Swap the body for site_signals/directory runs. Maps is CLI-only, on purpose.",
+        "width": 460,
+        "height": 120
+      }
+    }
+  ],
+  "connections": {
+    "Schedule": {
+      "main": [
+        [
+          {
+            "node": "Run sourcing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "input": {
+    "gtm_brief": { "subject": "harbor-booking launch", "audience": "studio members and local fitness community" }
+  },
+  "output": {
+    "launch_checklists": [
+      {
+        "channel": "Instagram (owned)",
+        "steps": [
+          "Update bio link to the new booking URL the night before",
+          "Post a 30 second walkthrough reel of booking a class",
+          "Pin a story highlight: how to book, how the waitlist works",
+          "Reply to every comment for 48 hours with the founder's voice"
+        ]
+      },
+      {
+        "channel": "Member email",
+        "steps": [
+          "Announce with the one-line promise: book in ten seconds, waitlist handles itself",
+          "Include a personal note from the founder on why DMs are retiring",
+          "Offer one week of priority booking as the switch incentive"
+        ]
+      },
+      {
+        "channel": "Local directories",
+        "steps": [
+          "Update Google Business profile with the booking URL",
+          "Refresh Yelp and local fitness directory listings",
+          "Ask three regulars for honest Google reviews after their next class"
+        ]
+      }
+    ],
+    "calendar": [
+      { "day": 0, "channel": "Member email", "action": "Launch announcement with priority booking window" },
+      { "day": 0, "channel": "Instagram", "action": "Booking walkthrough reel plus bio link swap" },
+      { "day": 2, "channel": "Instagram", "action": "Story: first waitlist auto-fill screenshot with member permission" },
+      { "day": 7, "channel": "Member email", "action": "One-week note: numbers on bookings made without a DM" },
+      { "day": 10, "channel": "Local directories", "action": "Google Business and Yelp booking links updated" },
+      { "day": 14, "channel": "Instagram", "action": "Founder post: what two reclaimed hours a day went toward" },
+      { "day": 21, "channel": "Community", "action": "Offer the local business association a ten minute booking-system show and tell" },
+      { "day": 30, "channel": "Member email", "action": "Month one recap and the one feature members asked for most" }
+    ],
+    "communities": [
+      "Austin boutique fitness owners group (norm: give value, never pitch first)",
+      "Local business association monthly meetup"
+    ]
+  }
+}

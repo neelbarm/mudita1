@@ -1,0 +1,24 @@
+{
+  "input": {
+    "stalled": [
+      { "kind": "opportunity", "id": "9c1f0000-0000-4000-8000-000000000021", "stage": "proposal", "updated_at": "2026-06-28T10:00:00Z" },
+      { "kind": "enrollment", "id": "9c1f0000-0000-4000-8000-000000000022", "state": "active", "updated_at": "2026-06-30T10:00:00Z" }
+    ]
+  },
+  "output": {
+    "items": [
+      {
+        "kind": "opportunity",
+        "id": "9c1f0000-0000-4000-8000-000000000021",
+        "why_stalled": "Proposal sent 20 days ago; no follow-up touch logged since.",
+        "suggested_action": "Proposal expires at day 21. Send the one-line expiry note today and log the outcome either way."
+      },
+      {
+        "kind": "enrollment",
+        "id": "9c1f0000-0000-4000-8000-000000000022",
+        "why_stalled": "Active enrollment with no touch in 18 days; the day-21 close was never queued.",
+        "suggested_action": "Queue the day-21 clean close for approval, then mark the enrollment finished."
+      }
+    ]
+  }
+}

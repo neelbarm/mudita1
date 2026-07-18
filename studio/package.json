@@ -1,0 +1,43 @@
+{
+  "name": "@sarga/studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sarga Studio OS: the operating machine behind the Sarga Haus MVP studio. Lead engine, 17 human-supervised agents, approval queue, finance, legal, GTM, and the MVP build factory.",
+  "bin": {
+    "sarga": "bin/sarga.js"
+  },
+  "scripts": {
+    "sarga": "tsx src/cli/main.ts",
+    "serve": "tsx src/server/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "sim:leadflow": "tsx src/sim/leadflow.ts",
+    "sim:factory": "tsx src/sim/factory-demo.ts",
+    "compose:check": "docker compose -f deploy/docker-compose.yml config -q"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.214",
+    "@clack/prompts": "^1.7.0",
+    "@hono/node-server": "^2.0.10",
+    "@hyperbrowser/sdk": "^0.91.3",
+    "@supabase/supabase-js": "^2.49.0",
+    "commander": "^14.0.0",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^16.4.5",
+    "hono": "^4.12.30",
+    "picocolors": "^1.1.1",
+    "playwright": "^1.57.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.23.1",
+    "typescript": "~5.9.0",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

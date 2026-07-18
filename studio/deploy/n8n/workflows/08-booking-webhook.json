@@ -1,0 +1,76 @@
+{
+  "name": "Sarga 08 · Booking webhook",
+  "nodes": [
+    {
+      "id": "node-22",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sarga-booking",
+        "responseMode": "onReceived"
+      }
+    },
+    {
+      "id": "node-23",
+      "name": "Forward to studio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://studio-server:8787/webhooks/calcom",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body ?? $json) }}"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Studio API"
+        }
+      }
+    },
+    {
+      "id": "node-24",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -160
+      ],
+      "parameters": {
+        "content": "Point Cal.com's webhook here. Bookings flip matching intake to call_booked and ping you with prep.",
+        "width": 460,
+        "height": 120
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Forward to studio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "__SLUG__",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 4321",
+    "qa": "playwright test",
+    "qa:screens": "playwright test qa/screenshot.spec.ts"
+  },
+  "dependencies": {
+    "next": "^15.5.20",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@playwright/test": "^1.57.0",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.2",
+    "typescript": "~5.9.0"
+  }
+}

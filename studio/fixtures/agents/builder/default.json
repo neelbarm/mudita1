@@ -1,0 +1,16 @@
+{
+  "input": {
+    "section": "hero",
+    "spec": { "name": "Schedule hero", "layout": "Full-width week strip, today centered" },
+    "project_dir": "clients/demo-atelier"
+  },
+  "output": {
+    "section": "hero",
+    "files_touched": [
+      "src/components/hero.tsx",
+      "src/app/page.tsx"
+    ],
+    "summary": "Implemented the schedule hero: week strip with today centered and lit, class cards on the 12-column grid, reduced-motion fallback to opacity, tokens only.",
+    "how_to_verify": "npm run dev, open /, confirm the week strip renders with today highlighted, cards respond to horizontal scroll with inertia, and prefers-reduced-motion shows the static strip."
+  }
+}

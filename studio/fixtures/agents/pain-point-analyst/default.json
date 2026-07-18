@@ -1,0 +1,32 @@
+{
+  "input": {
+    "account": { "name": "Harbor Pilates Studio" },
+    "facts": [
+      { "fact": "Bookings are taken by Instagram DM", "source_url": "https://harborpilates.example/" },
+      { "fact": "Waitlist is handled by text message", "source_url": "https://harborpilates.example/" },
+      { "fact": "Six instructors; classes fill fast", "source_url": "https://harborpilates.example/" }
+    ],
+    "signals": []
+  },
+  "output": {
+    "hypotheses": [
+      {
+        "hypothesis": "Class booking runs entirely through Instagram DMs, so every sale depends on manual message triage.",
+        "evidence": [
+          { "fact": "Bookings are taken by Instagram DM", "source_url": "https://harborpilates.example/" }
+        ],
+        "confidence": "high",
+        "signal_type": "manual_workflow_evidence"
+      },
+      {
+        "hypothesis": "Waitlist management by text message loses revenue whenever a spot opens and the thread goes quiet.",
+        "evidence": [
+          { "fact": "Waitlist is handled by text message", "source_url": "https://harborpilates.example/" },
+          { "fact": "Six instructors; classes fill fast", "source_url": "https://harborpilates.example/" }
+        ],
+        "confidence": "medium",
+        "signal_type": "manual_workflow_evidence"
+      }
+    ]
+  }
+}

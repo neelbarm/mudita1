@@ -1,0 +1,26 @@
+{
+  "input": {
+    "computed": {
+      "cash": { "open_invoices": 7000, "overdue_invoices": 7000, "received_30d": 14000, "spent_30d": 3200 },
+      "dunning": [{ "invoice_ref": "HB-002", "amount": 7000, "days_overdue": 9 }],
+      "runway_months": 6.5,
+      "unit_economics": [{ "offer": "build", "won": 1, "avg_price": 14000 }],
+      "policy": { "dunning_days": [3, 7, 10, 14] }
+    }
+  },
+  "output": {
+    "narrative": "The month is net positive: 14000 received against 3200 spent. One invoice defines the risk picture: HB-002 for 7000 is 9 days overdue, which is the entire overdue balance and half the open receivables. Runway stands at 6.5 months on current burn. Build economics look healthy at one win averaging 14000.",
+    "health": "watch",
+    "figures_used": [
+      { "label": "received last 30 days", "value": 14000 },
+      { "label": "spent last 30 days", "value": 3200 },
+      { "label": "HB-002 overdue amount", "value": 7000 },
+      { "label": "HB-002 days overdue", "value": 9 },
+      { "label": "runway months", "value": 6.5 }
+    ],
+    "recommendations": [
+      "HB-002 is 9 days overdue: approve the firm reminder today; the day 10 call trigger is tomorrow",
+      "Hold discretionary spend until HB-002 clears; it is half the receivables"
+    ]
+  }
+}
