@@ -9,11 +9,39 @@ import {
   useTransform,
 } from "framer-motion";
 import { EASE } from "@/lib/motion";
-import { revealPage } from "@/lib/overture-gate";
+import { holdPage, revealPage } from "@/lib/overture-gate";
 
 const KEY = "sarga-overture-seen";
 const PULL_THRESHOLD = 78;
 const MAX_PULL = 130;
+
+// The prologue after the light comes on: what the studio does, in
+// four beats, then the site itself. Auto-advances; tap, Enter, Space,
+// or ArrowRight moves faster. Same honesty rules as everywhere else.
+const STEPS: Array<{ label: string; head: string; sub: string }> = [
+  {
+    label: "First",
+    head: "The build.",
+    sub: "Design, code, ship. A working product in weeks, not quarters.",
+  },
+  {
+    label: "Then",
+    head: "The machine.",
+    sub: "Intake, follow-up, invoices. The operation runs while you sleep.",
+  },
+  {
+    label: "Then",
+    head: "The pipeline.",
+    sub: "The right people, found and reached. A person approves every send.",
+  },
+  {
+    label: "Finally",
+    head: "Lights on.",
+    sub: "One partner. One flat fee. The rest is the site.",
+  },
+];
+const STEP_MS = 3000;
+const LAST_STEP_MS = 3400;
 
 function seen(): boolean {
   try {
@@ -32,18 +60,24 @@ function markSeen() {
 }
 
 /**
- * The Overture, second movement: a question and a light switch.
- * First visit each session: "Do you have an idea?" Yes or no, then a
- * light bulb on a cord. The visitor pulls the cord, the light comes
- * on, and the light is the site. Escape or Skip works throughout;
- * reduced motion skips the whole theater.
+ * The Overture, third movement: a question, a light switch, and a
+ * journey. First visit each session: "Do you have an idea?" Yes or
+ * no, then a light bulb on a cord. The visitor pulls the cord, the
+ * light comes on, the bulb rises to a small lit pendant, and beneath
+ * it the studio tells you what it does in four beats before the veil
+ * lifts into the site. Escape or Skip works throughout; reduced
+ * motion skips the whole theater.
  */
 export function Overture() {
   const [show, setShow] = useState(false);
-  const [phase, setPhase] = useState<"ask" | "cord" | "lit">("ask");
+  const [phase, setPhase] = useState<"ask" | "cord" | "lit" | "journey">("ask");
   const [answer, setAnswer] = useState<"yes" | "no">("yes");
+  const [step, setStep] = useState(0);
   const started = useRef(false);
   const litRef = useRef(false);
+  const doneRef = useRef(false);
+  const stepRef = useRef(0);
+  const advanceRef = useRef<() => void>(() => {});
   const dragging = useRef<number | null>(null);
   const startY = useRef(0);
 
@@ -52,8 +86,23 @@ export function Overture() {
   const cordHeight = useTransform(cordLen, (v) => 84 + v);
 
   const finish = () => {
+    if (doneRef.current) return;
+    doneRef.current = true;
     revealPage();
     setShow(false);
+  };
+
+  const next = () => {
+    if (doneRef.current) return;
+    if (stepRef.current >= STEPS.length - 1) {
+      finish();
+      return;
+    }
+    stepRef.current += 1;
+    setStep(stepRef.current);
+  };
+  advanceRef.current = () => {
+    if (phase === "journey") next();
   };
 
   useEffect(() => {
@@ -64,6 +113,7 @@ export function Overture() {
       return;
     }
     markSeen();
+    holdPage();
     setShow(true);
     document.documentElement.style.overflow = "hidden";
 
@@ -73,6 +123,9 @@ export function Overture() {
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") done();
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowRight") {
+        advanceRef.current();
+      }
     };
     // If nothing happens for a minute, the site opens itself.
     const safety = setTimeout(done, 60_000);
@@ -83,13 +136,30 @@ export function Overture() {
     };
   }, []);
 
+  // The journey paces itself; any tap or key hurries it along.
+  useEffect(() => {
+    if (phase !== "journey") return;
+    const t = setTimeout(
+      () => next(),
+      step >= STEPS.length - 1 ? LAST_STEP_MS : STEP_MS,
+    );
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, step]);
+
   const switchOn = () => {
     if (litRef.current) return;
     litRef.current = true;
     dragging.current = null;
     pull.set(0);
+    // The bulb and cord are done as controls; a lingering focus ring
+    // would sit on the lamp through the whole journey.
+    const focused = document.activeElement;
+    if (focused instanceof HTMLElement || focused instanceof SVGElement) focused.blur();
     setPhase("lit");
-    setTimeout(finish, 1050);
+    setTimeout(() => {
+      if (!doneRef.current) setPhase("journey");
+    }, 1150);
   };
 
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -110,7 +180,9 @@ export function Overture() {
     if (!litRef.current) pull.set(0);
   };
 
-  const lit = phase === "lit";
+  const on = phase === "lit" || phase === "journey";
+  const journey = phase === "journey";
+  const current = STEPS[step] ?? STEPS[STEPS.length - 1]!;
 
   return (
     <AnimatePresence
@@ -124,6 +196,9 @@ export function Overture() {
           className="fixed inset-0 z-[96] overflow-hidden bg-ink"
           initial={false}
           exit={{ y: "-100%", transition: { duration: 0.9, ease: EASE } }}
+          onClick={() => {
+            if (phase === "journey") next();
+          }}
           aria-label="Welcome. Pull the cord to turn the light on, or press Escape to skip."
         >
           {/* The room, before and after the light. */}
@@ -137,7 +212,7 @@ export function Overture() {
           <motion.div
             className="pointer-events-none absolute inset-0"
             initial={{ opacity: 0 }}
-            animate={{ opacity: lit ? 1 : 0 }}
+            animate={{ opacity: on ? 1 : 0 }}
             transition={{ duration: 0.5, ease: EASE }}
             style={{
               background:
@@ -198,16 +273,33 @@ export function Overture() {
                   <motion.p
                     className="serif-italic px-4 text-[1.05rem] text-cream-dim md:text-[1.2rem]"
                     initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: lit ? 0 : 1, y: 0, transition: { duration: 0.6, ease: EASE, delay: 0.1 } }}
+                    animate={{
+                      opacity: on ? 0 : 1,
+                      y: 0,
+                      height: journey ? 0 : "auto",
+                      transition: { duration: 0.6, ease: EASE, delay: on ? 0 : 0.1 },
+                    }}
                   >
                     {answer === "yes"
                       ? "Then let's give it form."
                       : "Even better. Broken workflows are half our favorite work."}
                   </motion.p>
 
-                  {/* The pendant: line, bulb, cord, handle. All drawn. */}
-                  <div className="mt-6 flex flex-col items-center">
-                    <div className="w-px bg-cream/20" style={{ height: "16vh", minHeight: 70 }} />
+                  {/* The pendant: line, bulb, cord, handle. All drawn.
+                      Once lit, it rises into a small lamp above the journey. */}
+                  <motion.div
+                    className="mt-6 flex flex-col items-center"
+                    style={{ transformOrigin: "top center" }}
+                    animate={{ scale: journey ? 0.52 : 1 }}
+                    transition={{ duration: 0.8, ease: EASE }}
+                  >
+                    <motion.div
+                      className="w-px bg-cream/20"
+                      style={{ minHeight: 40 }}
+                      initial={false}
+                      animate={{ height: journey ? "9vh" : "16vh" }}
+                      transition={{ duration: 0.8, ease: EASE }}
+                    />
                     <motion.svg
                       width="92"
                       height="118"
@@ -222,20 +314,20 @@ export function Overture() {
                       }}
                       className="cursor-pointer focus-visible:outline-2"
                       initial={false}
-                      animate={lit ? { filter: "drop-shadow(0 0 34px rgba(196,168,122,0.85))" } : { filter: "drop-shadow(0 0 0px rgba(196,168,122,0))" }}
+                      animate={on ? { filter: "drop-shadow(0 0 34px rgba(196,168,122,0.85))" } : { filter: "drop-shadow(0 0 0px rgba(196,168,122,0))" }}
                       transition={{ duration: 0.45, ease: EASE }}
                     >
                       {/* socket */}
-                      <rect x="38" y="0" width="16" height="14" rx="3" stroke={lit ? "var(--color-brass-bright)" : "rgba(237,233,224,0.45)"} strokeWidth="1.4" />
-                      <path d="M38 18 H54 M38 23 H54" stroke={lit ? "var(--color-brass-bright)" : "rgba(237,233,224,0.35)"} strokeWidth="1.3" />
+                      <rect x="38" y="0" width="16" height="14" rx="3" stroke={on ? "var(--color-brass-bright)" : "rgba(237,233,224,0.45)"} strokeWidth="1.4" />
+                      <path d="M38 18 H54 M38 23 H54" stroke={on ? "var(--color-brass-bright)" : "rgba(237,233,224,0.35)"} strokeWidth="1.3" />
                       {/* glass */}
                       <motion.path
                         d="M46 28 C 27 28 18 43 18 57 C 18 70 26 77 32 84 C 36 88 37 93 37 97 H 55 C 55 93 56 88 60 84 C 66 77 74 70 74 57 C 74 43 65 28 46 28 Z"
                         strokeWidth="1.4"
                         initial={false}
                         animate={{
-                          stroke: lit ? "var(--color-brass-bright)" : "rgba(237,233,224,0.5)",
-                          fill: lit ? "rgba(196,168,122,0.22)" : "rgba(237,233,224,0.02)",
+                          stroke: on ? "var(--color-brass-bright)" : "rgba(237,233,224,0.5)",
+                          fill: on ? "rgba(196,168,122,0.22)" : "rgba(237,233,224,0.02)",
                         }}
                         transition={{ duration: 0.3 }}
                       />
@@ -246,51 +338,115 @@ export function Overture() {
                         strokeLinecap="round"
                         initial={false}
                         animate={
-                          lit
+                          on
                             ? { stroke: "#f0d9ac", opacity: [0.4, 1, 0.55, 1], transition: { duration: 0.5, times: [0, 0.3, 0.5, 1] } }
                             : { stroke: "rgba(237,233,224,0.4)", opacity: 1 }
                         }
                       />
                       {/* base cap */}
-                      <path d="M37 97 H55 V104 Q55 108 51 108 H41 Q37 108 37 104 Z" stroke={lit ? "var(--color-brass-bright)" : "rgba(237,233,224,0.45)"} strokeWidth="1.4" />
+                      <path d="M37 97 H55 V104 Q55 108 51 108 H41 Q37 108 37 104 Z" stroke={on ? "var(--color-brass-bright)" : "rgba(237,233,224,0.45)"} strokeWidth="1.4" />
                     </motion.svg>
 
-                    {/* the pull cord */}
-                    <motion.div className="w-px bg-cream/35" style={{ height: cordHeight }} />
-                    <motion.button
-                      type="button"
-                      aria-label="Pull the cord to turn the light on"
-                      onPointerDown={onPointerDown}
-                      onPointerMove={onPointerMove}
-                      onPointerUp={releaseCord}
-                      onPointerCancel={releaseCord}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") switchOn();
-                      }}
-                      className="flex h-11 w-11 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+                    {/* the pull cord: its work is done once the light is on */}
+                    <motion.div
+                      className="flex flex-col items-center overflow-hidden"
+                      initial={false}
+                      animate={{ opacity: journey ? 0 : 1, height: journey ? 0 : "auto" }}
+                      transition={{ duration: 0.5, ease: EASE }}
+                      style={{ pointerEvents: journey ? "none" : "auto" }}
                     >
-                      <span
-                        className="block h-4 w-4 rounded-full border-2 border-brass-bright"
-                        style={{ boxShadow: "0 0 12px rgba(196,168,122,0.35)" }}
-                      />
-                    </motion.button>
-                    <motion.p
-                      className="label mt-2 text-cream-faint"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: lit ? 0 : 1, transition: { delay: 0.5, duration: 0.6 } }}
+                      <motion.div className="w-px bg-cream/35" style={{ height: cordHeight }} />
+                      <motion.button
+                        type="button"
+                        aria-label="Pull the cord to turn the light on"
+                        onPointerDown={onPointerDown}
+                        onPointerMove={onPointerMove}
+                        onPointerUp={releaseCord}
+                        onPointerCancel={releaseCord}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") switchOn();
+                        }}
+                        className="flex h-11 w-11 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+                      >
+                        <span
+                          className="block h-4 w-4 rounded-full border-2 border-brass-bright"
+                          style={{ boxShadow: "0 0 12px rgba(196,168,122,0.35)" }}
+                        />
+                      </motion.button>
+                      <motion.p
+                        className="label mt-2 text-cream-faint"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: on ? 0 : 1, transition: { delay: 0.5, duration: 0.6 } }}
+                      >
+                        pull the cord
+                      </motion.p>
+                    </motion.div>
+                  </motion.div>
+
+                  {/* the journey: four beats under the lamp, then the site */}
+                  {journey && (
+                    <motion.div
+                      className="flex flex-col items-center"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE, delay: 0.25 } }}
                     >
-                      pull the cord
-                    </motion.p>
-                  </div>
+                      <div className="flex min-h-[9.5rem] flex-col items-center justify-start md:min-h-[10.5rem]">
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={step}
+                            className="flex flex-col items-center"
+                            initial={{ opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.4, ease: EASE }}
+                          >
+                            <p className="label text-cream-faint">{current.label}</p>
+                            <h3
+                              className={
+                                step === STEPS.length - 1
+                                  ? "serif-italic mt-4 text-brass-bright"
+                                  : "font-display mt-4 text-cream"
+                              }
+                              style={{ fontSize: "clamp(1.8rem, 5vw, 2.6rem)", fontWeight: 450, letterSpacing: "-0.02em", lineHeight: 1.05 }}
+                            >
+                              {current.head}
+                            </h3>
+                            <p className="mt-3 max-w-md px-4 text-[0.95rem] leading-relaxed text-cream-dim md:text-[1.05rem]">
+                              {current.sub}
+                            </p>
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+                      <div className="mt-6 flex items-center gap-2" aria-hidden="true">
+                        {STEPS.map((s, i) => (
+                          <span
+                            key={s.head}
+                            className={`block h-px w-7 transition-colors duration-500 ${i <= step ? "bg-brass-bright" : "bg-cream/20"}`}
+                          />
+                        ))}
+                      </div>
+                      <motion.p
+                        className="label mt-4 text-cream-faint"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: step === 0 ? 0.8 : 0 }}
+                        transition={{ duration: 0.5, delay: step === 0 ? 0.8 : 0 }}
+                      >
+                        tap anywhere
+                      </motion.p>
+                    </motion.div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
 
-          {!lit && (
+          {phase !== "lit" && (
             <button
               type="button"
-              onClick={finish}
+              onClick={(e) => {
+                e.stopPropagation();
+                finish();
+              }}
               className="absolute bottom-6 right-6 min-h-11 px-3 text-[0.8125rem] text-cream-faint transition-colors duration-300 hover:text-cream"
             >
               Skip

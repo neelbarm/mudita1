@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
 import { EASE } from "@/lib/motion";
-import { onReveal } from "@/lib/overture-gate";
+import { isHeld, onReveal } from "@/lib/overture-gate";
 import { PrimaryLink, SecondaryLink } from "./ui";
 import { FormationCanvas } from "./formation-canvas";
 
@@ -26,15 +26,21 @@ export function Hero() {
   const reduced = useReducedMotion() ?? false;
 
   // The entrance holds until the Overture lifts (immediately when it
-  // already ran this session, or never runs). Belt and braces: a
-  // timeout so a stalled gate can never leave the hero blank.
+  // already ran this session, or never runs). Belt and braces: a short
+  // timeout covers a gate that never engaged, but while the veil is
+  // genuinely up we keep holding so the reveal lands on a fresh
+  // entrance, with a long backstop past the Overture's own 60s safety.
   const [go, setGo] = useState(false);
   useEffect(() => {
     const off = onReveal(() => setGo(true));
-    const safety = setTimeout(() => setGo(true), 4500);
+    const safety = setTimeout(() => {
+      if (!isHeld()) setGo(true);
+    }, 4500);
+    const backstop = setTimeout(() => setGo(true), 75_000);
     return () => {
       off();
       clearTimeout(safety);
+      clearTimeout(backstop);
     };
   }, []);
   const play = reduced || go;
