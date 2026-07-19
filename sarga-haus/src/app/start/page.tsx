@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Start a project",
   description:
     "Bring the idea, the bottleneck, or the broken workflow. Four short steps, read by a person, answered within a business day.",
+  alternates: { canonical: "/start" },
 };
 
 export default function StartPage() {

@@ -4,6 +4,8 @@ import Script from "next/script";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { MotionProvider } from "@/components/motion-provider";
+import { JsonLd } from "@/components/json-ld";
+import { ORG_JSON_LD, SITE } from "@/lib/site";
 import { Cursor } from "@/components/cursor";
 import { Blueprint } from "@/components/blueprint";
 import { Spine } from "@/components/spine";
@@ -34,6 +36,7 @@ export const metadata: Metadata = {
   },
   description:
     "Sarga Haus is a founder-led product studio. We turn real ideas and broken operations into products, systems, and customer pipelines built to move.",
+  applicationName: "Sarga Haus",
   openGraph: {
     title: "Sarga Haus",
     description:
@@ -41,8 +44,27 @@ export const metadata: Metadata = {
     url: "https://sargahaus.com",
     siteName: "Sarga Haus",
     type: "website",
+    locale: "en_US",
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sarga Haus",
+    description:
+      "Build the product. Automate the workflow. Fill the pipeline. A founder-led product studio.",
+  },
+  alternates: {
+    types: { "application/rss+xml": "/feed.xml" },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -52,6 +74,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${instrument.variable}`}>
       <body>
+        <JsonLd data={{ ...ORG_JSON_LD }} />
+        <JsonLd
+          data={{
+            "@type": "WebSite",
+            "@id": `${SITE.url}/#website`,
+            url: SITE.url,
+            name: SITE.name,
+            description: SITE.description,
+            publisher: { "@id": `${SITE.url}/#organization` },
+            inLanguage: "en-US",
+          }}
+        />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

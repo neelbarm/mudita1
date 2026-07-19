@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { PrimaryLink, Reveal } from "@/components/ui";
+import { JsonLd } from "@/components/json-ld";
+import { absoluteUrl, ORG_JSON_LD } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
     "Validation Sprint, Build Sprint, Automation Sprint, Pipeline Sprint, and Growth Partnership. Flat fees, fixed scope, weekly ships.",
+  alternates: { canonical: "/services" },
 };
 
 type Offer = {
@@ -181,6 +184,29 @@ const OFFERS: Offer[] = [
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd
+        data={{
+          "@type": "ProfessionalService",
+          "@id": absoluteUrl("/services#service"),
+          name: "Sarga Haus",
+          url: absoluteUrl("/services"),
+          parentOrganization: ORG_JSON_LD,
+          description:
+            "A founder-led product studio offering fixed-scope engagements: validation, product builds, workflow automation, pipeline infrastructure, and an ongoing growth partnership.",
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Studio offers",
+            itemListElement: OFFERS.map((o) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: o.name,
+                description: o.lede,
+              },
+            })),
+          },
+        }}
+      />
       <PageHero
         eyebrow="Services"
         title="Five ways in. One system out."
