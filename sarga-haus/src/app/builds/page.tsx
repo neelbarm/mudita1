@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "Selected builds",
   description:
     "Shipped work from Sarga Haus: EverPage, The Common Collective, Styloire, and Taxflow. Real work is labeled real. Illustrative work is labeled illustrative.",
+  alternates: { canonical: "/builds" },
 };
 
 const MOCKS = {

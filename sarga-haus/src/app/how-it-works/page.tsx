@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "How it works",
   description:
     "Clarify, Shape, Build, Launch, Improve. The five-stage Sarga Haus process: practical, premium, and easy to trust.",
+  alternates: { canonical: "/how-it-works" },
 };
 
 const STAGES = [

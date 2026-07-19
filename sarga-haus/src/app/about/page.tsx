@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Sarga Haus is a founder-led product studio built on one conviction: ideas matter only when they become operating systems.",
+  alternates: { canonical: "/about" },
 };
 
 const BELIEFS = [
