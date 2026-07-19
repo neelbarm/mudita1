@@ -6,7 +6,18 @@
  */
 
 let revealed = false;
+let held = false;
 const subs = new Set<() => void>();
+
+/** The Overture calls this the moment its veil goes up. */
+export function holdPage() {
+  if (!revealed) held = true;
+}
+
+/** True while the veil is up and the reveal has not fired yet. */
+export function isHeld(): boolean {
+  return held && !revealed;
+}
 
 export function revealPage() {
   if (revealed) return;
