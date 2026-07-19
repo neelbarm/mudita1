@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE.url, priority: 1 },
     { url: `${SITE.url}/services`, priority: 0.9 },
     { url: `${SITE.url}/start`, priority: 0.9 },
+    { url: `${SITE.url}/audit`, priority: 0.8 },
     { url: `${SITE.url}/how-it-works`, priority: 0.8 },
     { url: `${SITE.url}/builds`, priority: 0.8 },
     { url: `${SITE.url}/about`, priority: 0.7 },
