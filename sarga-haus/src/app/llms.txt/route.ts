@@ -43,6 +43,7 @@ written client approval.
 - [Selected builds](${absoluteUrl("/builds")}): shipped work and labeled illustrative systems.
 - [About](${absoluteUrl("/about")}): what the studio believes and how it practices.
 - [Start a project](${absoluteUrl("/start")}): the intake. Replies come from a person.
+- [The Operations Audit](${absoluteUrl("/audit")}): a free ten-question diagnostic that scores whether a service business runs as a system or a heroic effort.
 
 ## Journal
 
