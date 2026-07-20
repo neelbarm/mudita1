@@ -124,6 +124,67 @@ const PRINCIPLES = [
   },
 ];
 
+/* ------------------------------------------------ the short version ---- */
+
+const SHORT_VERSION = [
+  ["We build your product.", "Design, code, launch, in weeks."],
+  ["We automate your operation.", "Intake, follow-up, and invoices run themselves."],
+  ["We fill your pipeline.", "Real outreach to real people, every message approved by a person."],
+] as const;
+
+/**
+ * The girlfriend test: one scroll in, the whole pitch in plain
+ * language. The first flip to bone doubles as the lights coming on.
+ */
+export function ShortVersion() {
+  return (
+    <section
+      id="the-point"
+      data-ground="bone"
+      data-bp="S1b · The short version — lights-on strip"
+      className="bg-bone py-20 md:py-28"
+    >
+      <div className="container-page grid gap-10 md:grid-cols-[1fr_1.7fr] md:gap-16">
+        <Reveal>
+          <div>
+            <p className="label text-accent">The short version</p>
+            <h2
+              className="serif-italic mt-5 text-t1"
+              style={{ fontSize: "clamp(2.2rem, 4vw, 3.2rem)", lineHeight: 1.05 }}
+            >
+              Lights on.
+            </h2>
+            <p className="mt-5 max-w-xs text-[0.9375rem] leading-relaxed text-t2">
+              One studio, one flat fee, priced before work starts. The rest of
+              this page is proof.
+            </p>
+          </div>
+        </Reveal>
+        <div>
+          <ul className="divide-y divide-line border-y border-line">
+            {SHORT_VERSION.map(([head, body], i) => (
+              <Reveal key={head} delay={0.08 * i}>
+                <li className="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-6 md:py-6">
+                  <p className="shrink-0 text-[1.0625rem] font-medium text-t1 md:w-64">
+                    {head}
+                  </p>
+                  <p className="text-[0.9375rem] leading-relaxed text-t2">{body}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+          <Reveal delay={0.3}>
+            <div className="mt-8 flex flex-wrap items-center gap-5">
+              <PrimaryLink href="/start">Start a project</PrimaryLink>
+              <InlineLink href="/audit">or take the two minute audit</InlineLink>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function PositioningStrip() {
   return (
     <section

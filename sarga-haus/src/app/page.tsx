@@ -15,6 +15,7 @@ import {
   FinalCta,
   FounderStatement,
   PositioningStrip,
+  ShortVersion,
 } from "@/components/home-sections";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function HomePage() {
         }}
       />
       <Hero />
+      <ShortVersion />
       <PositioningStrip />
       <ScrollStory />
       <ServicesChapters />
