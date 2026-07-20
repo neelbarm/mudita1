@@ -22,6 +22,73 @@ const LINES: Array<[string, string]> = [
   ["Fill the", "pipeline."],
 ];
 
+/**
+ * One brass word, split to characters so the lamplight can travel
+ * through it when the cord is pulled. The characters are real text
+ * with no gaps, so the word reads as one word to crawlers and
+ * assistive tech alike.
+ */
+function IgniteWord({ word, index, ignited }: { word: string; index: number; ignited: boolean }) {
+  return (
+    <em className="serif-italic text-brass-bright">
+      {Array.from(word).map((ch, c) => (
+        <motion.span
+          key={c}
+          className="inline-block"
+          initial={false}
+          animate={
+            ignited
+              ? {
+                  color: ["rgba(196,168,122,0.4)", "#f0d9ac", "var(--color-brass-bright)"],
+                  textShadow: [
+                    "0 0 0px rgba(240,217,172,0)",
+                    "0 0 26px rgba(240,217,172,0.95)",
+                    "0 0 0px rgba(240,217,172,0)",
+                  ],
+                }
+              : { color: "var(--color-brass-bright)" }
+          }
+          transition={
+            ignited
+              ? { duration: 0.75, times: [0, 0.4, 1], delay: 0.12 + index * 0.22 + c * 0.035, ease: "easeOut" }
+              : { duration: 0 }
+          }
+        >
+          {ch}
+        </motion.span>
+      ))}
+    </em>
+  );
+}
+
+/** A gentle magnetic pull toward the pointer; mouse only, clamped. */
+function MagneticCta({ reduced, children }: { reduced: boolean; children: React.ReactNode }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 260, damping: 18 });
+  const sy = useSpring(y, { stiffness: 260, damping: 18 });
+  if (reduced) return <>{children}</>;
+  return (
+    <motion.span
+      data-magnetic
+      className="inline-block"
+      style={{ x: sx, y: sy, willChange: "transform" }}
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;
+        const r = e.currentTarget.getBoundingClientRect();
+        x.set((e.clientX - r.left - r.width / 2) * 0.28);
+        y.set((e.clientY - r.top - r.height / 2) * 0.28);
+      }}
+      onPointerLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
 const LAMP_KEY = "sarga-lamp-lit";
 const PULL_THRESHOLD = 64;
 const MAX_PULL = 120;
@@ -384,7 +451,7 @@ export function Hero() {
                     transition={{ duration: 0.9, ease: EASE, delay: 0.35 + i * 0.14 }}
                   >
                     {pre}{" "}
-                    <em className="serif-italic text-brass-bright">{obj}</em>
+                    <IgniteWord word={obj} index={i} ignited={ignited} />
                   </motion.span>
                 </span>
               ))}
@@ -405,7 +472,9 @@ export function Hero() {
               animate={play ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, ease: EASE, delay: 1.1 }}
             >
-              <PrimaryLink href="/start">Start a project</PrimaryLink>
+              <MagneticCta reduced={reduced}>
+                <PrimaryLink href="/start">Start a project</PrimaryLink>
+              </MagneticCta>
               <SecondaryLink href="#system">See the system</SecondaryLink>
             </motion.div>
           </motion.div>

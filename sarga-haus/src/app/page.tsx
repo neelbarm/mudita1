@@ -14,6 +14,7 @@ import {
   BuildsPreview,
   FinalCta,
   FounderStatement,
+  GovernedTicker,
   PositioningStrip,
   ShortVersion,
 } from "@/components/home-sections";
@@ -48,6 +49,7 @@ export default function HomePage() {
       <BuildsPreview />
       <FounderStatement />
       <Faq />
+      <GovernedTicker />
       <FinalCta />
     </>
   );
