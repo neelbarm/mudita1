@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
+import { ArrowRight } from "lucide-react";
 import { EASE, VIEWPORT } from "@/lib/motion";
 import { InlineLink, PrimaryLink, Reveal } from "./ui";
 import { ShippedLedger } from "./shipped-ledger";
@@ -208,23 +210,92 @@ export function PositioningStrip() {
             </Reveal>
           ))}
         </div>
-        <Reveal delay={0.25}>
-          <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
-            {[
-              ["4", "products shipped and live"],
-              ["2", "platforms: web and iOS"],
-              ["5", "fixed-scope offers"],
-              ["1", "studio accountable for all of it"],
-            ].map(([n, d], i) => (
-              <div key={d} data-torch className="bg-raised px-6 py-6">
-                <p className="font-display text-[2.4rem] leading-none text-t1" style={{ fontWeight: 470 }}>
-                  <RollFigure value={n} delay={0.15 + i * 0.12} />
-                </p>
-                <p className="mt-2 text-[0.8125rem] leading-snug text-t2">{d}</p>
+        {/* The proof board: the studio at a glance, bento-style. Every
+            figure on it is a running fact, not a promise. */}
+        <div className="mt-16 grid auto-rows-[minmax(9.5rem,auto)] grid-cols-2 gap-3 md:auto-rows-[minmax(10.5rem,auto)] md:grid-cols-4 md:gap-4">
+          <Reveal className="col-span-2 row-span-2" delay={0}>
+            <div data-torch className="group flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-line bg-raised p-6 transition-all duration-300 hover:scale-[1.015] hover:border-accent/50 md:p-7">
+              <div className="flex items-start justify-between gap-4">
+                <p className="label text-accent">Shipped and live</p>
+                <InlineLink href="/builds">All builds</InlineLink>
               </div>
-            ))}
-          </div>
-        </Reveal>
+              <p className="font-display mt-4 text-[5.5rem] leading-none text-t1 md:text-[7rem]" style={{ fontWeight: 470 }}>
+                <RollFigure value="4" delay={0.15} />
+              </p>
+              <div className="mt-4">
+                <p className="text-[0.9375rem] leading-relaxed text-t2">
+                  Products in the world today: EverPage, The Common Collective,
+                  Styloire, and Taxflow on iOS. Real work labeled real,
+                  illustrative work labeled illustrative.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal className="col-span-2" delay={0.08}>
+            <div data-torch className="flex h-full flex-col justify-between rounded-3xl border border-line bg-raised p-6 transition-all duration-300 hover:scale-[1.015] hover:border-accent/50 md:p-7">
+              <p className="label text-accent">The machine</p>
+              <p className="mt-3 text-[1.05rem] leading-snug text-t1">
+                <strong className="font-display text-[1.6rem]" style={{ fontWeight: 470 }}>17</strong>{" "}
+                supervised agents draft the work. A named person approves
+                every piece before it moves. The gate is code, not policy.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <div data-torch className="flex h-full flex-col justify-between rounded-3xl border border-line bg-raised p-6 transition-all duration-300 hover:scale-[1.015] hover:border-accent/50">
+              <p className="label text-t3">Outreach, daily cap</p>
+              <div>
+                <p className="font-display text-[2.6rem] leading-none text-t1" style={{ fontWeight: 470 }}>
+                  <RollFigure value="15" delay={0.25} />
+                </p>
+                <p className="mt-2 text-[0.8125rem] leading-snug text-t2">sends a day, never more</p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div data-torch className="flex h-full flex-col justify-between rounded-3xl border border-line bg-raised p-6 transition-all duration-300 hover:scale-[1.015] hover:border-accent/50">
+              <p className="label text-t3">Opting out</p>
+              <div>
+                <p className="font-display text-[2.6rem] leading-none text-t1" style={{ fontWeight: 470 }}>
+                  <RollFigure value="1" delay={0.3} />
+                </p>
+                <p className="mt-2 text-[0.8125rem] leading-snug text-t2">click, honored permanently</p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal className="col-span-2" delay={0.26}>
+            <div data-torch className="flex h-full flex-col justify-between rounded-3xl border border-line bg-raised p-6 transition-all duration-300 hover:scale-[1.015] hover:border-accent/50 md:p-7">
+              <p className="label text-accent">Pricing</p>
+              <p className="mt-3 text-[1.05rem] leading-snug text-t1">
+                <strong className="font-display text-[1.6rem]" style={{ fontWeight: 470 }}>5</strong>{" "}
+                fixed-scope offers. Flat fee, priced before work starts,
+                never by the hour.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal className="col-span-2" delay={0.32}>
+            <Link
+              href="/audit"
+              data-ground="bone"
+              data-cursor-label="Audit"
+              className="group flex h-full flex-col justify-between rounded-3xl border border-line bg-bone p-6 transition-all duration-300 hover:scale-[1.015] hover:border-accent md:p-7"
+            >
+              <p className="label text-accent">The Operations Audit</p>
+              <div className="flex items-end justify-between gap-4">
+                <p className="text-[1.05rem] leading-snug text-t1">
+                  Ten questions, two minutes: is your business a system or a
+                  heroic effort?
+                </p>
+                <ArrowRight
+                  aria-hidden="true"
+                  size={20}
+                  strokeWidth={1.75}
+                  className="mb-1 shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-1.5"
+                />
+              </div>
+            </Link>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -252,6 +323,52 @@ export function BuildsPreview() {
         <div className="mt-12">
           <ShippedLedger variant="preview" />
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------------------------- governed-facts ticker */
+
+const TICKER_FACTS = [
+  "Every message approved by a person",
+  "Fifteen sends a day, never more",
+  "Opt-outs honored permanently",
+  "Four touches, then a clean close",
+  "Flat fee, priced before work starts",
+  "We run on the system we sell",
+  "Agents draft, humans decide",
+];
+
+/**
+ * The house rules on a slow lap. Facts only, each one enforced in
+ * code somewhere in the studio. Hover pauses; reduced motion gets a
+ * static wrapped list instead of a loop.
+ */
+export function GovernedTicker() {
+  return (
+    <section
+      aria-label="How the studio governs itself"
+      data-ground="ink"
+      data-bp="S11b · Governed facts — one slow lap"
+      className="overflow-hidden border-t border-line bg-ink py-6"
+    >
+      <div className="ticker-track">
+        {[1, 2].map((copy) => (
+          <div
+            key={copy}
+            data-ticker-copy={copy}
+            aria-hidden={copy === 2 ? "true" : undefined}
+            className="flex shrink-0 items-center gap-10 pr-10"
+          >
+            {TICKER_FACTS.map((f) => (
+              <span key={f} className="flex items-center gap-10 whitespace-nowrap">
+                <span className="label text-cream-faint">{f}</span>
+                <span aria-hidden="true" className="h-1 w-1 rounded-full bg-brass" />
+              </span>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   );

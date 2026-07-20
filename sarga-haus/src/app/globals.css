@@ -365,3 +365,31 @@ html.blueprint [data-bp]::after {
   padding: 5px 10px;
   pointer-events: none;
 }
+
+/* The governed-facts ticker: one slow lap, pausable, honest. */
+@keyframes ticker-lap {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-lap 46s linear infinite;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .ticker-track > [data-ticker-copy="2"] {
+    display: none;
+  }
+}
