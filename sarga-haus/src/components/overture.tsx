@@ -9,15 +9,15 @@ import {
   useTransform,
 } from "framer-motion";
 import { EASE } from "@/lib/motion";
-import { holdPage, revealPage } from "@/lib/overture-gate";
+import { onOvertureRequest, revealPage } from "@/lib/overture-gate";
 
-const KEY = "sarga-overture-seen";
 const PULL_THRESHOLD = 78;
 const MAX_PULL = 130;
 
 // The prologue after the light comes on: what the studio does, in
-// four beats, then the site itself. Auto-advances; tap, Enter, Space,
-// or ArrowRight moves faster. Same honesty rules as everywhere else.
+// four beats, then back to the site. Auto-advances; tap, Enter,
+// Space, or ArrowRight moves faster. Same honesty rules as
+// everywhere else.
 const STEPS: Array<{ label: string; head: string; sub: string }> = [
   {
     label: "First",
@@ -43,41 +43,26 @@ const STEPS: Array<{ label: string; head: string; sub: string }> = [
 const STEP_MS = 3000;
 const LAST_STEP_MS = 3400;
 
-function seen(): boolean {
-  try {
-    return sessionStorage.getItem(KEY) === "1";
-  } catch {
-    return true; // storage unavailable: never risk replaying forever
-  }
-}
-
-function markSeen() {
-  try {
-    sessionStorage.setItem(KEY, "1");
-  } catch {
-    /* private mode: fine, it just may replay */
-  }
-}
-
 /**
- * The Overture, third movement: a question, a light switch, and a
- * journey. First visit each session: "Do you have an idea?" Yes or
- * no, then a light bulb on a cord. The visitor pulls the cord, the
- * light comes on, the bulb rises to a small lit pendant, and beneath
- * it the studio tells you what it does in four beats before the veil
- * lifts into the site. Escape or Skip works throughout; reduced
- * motion skips the whole theater.
+ * The Overture: a question, a light switch, and a journey. It no
+ * longer blocks the front door; the site loads instantly and the show
+ * plays only when asked for, from the pendant lamp in the hero.
+ * "Do you have an idea?" Yes or no, then a light bulb on a cord. Pull
+ * the cord, the light comes on, the bulb rises to a small lit pendant,
+ * and beneath it the studio tells you what it does in four beats
+ * before the veil lifts back off. Escape or Skip works throughout.
  */
 export function Overture() {
   const [show, setShow] = useState(false);
   const [phase, setPhase] = useState<"ask" | "cord" | "lit" | "journey">("ask");
   const [answer, setAnswer] = useState<"yes" | "no">("yes");
   const [step, setStep] = useState(0);
-  const started = useRef(false);
   const litRef = useRef(false);
   const doneRef = useRef(false);
   const stepRef = useRef(0);
+  const showRef = useRef(false);
   const advanceRef = useRef<() => void>(() => {});
+  const safetyRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragging = useRef<number | null>(null);
   const startY = useRef(0);
 
@@ -88,7 +73,8 @@ export function Overture() {
   const finish = () => {
     if (doneRef.current) return;
     doneRef.current = true;
-    revealPage();
+    showRef.current = false;
+    if (safetyRef.current) clearTimeout(safetyRef.current);
     setShow(false);
   };
 
@@ -106,46 +92,64 @@ export function Overture() {
   };
 
   useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-    if (seen() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      revealPage();
-      return;
-    }
-    markSeen();
-    holdPage();
-    setShow(true);
-    document.documentElement.style.overflow = "hidden";
+    // The page never waits on the show anymore.
+    revealPage();
 
-    const done = () => {
-      revealPage();
-      setShow(false);
+    const open = () => {
+      if (showRef.current) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      litRef.current = false;
+      doneRef.current = false;
+      stepRef.current = 0;
+      dragging.current = null;
+      pull.jump(0);
+      setStep(0);
+      setAnswer("yes");
+      setPhase("ask");
+      showRef.current = true;
+      setShow(true);
+      document.documentElement.style.overflow = "hidden";
+      // If nothing happens for a minute, the show bows out on its own.
+      if (safetyRef.current) clearTimeout(safetyRef.current);
+      safetyRef.current = setTimeout(() => {
+        doneRef.current = true;
+        showRef.current = false;
+        setShow(false);
+      }, 60_000);
     };
+
+    const offRequest = onOvertureRequest(open);
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") done();
+      if (!showRef.current) return;
+      if (e.key === "Escape") {
+        doneRef.current = true;
+        showRef.current = false;
+        if (safetyRef.current) clearTimeout(safetyRef.current);
+        setShow(false);
+      }
       if (e.key === "Enter" || e.key === " " || e.key === "ArrowRight") {
         advanceRef.current();
       }
     };
-    // If nothing happens for a minute, the site opens itself.
-    const safety = setTimeout(done, 60_000);
     window.addEventListener("keydown", onKey);
     return () => {
-      clearTimeout(safety);
+      offRequest();
       window.removeEventListener("keydown", onKey);
+      if (safetyRef.current) clearTimeout(safetyRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // The journey paces itself; any tap or key hurries it along.
   useEffect(() => {
-    if (phase !== "journey") return;
+    if (phase !== "journey" || !show) return;
     const t = setTimeout(
       () => next(),
       step >= STEPS.length - 1 ? LAST_STEP_MS : STEP_MS,
     );
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, step]);
+  }, [phase, step, show]);
 
   const switchOn = () => {
     if (litRef.current) return;
@@ -194,12 +198,13 @@ export function Overture() {
         <motion.div
           key="overture"
           className="fixed inset-0 z-[96] overflow-hidden bg-ink"
-          initial={false}
-          exit={{ y: "-100%", transition: { duration: 0.9, ease: EASE } }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.45, ease: EASE } }}
+          exit={{ y: "-100%", opacity: 1, transition: { duration: 0.9, ease: EASE } }}
           onClick={() => {
             if (phase === "journey") next();
           }}
-          aria-label="Welcome. Pull the cord to turn the light on, or press Escape to skip."
+          aria-label="The opening. Pull the cord to turn the light on, or press Escape to leave."
         >
           {/* The room, before and after the light. */}
           <div

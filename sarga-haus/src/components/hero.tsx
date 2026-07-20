@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { useReducedMotionSafe as useReducedMotion } from "@/lib/use-reduced-motion";
 import { EASE } from "@/lib/motion";
-import { isHeld, onReveal } from "@/lib/overture-gate";
+import { onReveal, requestOverture } from "@/lib/overture-gate";
 import { PrimaryLink, SecondaryLink } from "./ui";
 import { FormationCanvas } from "./formation-canvas";
 
@@ -25,22 +25,16 @@ export function Hero() {
   const progressRef = useRef(0);
   const reduced = useReducedMotion() ?? false;
 
-  // The entrance holds until the Overture lifts (immediately when it
-  // already ran this session, or never runs). Belt and braces: a short
-  // timeout covers a gate that never engaged, but while the veil is
-  // genuinely up we keep holding so the reveal lands on a fresh
-  // entrance, with a long backstop past the Overture's own 60s safety.
+  // The reveal fires immediately on load now (the Overture no longer
+  // gates first paint); the subscription plus a short fallback simply
+  // makes the entrance robust if that ever changes.
   const [go, setGo] = useState(false);
   useEffect(() => {
     const off = onReveal(() => setGo(true));
-    const safety = setTimeout(() => {
-      if (!isHeld()) setGo(true);
-    }, 4500);
-    const backstop = setTimeout(() => setGo(true), 75_000);
+    const safety = setTimeout(() => setGo(true), 1500);
     return () => {
       off();
       clearTimeout(safety);
-      clearTimeout(backstop);
     };
   }, []);
   const play = reduced || go;
@@ -64,7 +58,7 @@ export function Hero() {
       ref={sectionRef}
       data-ground="ink"
       data-bp="S1 · Formation hero — hand-rolled 3D canvas engine"
-      className="relative h-[240vh] bg-ink"
+      className="relative h-[200vh] bg-ink"
       aria-label="Sarga Haus. Build the product. Automate the workflow. Fill the pipeline."
     >
       <div className="lamplight sticky top-0 h-svh overflow-hidden">
@@ -82,6 +76,69 @@ export function Hero() {
               "linear-gradient(90deg, rgba(13,12,10,0.82) 0%, rgba(13,12,10,0.35) 45%, rgba(13,12,10,0) 70%)",
           }}
         />
+
+        {/* The pendant lamp: the light turns on as part of the entrance,
+            and pulling it plays the full opening as an optional show. */}
+        {!reduced && (
+          <motion.button
+            type="button"
+            aria-label="Play the opening"
+            data-cursor-label="Pull"
+            onClick={() => requestOverture()}
+            className="group absolute left-[63%] top-0 z-10 hidden cursor-pointer flex-col items-center md:flex"
+            style={{ transformOrigin: "top center" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, rotate: [0, 1.6, -1.1, 0.5, 0] }}
+            whileHover={{ scale: 1.05 }}
+            transition={{
+              opacity: { duration: 0.9, ease: EASE, delay: 1.5 },
+              rotate: { duration: 9, ease: "easeInOut", delay: 2.6, repeat: Infinity, repeatDelay: 4 },
+              scale: { duration: 0.3, ease: EASE },
+            }}
+          >
+            <span
+              className="block h-[11vh] min-h-[4.75rem] w-px"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 0, rgba(237,233,224,0.06) 3.5rem, rgba(237,233,224,0.22) 100%)",
+              }}
+            />
+            <motion.svg
+              width="34"
+              height="44"
+              viewBox="0 0 92 118"
+              fill="none"
+              aria-hidden="true"
+              initial={{ filter: "drop-shadow(0 0 0px rgba(196,168,122,0))" }}
+              animate={{ filter: "drop-shadow(0 0 14px rgba(196,168,122,0.6))" }}
+              transition={{ duration: 0.5, ease: EASE, delay: 1.95 }}
+            >
+              <rect x="38" y="0" width="16" height="14" rx="3" stroke="var(--color-brass-bright)" strokeWidth="3.2" />
+              <path d="M38 18 H54 M38 23 H54" stroke="var(--color-brass-bright)" strokeWidth="3" opacity="0.8" />
+              <motion.path
+                d="M46 28 C 27 28 18 43 18 57 C 18 70 26 77 32 84 C 36 88 37 93 37 97 H 55 C 55 93 56 88 60 84 C 66 77 74 70 74 57 C 74 43 65 28 46 28 Z"
+                stroke="var(--color-brass-bright)"
+                strokeWidth="3.4"
+                initial={{ fill: "rgba(196,168,122,0)" }}
+                animate={{ fill: "rgba(196,168,122,0.2)" }}
+                transition={{ duration: 0.4, delay: 1.95 }}
+              />
+              <motion.path
+                d="M40 96 V78 L46 66 L52 78 V96 M40 78 H52"
+                stroke="#f0d9ac"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                initial={{ opacity: 0.25 }}
+                animate={{ opacity: [0.25, 1, 0.5, 1] }}
+                transition={{ duration: 0.6, times: [0, 0.4, 0.6, 1], delay: 1.95 }}
+              />
+              <path d="M37 97 H55 V104 Q55 108 51 108 H41 Q37 108 37 104 Z" stroke="var(--color-brass-bright)" strokeWidth="3.2" />
+            </motion.svg>
+            <span className="label mt-3 whitespace-nowrap text-cream-faint opacity-55 transition-opacity duration-300 group-hover:opacity-100">
+              the opening
+            </span>
+          </motion.button>
+        )}
 
         <div className="container-page relative flex h-full flex-col justify-center">
           <motion.div style={reduced ? undefined : { opacity: copyOpacity }} className="max-w-3xl">
@@ -123,8 +180,9 @@ export function Hero() {
               animate={play ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, ease: EASE, delay: 0.95 }}
             >
-              Sarga Haus turns real ideas and broken operations into products,
-              systems, and customer pipelines built to move.
+              For founders and operators without a technical team: a working
+              product in weeks, the operation automated, the pipeline filled.
+              Flat fee, priced before work starts.
             </motion.p>
             <motion.div
               className="mt-9 flex flex-wrap items-center gap-4"
