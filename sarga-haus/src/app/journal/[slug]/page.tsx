@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
+import { ReadingThread } from "@/components/reading-thread";
 import { Reveal } from "@/components/ui";
 import { JsonLd } from "@/components/json-ld";
 import { allEssays, essayWordCount, getEssay } from "@/lib/essays";
@@ -95,6 +96,7 @@ export default async function EssayPage({ params }: { params: Promise<{ slug: st
         }}
       />
 
+      <ReadingThread />
       <PageHero
         eyebrow={`Journal · ${prettyDate(essay.date)} · ${essay.minutes} minute read`}
         title={`${essay.title}.`}
@@ -131,7 +133,7 @@ export default async function EssayPage({ params }: { params: Promise<{ slug: st
                   <span
                     className={
                       isLede
-                        ? "font-display block text-[1.35rem] leading-snug text-t1 md:text-[1.55rem]"
+                        ? "drop-cap font-display block text-[1.35rem] leading-snug text-t1 md:text-[1.55rem]"
                         : "block text-[1.0325rem] leading-[1.75] text-t2"
                     }
                   >

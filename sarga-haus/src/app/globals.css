@@ -393,3 +393,15 @@ html.blueprint [data-bp]::after {
     display: none;
   }
 }
+
+/* Editorial drop cap for essay ledes. */
+.drop-cap::first-letter {
+  float: left;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 3.05em;
+  line-height: 0.82;
+  padding-right: 0.14em;
+  margin-top: 0.05em;
+  color: var(--accent);
+  font-weight: 480;
+}
