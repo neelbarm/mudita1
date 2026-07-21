@@ -17,6 +17,41 @@ import { PrimaryLink } from "./ui";
 
 type Phase = "asking" | "result";
 
+/**
+ * The diagnosis dial: a 240 degree brass arc that sweeps to the
+ * score. The number sits in the mouth of the gauge.
+ */
+function ScoreGauge({ total, reduced }: { total: number; reduced: boolean | null }) {
+  const frac = total / MAX_SCORE;
+  const arc = "M 16.7 85 A 50 50 0 1 1 103.3 85";
+  return (
+    <div
+      role="img"
+      aria-label={`Score: ${total} out of ${MAX_SCORE}`}
+      className="relative h-[104px] w-[120px] shrink-0"
+    >
+      <svg width="120" height="104" viewBox="0 0 120 104" fill="none" aria-hidden="true">
+        <path d={arc} stroke="var(--color-line-strong)" strokeWidth="6" strokeLinecap="round" opacity="0.6" />
+        <motion.path
+          d={arc}
+          stroke="var(--accent)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          initial={reduced ? false : { pathLength: 0.001 }}
+          animate={{ pathLength: Math.max(frac, 0.001) }}
+          transition={{ duration: reduced ? 0 : 1.2, ease: EASE, delay: reduced ? 0 : 0.25 }}
+        />
+      </svg>
+      <div className="absolute inset-x-0 top-[38px] text-center">
+        <p className="font-display text-[1.9rem] leading-none text-t1" style={{ fontVariantNumeric: "tabular-nums", fontWeight: 470 }}>
+          {total}
+        </p>
+        <p className="mt-1 text-[0.75rem] text-t3">of {MAX_SCORE}</p>
+      </div>
+    </div>
+  );
+}
+
 export function AuditFlow() {
   const reduced = useReducedMotion();
   const [answers, setAnswers] = useState<number[]>([]);
@@ -85,20 +120,10 @@ export function AuditFlow() {
         <h2 className="font-display mt-4 text-[2.2rem] leading-tight text-t1 md:text-[2.8rem]" style={{ fontWeight: 460 }}>
           {verdict.name}.
         </h2>
-        <div className="mt-5 flex items-center gap-4">
-          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-t1/10">
-            <motion.div
-              className="h-full rounded-full bg-accent"
-              initial={reduced ? { width: `${(total / MAX_SCORE) * 100}%` } : { width: 0 }}
-              animate={{ width: `${(total / MAX_SCORE) * 100}%` }}
-              transition={{ duration: 1, ease: EASE }}
-            />
-          </div>
-          <p className="font-display text-[1.3rem] text-t1" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {total}/{MAX_SCORE}
-          </p>
+        <div className="mt-6 flex items-center gap-6">
+          <ScoreGauge total={total} reduced={reduced} />
+          <p className="text-[1.0325rem] leading-[1.7] text-t2">{verdict.read}</p>
         </div>
-        <p className="mt-6 text-[1.0325rem] leading-[1.7] text-t2">{verdict.read}</p>
 
         {findings.length > 0 && (
           <div className="mt-8 rounded-2xl border border-line bg-raised p-6 md:p-7">
