@@ -9,6 +9,8 @@ Everything for the $100k+ AI job campaign, built July 2026. Start at **6**, appl
 | `8-application-pack.md` | Paste-ready cover notes, "why us" answers, and DMs for the top 5 (Anthropic, Glean, Decagon, Distyl, Ramp) + universal answers | Every application and DM |
 | `9-linkedin-and-interview-prep.md` | Paste-ready LinkedIn headline/About + full interview scripts for all four round types | Today (LinkedIn) / before first interview |
 | `10-tracker.csv` | Pre-seeded application tracker (30 rows, priority-ranked) | Daily — log every touch, set follow-up dates |
+| `12-linkedin-full-optimization.md` | **Full field-by-field LinkedIn rewrite** — headline, About, every Experience entry, skills order, settings, activity strategy | Today, ~35 min |
+| `linkedin-banner.html` | 1584×396 LinkedIn banner. Open in Chrome → DevTools → Capture node screenshot | With the LinkedIn pass |
 | `site/index.html` | New personal site ("Deployment Log" concept). Deploy: drag folder into app.netlify.com/drop. **Swap 2 TODO links first** | Today |
 | `resume.html` | One-page resume. Chrome → Print → Save as PDF. **Fill [TODO] education line** | Today |
 | `1-resume-bullets.md` | Outcome-driven bullets for every project/role | Tailoring per application |

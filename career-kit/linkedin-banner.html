@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- ============================================================
+  LINKEDIN BANNER — 1584 x 396 (LinkedIn's exact spec)
+  HOW TO EXPORT:
+    1. Open in Chrome. The banner renders at exact pixel size.
+    2. Right-click the banner → "Capture node screenshot"
+       (or DevTools → Cmd+Shift+P → "Capture node screenshot")
+       Alternatively: screenshot it and crop to the border.
+    3. Upload to LinkedIn as your background photo.
+  NOTE: LinkedIn overlays your profile photo bottom-LEFT and may
+  crop edges on mobile — that's why all content sits right-of-center
+  with generous safe margins.
+============================================================ -->
+<meta charset="UTF-8" />
+<title>LinkedIn Banner — Neel Barmecha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #333; display: grid; place-items: center; min-height: 100vh; font-family: system-ui; }
+  .hint { color: #999; font-size: 13px; margin: 20px; text-align: center; max-width: 700px; line-height: 1.6; }
+  .banner {
+    width: 1584px; height: 396px;
+    background: #0b0a08;
+    background-image:
+      radial-gradient(ellipse 900px 400px at 78% 50%, rgba(232,163,61,.13), transparent 70%),
+      linear-gradient(180deg, #100e0a 0%, #0b0a08 100%);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center;
+    font-family: "Space Grotesk", sans-serif;
+  }
+  /* faint grid texture */
+  .banner::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(232,163,61,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,163,61,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 45%, #000 100%);
+  }
+  .content { position: relative; margin-left: 470px; }
+  .kicker {
+    font-family: "JetBrains Mono", monospace; font-size: 15px; letter-spacing: .3em;
+    text-transform: uppercase; color: #e8a33d; margin-bottom: 22px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .kicker::before { content: ""; width: 46px; height: 1px; background: #e8a33d; }
+  h1 {
+    margin: 0; font-size: 62px; font-weight: 700; color: #ede8dd;
+    letter-spacing: -.02em; line-height: 1.05;
+  }
+  h1 em { font-style: normal; color: #e8a33d; }
+  .products {
+    margin-top: 26px; font-family: "JetBrains Mono", monospace;
+    font-size: 16px; color: #9a917f; letter-spacing: .06em;
+  }
+  .products span { color: #4a4436; margin: 0 12px; }
+  .badge {
+    position: absolute; right: 54px; top: 46px;
+    font-family: "JetBrains Mono", monospace; font-size: 13px;
+    color: #9a917f; text-align: right; line-height: 1.9; letter-spacing: .05em;
+  }
+  .badge b { color: #ede8dd; font-weight: 500; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4ade80; margin-right: 8px; }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="badge">
+      <div><span class="dot"></span>Available — NYC / Remote</div>
+      <div><b>Google Global Youth AI Advisor</b> · 1 of ~100</div>
+    </div>
+    <div class="content">
+      <div class="kicker">Forward-Deployed AI Engineer</div>
+      <h1>I ship production AI<br />in <em>under two weeks.</em></h1>
+      <div class="products">
+        Styloire<span>·</span>Klauza<span>·</span>Spur<span>·</span>The Common Collective<span>·</span>EverPage
+      </div>
+    </div>
+  </div>
+  <p class="hint">
+    Export at exactly 1584×396: right-click the banner → <b>Capture node screenshot</b> in Chrome DevTools.
+    Content is placed right-of-center because LinkedIn overlays your profile photo at the bottom-left.
+  </p>
+</body>
+</html>
