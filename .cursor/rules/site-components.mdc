@@ -1,0 +1,44 @@
+---
+description: Conventions for Sarga Haus site components and content
+globs: sarga-haus/src/**/*.tsx,sarga-haus/src/**/*.ts,sarga-haus/src/**/*.css
+---
+
+# Site component conventions
+
+## Content is typed data, not JSX
+
+Essays live in `src/lib/essays.ts`, FAQs in `src/lib/faqs.ts`, audit questions in
+`src/lib/audit.ts`, builds in `src/lib/builds.ts`, site constants in
+`src/lib/site.ts`. These feed pages, `sitemap.ts`, `feed.xml`, `llms.txt`, OG
+images, and JSON-LD. Add content there, never inline in a component, and update
+`llms.txt` when offers or essays change.
+
+`MAX_SCORE` in `audit.ts` is derived (`AUDIT.length * 2`). If you change the
+question count, the verdict ranges and every copy reference to "ten questions"
+must move with it.
+
+## The lamp is the site's identity
+
+`components/hero.tsx` (dark room + pull cord), `components/overture.tsx` (opt-in
+three-beat opening), `src/lib/overture-gate.ts` (`revealPage`/`onReveal`,
+`requestOverture`/`onOvertureRequest`), and `app/not-found.tsx` (unlit 404) share
+one metaphor: the visitor turns the light on. Keep the bulb SVG, brass glow, and
+cord physics consistent if you touch any of them. The Overture must stay opt-in;
+it must never gate first paint again.
+
+## Known traps
+
+- `whileInView` on a mask-clipped child never fires. Hoist the trigger to an
+  unclipped ancestor and drive children with variants.
+- Never add `position` to a sticky host.
+- Keep `[data-torch]` rules unlayered in `globals.css`.
+- In `next/og` (satori), a `div` with more than one child needs explicit
+  `display: flex`, and text interpolations must be a single template string.
+- Use `svh` fallbacks via `@supports not (height: 100svh)`; duplicate
+  declarations get stripped by the minifier.
+
+## Accessibility floor
+
+Touch targets ≥44px, visible focus states, real SVG icons (lucide) never emoji,
+accessible labels on icon-only controls and decorative-but-meaningful graphics,
+and contrast that holds on both ink and bone grounds.

@@ -1,0 +1,60 @@
+---
+description: Sarga Haus core context and non-negotiable brand rules
+alwaysApply: true
+---
+
+# Sarga Haus — always in context
+
+Full project memory lives in `AGENTS.md` at the repo root. Read it before any
+non-trivial task. This file carries only the rules that must never leave context.
+
+## Scope
+
+Work only in `sarga-haus/` (the Next.js 15 marketing site) and `studio/` (the
+Studio OS, the machine that runs the business). The ~35 other folders at the repo
+root are unrelated side projects. Ignore them unless explicitly asked.
+
+## Non-negotiable rules
+
+1. **No em dashes in user-facing copy.** Use commas, colons, or full stops.
+2. **No invented metrics, testimonials, or clients.** Every published number must
+   be true today and durable. Volatile numbers do not get published.
+3. **Illustrative work is labeled illustrative; real work is labeled real.**
+4. **Client case studies require written client approval before publishing.**
+5. **Agents draft, humans decide.** Never add a code path that lets an agent
+   send, sign, bill, or publish without a named human approval. The gate is
+   enforced in the database and the effector seam, not by policy.
+6. **Flat-fee positioning.** Never imply hourly billing or unbounded scope.
+7. **No guarantees of lead volume or revenue.**
+8. **Be honest about AI.** Supervised agents draft; a person approves everything.
+
+## Design system: two grounds, one accent
+
+Sections declare `data-ground="ink"` or `data-ground="bone"`; semantic tokens
+flip automatically. Components must stay ground-agnostic.
+
+- Use semantic classes: `bg-ground bg-raised text-t1 text-t2 text-t3
+  border-line border-line-strong text-accent`.
+- Never hardcode a hex value in a component.
+- Display type is Fraunces (`.font-display`), body is Instrument Sans,
+  `.serif-italic` is the brass accent, `.label` is the uppercase eyebrow.
+- Ease with `EASE` from `src/lib/motion.ts`.
+
+## Every animated component
+
+- Honors `useReducedMotionSafe()` and reaches the same end state instantly.
+- Never blocks content: copy is legible and interactive from the first frame.
+- New sections get a `data-bp="Sn · label"` attribute for blueprint mode.
+
+## Before saying it works
+
+`cd sarga-haus && npm run build` must be clean, and behavior must be driven in a
+real browser (Playwright, chromium at `/opt/pw-browsers/chromium`) at 1440 and
+390 with zero console errors, no horizontal overflow, and a reduced-motion pass.
+Compiling is not verification.
+
+## Git
+
+Work on `claude/elegant-bardeen-xylsui`, never commit directly to `main`. Ship by
+merging `--no-ff` into `main`; Railway deploys `main` from root directory
+`sarga-haus/`.
